@@ -1,0 +1,16 @@
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Infrastructure.deps.json
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Infrastructure.dll
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Infrastructure.pdb
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Contracts.dll
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.DB.dll
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.dll
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Contracts.pdb
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.DB.pdb
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\bin\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.pdb
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.csprojAssemblyReference.cache
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.AssemblyInfo.cs
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.csproj.CopyComplete
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.dll
+C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Infrastructure\obj\Debug\netcoreapp3.1\FitLife.Infrastructure.pdb

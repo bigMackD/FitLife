@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="QueryHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FitLife.Contracts\FitLife.Contracts.csproj" />
+    <ProjectReference Include="..\FitLife.DB\FitLife.DB.csproj" />
+    <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastucture.csproj" />
+  </ItemGroup>
+
+</Project>
