@@ -1,0 +1,60 @@
+<div class="card-wrapper">
+    <mat-card>
+        <mat-card-title>Register</mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Full Name" formControlName="fullName">
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Email" formControlName="email">
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Username" formControlName="username">
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field>
+                        <input type="password" matInput placeholder="Password" formControlName="password">
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field>
+                        <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword">
+                    </mat-form-field>
+                </p>
+
+                <label class="text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('NoPassswordMatch')">
+                    Passwords do not match
+                </label>
+
+                <p *ngIf="error" class="error">
+                    {{ error }}
+                </p>
+
+               
+                <div class="text-danger"
+                    *ngIf="(registerForm.controls.email?.dirty || registerForm.controls.email?.touched)">
+                    <span *ngIf="registerForm.controls.email.errors?.required">Email is required</span>
+                    <span *ngIf="registerForm.controls.email.errors?.pattern">Please provide a valid email</span>
+                </div>
+               
+
+                <div class="button">
+                    <button [disabled]="!isFormValid()" type="submit" mat-button>Submit</button>
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

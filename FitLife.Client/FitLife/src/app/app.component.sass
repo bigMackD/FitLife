@@ -1,0 +1,36 @@
+@import 'src/variables.sass'
+
+.all-wrap 
+  min-height: 100vh
+
+.page-wrap 
+  display: flex
+  flex-direction: column
+  min-height: 100vh 
+
+.content 
+  flex: 1 
+
+main 
+  display: flex
+  flex-direction: column
+ 
+> *:not(router-outlet) 
+    flex: 1 
+    display: block
+ 
+mat-toolbar-row > span > h1
+    margin-left: 15px
+
+footer
+    background-color: mat-color($app-primary)
+
+footer > p
+  text-align: center
+
+
+
+.blue-snackbar 
+  background: #2196F3 !important
+
+ 
