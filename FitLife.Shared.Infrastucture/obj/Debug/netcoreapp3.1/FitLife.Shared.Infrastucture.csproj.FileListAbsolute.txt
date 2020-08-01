@@ -1,9 +1,0 @@
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\bin\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.deps.json
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\bin\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.dll
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\bin\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.pdb
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.csprojAssemblyReference.cache
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.AssemblyInfoInputs.cache
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.AssemblyInfo.cs
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.csproj.CoreCompileInputs.cache
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.dll
-C:\Users\Maciej\Documents\Maciek\INFORMATYKA\CSharp\PROJEKTY\FitLife\FitLife.Shared.Infrastucture\obj\Debug\netcoreapp3.1\FitLife.Shared.Infrastucture.pdb
