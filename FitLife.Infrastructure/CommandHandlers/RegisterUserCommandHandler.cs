@@ -6,15 +6,19 @@ using FitLife.Contracts.Response.Authentication;
 using FitLife.DB.Models.Authentication;
 using FitLife.Shared.Infrastucture.CommandHandler;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace FitLife.Infrastructure.CommandHandlers
 {
     public class RegisterUserCommandHandler : IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>
     {
-        private UserManager<AppUser> _userManager;
-        public RegisterUserCommandHandler(UserManager<AppUser> userManager)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _configuration;
+
+        public RegisterUserCommandHandler(UserManager<AppUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _configuration = configuration;
         }
 
 
@@ -40,8 +44,10 @@ namespace FitLife.Infrastructure.CommandHandlers
             {
                 return new RegisterUserResponse
                 {
+                    //TODO Logger
                     Success = false,
-                    Errors = new[] {e.Message}
+                    Errors = new[] { _configuration.GetValue<string>("Messages:ExceptionMessage") }
+
                 };
             }
 }

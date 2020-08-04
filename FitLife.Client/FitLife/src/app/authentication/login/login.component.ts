@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
+import { LoginRequest } from '../model/login/login.request';
+import { LoginResponse } from '../model/login/login.response';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +15,10 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService,
+    private router: Router) { }
 
   ngOnInit() {
     this.constructForm();
@@ -19,12 +26,37 @@ export class LoginComponent implements OnInit {
 
   private constructForm(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
   isFormValid(): boolean {
     return this.loginForm.valid;
+  }
+
+  private createRequest(): LoginRequest {
+    return new LoginRequest(
+      this.loginForm.get('username').value,
+      this.loginForm.get('password').value,
+    );
+  }
+
+  private handleResponse(response: LoginResponse): void {
+    if (!response.success) {
+      this.notificationService.error(response.errors);
+    }
+    else {
+      localStorage.setItem('token',response.token);
+      this.notificationService.success("Successfully logged in!");
+      this.router.navigate(['/home']);
+    }
+  }
+
+  onSubmit() {
+    const request = this.createRequest();
+    this.authenticationService.login(request).subscribe(response =>
+      this.handleResponse(response)
+    );
   }
 }

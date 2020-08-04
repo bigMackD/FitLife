@@ -6,25 +6,25 @@
 
                 <p>
                     <mat-form-field>
-                        <input type="text" matInput placeholder="Full Name" formControlName="fullName">
+                        <input type="text" matInput placeholder="Full Name" name="name" formControlName="fullName" autocomplete="name">
                     </mat-form-field>
                 </p>
 
                 <p>
                     <mat-form-field>
-                        <input type="text" matInput placeholder="Email" formControlName="email">
+                        <input type="text" matInput placeholder="Email" formControlName="email" name="email" type="email" autocomplete="email">
                     </mat-form-field>
                 </p>
 
                 <p>
                     <mat-form-field>
-                        <input type="text" matInput placeholder="Username" formControlName="username">
+                        <input type="text" matInput placeholder="Username" name="username" formControlName="username" autocomplete="username">
                     </mat-form-field>
                 </p>
 
                 <p>
                     <mat-form-field>
-                        <input type="password" matInput placeholder="Password" formControlName="password">
+                        <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="current-password">
                     </mat-form-field>
                 </p>
 
@@ -34,24 +34,31 @@
                     </mat-form-field>
                 </p>
 
-                <label class="text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('NoPassswordMatch')">
+                <div class="text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('NoPassswordMatch')">
                     Passwords do not match
-                </label>
+                </div>
 
-                <p *ngIf="error" class="error">
-                    {{ error }}
-                </p>
+                <div class="text-danger" *ngIf="registerForm.controls.password.errors?.pattern">
+                    Password does not meet requirements
+                     <span class="material-icons" 
+                     matTooltip="Passwords must be at least 8 characters.
+                     Passwords must have at least one non alphanumeric character.
+                     Passwords must have at least one digit ('0'-'9').
+                     Passwords must have at least one uppercase ('A'-'Z').">
+                        contact_support
+                        </span>
+                </div>
 
                
                 <div class="text-danger"
                     *ngIf="(registerForm.controls.email?.dirty || registerForm.controls.email?.touched)">
-                    <span *ngIf="registerForm.controls.email.errors?.required">Email is required</span>
-                    <span *ngIf="registerForm.controls.email.errors?.pattern">Please provide a valid email</span>
+                    <div *ngIf="registerForm.controls.email.errors?.required">Email is required</div>
+                    <div *ngIf="registerForm.controls.email.errors?.pattern">Please provide a valid email</div>
                 </div>
                
 
                 <div class="button">
-                    <button [disabled]="!isFormValid()" type="submit" mat-button>Submit</button>
+                    <button mat-raised-button color="primary" [disabled]="!isFormValid()" type="submit" mat-button>Sign up</button>
                 </div>
 
             </form>

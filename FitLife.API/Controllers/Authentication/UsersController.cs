@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Response.Authentication;
-using FitLife.DB.Models.Authentication;
 using FitLife.Shared.Infrastucture.CommandHandler;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers.Authentication
@@ -13,13 +11,14 @@ namespace FitLife.API.Controllers.Authentication
     public class UsersController : ControllerBase
     {
        
-        private SignInManager<AppUser> _signInManager;
         private readonly IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> _registerUserCommandHandler;
+        private readonly IAsyncCommandHandler<LoginUserCommand, LoginUserResponse> _loginUserCommandHandler;
 
-        public UsersController(SignInManager<AppUser> signInManager, IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> registerUserCommandHandler)
+        public UsersController(IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> registerUserCommandHandler,
+            IAsyncCommandHandler<LoginUserCommand, LoginUserResponse> loginUserCommandHandler)
         {
-            _signInManager = signInManager;
             _registerUserCommandHandler = registerUserCommandHandler;
+            _loginUserCommandHandler = loginUserCommandHandler;
         }
 
         [HttpPost]
@@ -27,6 +26,13 @@ namespace FitLife.API.Controllers.Authentication
         public Task<RegisterUserResponse> Register(RegisterUserCommand command)
         {
             return _registerUserCommandHandler.Handle(command);
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public Task<LoginUserResponse> Login(LoginUserCommand command)
+        {
+            return _loginUserCommandHandler.Handle(command);
         }
     }
 }

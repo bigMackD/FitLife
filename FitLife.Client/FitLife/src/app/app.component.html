@@ -1,5 +1,5 @@
 
-<mat-sidenav-container class="all-wrap">
+<mat-sidenav-container  class="all-wrap">
  
   <mat-sidenav #sidenav over>
     <mat-list>
@@ -12,13 +12,14 @@
     <mat-toolbar color="primary">
       <mat-toolbar-row>
         <span>
-          <mat-icon
+          <mat-icon  *ngIf="isLoggedIn()"
             (click)="sidenav.open()"
           >menu
           </mat-icon>
         </span>
-        <button mat-button [routerLink]="['./register']"><h1>Register</h1></button>
-        <button mat-button [routerLink]="['./login']"> <h1>Login</h1></button>
+        <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./register']"><h1>Register</h1></button>
+        <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./login']"> <h1>Login</h1></button>
+        <button mat-button *ngIf="isLoggedIn()" (click)="onLogout()"> <h1>Logout</h1></button>
       </mat-toolbar-row>
     </mat-toolbar>
  

@@ -12,8 +12,8 @@ export class NotificationService{
         const message = errors.join(" \r\n ");
         this.snackBar.open(message,'', {
             duration: 5000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            horizontalPosition: 'left',
             panelClass: ['mat-toolbar', 'mat-warn']
           });
     }
@@ -21,8 +21,8 @@ export class NotificationService{
     public success(message:string):void{
         this.snackBar.open(message,'', {
             duration: 5000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            horizontalPosition: 'left',
             panelClass: ['mat-toolbar', 'mat-accent']
           });
     }

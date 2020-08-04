@@ -1,9 +1,12 @@
+using System;
+using System.Text;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Response.Authentication;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers;
 using FitLife.Shared.Infrastucture.CommandHandler;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FitLife.API
 {
@@ -28,7 +32,9 @@ namespace FitLife.API
         {
             services
                 .AddScoped<IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>,
-                    RegisterUserCommandHandler>();
+                    RegisterUserCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
+                    LoginUserCommandHandler>(); ;
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>
@@ -40,7 +46,37 @@ namespace FitLife.API
                 options.Password.RequiredLength = 8
             );
 
-         
+
+            //JWT Authentication
+
+            var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JWTSecret"));
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+            
+
+
+
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +88,7 @@ namespace FitLife.API
             }
 
             app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:4200")
+                builder.WithOrigins(Configuration.GetValue<string>("AppSettings:ClientUrl"))
                     .AllowAnyHeader()
                     .AllowAnyMethod());
 

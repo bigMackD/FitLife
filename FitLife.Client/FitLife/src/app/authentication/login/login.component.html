@@ -6,18 +6,19 @@
 
                 <p>
                     <mat-form-field>
-                        <input type="text" matInput placeholder="Email" formControlName="email">
+                        <input type="text" matInput placeholder="Username" formControlName="username" name="Username" autocomplete="username">
                     </mat-form-field>
                 </p>
 
                 <p>
                     <mat-form-field>
-                        <input type="password" matInput placeholder="Password" formControlName="password">
+                        <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="current-password">
                     </mat-form-field>
                 </p>
 
+
                 <div class="button">
-                    <button [disabled]="!isFormValid()" type="submit" mat-button>Login</button>
+                    <button mat-raised-button color="primary" [disabled]="!isFormValid()" type="submit" mat-button>Login</button>
                 </div>
 
             </form>
