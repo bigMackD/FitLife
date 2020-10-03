@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FitLife.Contracts\FitLife.Contracts.csproj" />
     <ProjectReference Include="..\FitLife.DB\FitLife.DB.csproj" />
-    <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastucture.csproj" />
+    <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

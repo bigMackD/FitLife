@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Response.Authentication;
 using FitLife.DB.Models.Authentication;
-using FitLife.Shared.Infrastucture.CommandHandler;
+using FitLife.Shared.Infrastructure.CommandHandler;
+using FitLife.Shared.Infrastucture.Enum;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
-namespace FitLife.Infrastructure.CommandHandlers
+namespace FitLife.Infrastructure.CommandHandlers.Authentication
 {
     public class RegisterUserCommandHandler : IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>
     {
@@ -34,6 +35,7 @@ namespace FitLife.Infrastructure.CommandHandlers
                 };
 
                 var result = await _userManager.CreateAsync(appUser, command.Password);
+                await _userManager.AddToRoleAsync(appUser, Role.User.ToString());
                 return new RegisterUserResponse
                 {
                     Success = result.Succeeded,

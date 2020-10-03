@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Contracts", "FitLif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.DB", "FitLife.DB\FitLife.DB.csproj", "{04B9079F-1907-4665-A454-417143DAF0B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitLife.Infrastructure", "FitLife.Infrastructure\FitLife.Infrastructure.csproj", "{A2CB1026-A9AC-4715-9BF2-3408ED5FF482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Infrastructure", "FitLife.Infrastructure\FitLife.Infrastructure.csproj", "{A2CB1026-A9AC-4715-9BF2-3408ED5FF482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitLife.Shared.Infrastucture", "FitLife.Shared.Infrastucture\FitLife.Shared.Infrastucture.csproj", "{6676792D-74C0-4AE0-BD29-307D9EAF8357}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Shared.Infrastructure", "FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj", "{6676792D-74C0-4AE0-BD29-307D9EAF8357}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,13 +1,14 @@
-﻿using FitLife.Shared.Infrastructure.Query;
+﻿using System.Threading.Tasks;
+using FitLife.Shared.Infrastructure.Query;
 using FitLife.Shared.Infrastructure.Response;
 
 namespace FitLife.Shared.Infrastructure.QueryHandler
 {
-    public interface IQueryHandler<in TQuery, out TResponse>
+    public interface IAsyncQueryHandler<in TQuery, TResponse>
         where TQuery : IQuery
         where TResponse : IBaseResponse
     {
-        TResponse Handle(TQuery query);
+        Task<TResponse> Handle(TQuery query);
 
     }
 }

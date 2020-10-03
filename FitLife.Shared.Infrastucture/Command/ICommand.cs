@@ -1,4 +1,4 @@
-﻿namespace FitLife.Shared.Infrastucture.Command
+﻿namespace FitLife.Shared.Infrastructure.Command
 {
     public interface ICommand
     {

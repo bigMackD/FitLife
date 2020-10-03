@@ -1,4 +1,4 @@
-﻿namespace FitLife.Shared.Infrastucture.Query
+﻿namespace FitLife.Shared.Infrastructure.Query
 {
     public interface IQuery
     {

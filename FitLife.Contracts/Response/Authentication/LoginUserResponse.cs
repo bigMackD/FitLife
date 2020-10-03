@@ -1,4 +1,4 @@
-﻿using FitLife.Shared.Infrastucture.Response;
+﻿using FitLife.Shared.Infrastructure.Response;
 
 namespace FitLife.Contracts.Response.Authentication
 {

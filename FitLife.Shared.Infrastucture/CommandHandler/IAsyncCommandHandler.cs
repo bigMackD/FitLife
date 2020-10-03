@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using FitLife.Shared.Infrastucture.Command;
-using FitLife.Shared.Infrastucture.Response;
+﻿using System.Threading.Tasks;
+using FitLife.Shared.Infrastructure.Command;
+using FitLife.Shared.Infrastructure.Response;
 
-namespace FitLife.Shared.Infrastucture.CommandHandler
+namespace FitLife.Shared.Infrastructure.CommandHandler
 {
     public interface IAsyncCommandHandler<in TCommand, TResponse>
         where TCommand : ICommand

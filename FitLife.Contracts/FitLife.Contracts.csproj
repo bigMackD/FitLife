@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Request\Query\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastucture.csproj" />
+    <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

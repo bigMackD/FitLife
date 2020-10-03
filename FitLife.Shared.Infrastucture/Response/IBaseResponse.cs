@@ -1,4 +1,4 @@
-﻿namespace FitLife.Shared.Infrastucture.Response
+﻿namespace FitLife.Shared.Infrastructure.Response
 {
     public interface IBaseResponse
     {

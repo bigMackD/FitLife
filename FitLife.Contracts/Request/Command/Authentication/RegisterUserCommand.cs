@@ -1,4 +1,4 @@
-﻿using FitLife.Shared.Infrastucture.Command;
+﻿using FitLife.Shared.Infrastructure.Command;
 
 namespace FitLife.Contracts.Request.Command.Authentication
 {

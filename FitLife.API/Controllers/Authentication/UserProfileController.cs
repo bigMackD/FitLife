@@ -28,8 +28,8 @@ namespace FitLife.API.Controllers.Authentication
             var user = await _userManager.FindByIdAsync(userId);
             return new
             {
-                FullName = user.FullName,
-                Email = user.Email
+                user.FullName,
+                user.Email
             };
         }
     }
