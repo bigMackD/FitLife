@@ -1,53 +1,47 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Users;
 using FitLife.DB.Models.Authentication;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace FitLife.Infrastructure.CommandHandlers.Users
+namespace FitLife.Infrastructure.QueryHandlers.Users
 {
-    public class GetUsersQueryHandler : IAsyncQueryHandler<GetUsersQuery,GetUsersResponse>
+    public class GetUserProfileQueryHandler : IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public GetUsersQueryHandler(UserManager<AppUser> userManager, IConfiguration configuration)
+        public GetUserProfileQueryHandler(UserManager<AppUser> userManager, ILogger<GetUserProfileQueryHandler> logger, IConfiguration configuration)
         {
             _userManager = userManager;
+            _logger = logger;
             _configuration = configuration;
         }
 
-        public async Task<GetUsersResponse> Handle(GetUsersQuery query)
+        public async Task<GetUserProfileResponse> Handle(GetUserProfileQuery query)
         {
             try
             {
-                var users = await _userManager.Users.ToListAsync();
-                var response = users.Select(user => new User
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                    UserName = user.UserName
-                });
-
-                return new GetUsersResponse
+                var user = await _userManager.FindByIdAsync(query.UserId);
+                return new GetUserProfileResponse
                 {
                     Success = true,
-                    Users = response
+                    FullName = user.FullName
                 };
             }
             catch (Exception e)
             {
-                return new GetUsersResponse
+                _logger.LogError(e, e.Message);
+                return new GetUserProfileResponse
                 {
-                    //TODO Logger
                     Success = false,
                     Errors = new[] { _configuration.GetValue<string>("Messages:ExceptionMessage") }
+
                 };
             }
         }

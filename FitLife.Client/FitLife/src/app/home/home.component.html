@@ -1,24 +1,38 @@
-
 <div class="card-wrapper">
-     <mat-card>
-        <div class="icon-wrapper"><mat-icon class="icon">desktop_mac</mat-icon></div> 
-        <div class="title-wrapper">Dashboard</div> 
-     </mat-card>
+    <mat-card>
+        <div class="icon-wrapper">
+            <mat-icon class="icon">desktop_mac</mat-icon>
+        </div>
+        <div class="title-wrapper">Dashboard</div>
+    </mat-card>
 
     <mat-card>
-        <div class="icon-wrapper"><mat-icon class="icon">fastfood</mat-icon></div> 
-        <div class="title-wrapper">Nutrition</div> 
-     </mat-card>
+        <div class="icon-wrapper">
+            <mat-icon class="icon">fastfood</mat-icon>
+        </div>
+        <div class="title-wrapper">Nutrition</div>
+    </mat-card>
 
     <mat-card>
-        <div class="icon-wrapper"><mat-icon class="icon">directions_run</mat-icon></div> 
-        <div class="title-wrapper">Workouts</div> 
-    </mat-card>    
+        <div class="icon-wrapper">
+            <mat-icon class="icon">directions_run</mat-icon>
+        </div>
+        <div class="title-wrapper">Workouts</div>
+    </mat-card>
 </div>
 
 <div class="card-wrapper second">
     <mat-card class="second">
-        <div class="icon-wrapper"><mat-icon class="icon">contact_page</mat-icon></div> 
-        <div class="title-wrapper">Profile</div> 
+        <div class="icon-wrapper">
+            <mat-icon class="icon">contact_page</mat-icon>
+        </div>
+        <div class="title-wrapper">Profile</div>
+    </mat-card>
+
+    <mat-card *ngIf="isVisible"  class="second" [routerLink]="['/users']">
+        <div class="icon-wrapper">
+            <mat-icon class="icon">emoji_people</mat-icon>
+        </div>
+        <div class="title-wrapper">Users</div>
     </mat-card>
 </div>

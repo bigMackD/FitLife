@@ -8,7 +8,7 @@ using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
-using FitLife.Infrastructure.CommandHandlers.Users;
+using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,7 +41,9 @@ namespace FitLife.API
                 .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
                     LoginUserCommandHandler>() 
                 .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
-                GetUsersQueryHandler>(); ;
+                    GetUsersQueryHandler>()
+                .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
+                    GetUserProfileQueryHandler>();
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>

@@ -4,13 +4,16 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [
   { path:'', redirectTo:'register', pathMatch:'full' },
   { path:'register',component: RegisterComponent },
   { path:'login',component: LoginComponent },
-  { path:'home',component: HomeComponent, canActivate:[AuthGuard] }
+  { path:'home',component: HomeComponent, canActivate:[AuthGuard] },
+  { path:'users',component: UsersComponent, canActivate:[AuthGuard],
+   data:{permittedRoles:['Admin']} }
 
 ];
 

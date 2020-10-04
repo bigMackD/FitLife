@@ -8,6 +8,7 @@ using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastucture.Enum;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace FitLife.Infrastructure.CommandHandlers.Authentication
 {
@@ -15,11 +16,14 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public RegisterUserCommandHandler(UserManager<AppUser> userManager, IConfiguration configuration)
+
+        public RegisterUserCommandHandler(UserManager<AppUser> userManager, IConfiguration configuration, ILogger<RegisterUserCommandHandler> logger)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _logger = logger;
         }
 
 
@@ -44,14 +48,14 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
             }
             catch (Exception e)
             {
+                _logger.LogError(e, e.Message);
                 return new RegisterUserResponse
                 {
-                    //TODO Logger
                     Success = false,
                     Errors = new[] { _configuration.GetValue<string>("Messages:ExceptionMessage") }
 
                 };
             }
-}
+        }
     }
 }

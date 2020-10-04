@@ -48,7 +48,6 @@ namespace FitLife.API.Controllers.Authentication
         [Route("")]
         public Task<GetUsersResponse> Get()
         {
-            //TODO REFACTOR
             var query = new GetUsersQuery();
             return _getUsersQueryHandler.Handle(query);
         }

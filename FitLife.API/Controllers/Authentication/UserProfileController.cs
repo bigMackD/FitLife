@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using FitLife.Contracts.Request.Query.Users;
+using FitLife.Contracts.Response.Users;
 using FitLife.DB.Models.Authentication;
+using FitLife.Shared.Infrastructure.QueryHandler;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,23 +14,25 @@ namespace FitLife.API.Controllers.Authentication
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private UserManager<AppUser> _userManager;
-        public UserProfileController(UserManager<AppUser> userManager)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse> _getUserProfileHandler;
+        public UserProfileController(UserManager<AppUser> userManager, IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse> getUserProfileHandler)
         {
             _userManager = userManager;
+            _getUserProfileHandler = getUserProfileHandler;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<object> GetUserProfile()
+        [Route("")]
+        public Task<GetUserProfileResponse> GetUserProfile()
         {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
+            var userId = User.Claims.First(c => c.Type == "UserID").Value;
+            var query = new GetUserProfileQuery
             {
-                user.FullName,
-                user.Email
+                UserId = userId
             };
+            return _getUserProfileHandler.Handle(query);
         }
     }
 }

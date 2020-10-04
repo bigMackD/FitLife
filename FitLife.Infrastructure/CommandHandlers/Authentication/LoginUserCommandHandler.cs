@@ -10,6 +10,7 @@ using FitLife.DB.Models.Authentication;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FitLife.Infrastructure.CommandHandlers.Authentication
@@ -18,12 +19,15 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
+
 
         public LoginUserCommandHandler(UserManager<AppUser> userManager,
-            IConfiguration configuration)
+            IConfiguration configuration, ILogger<LoginUserCommandHandler> logger)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<LoginUserResponse> Handle(LoginUserCommand command)
@@ -61,15 +65,14 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
                 return new LoginUserResponse
                 {
                     Success = false,
-                    Errors = new[] {"UserName and/or password incorrect"}
+                    Errors = new[] {"Username and/or password incorrect"}
                 };
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return new LoginUserResponse()
+                _logger.LogError(e, e.Message);
+                return new LoginUserResponse
                 {
-                    //TODO Logger
                     Success = false,
                     Errors = new[] {_configuration.GetValue<string>("Messages:ExceptionMessage")}
                 };

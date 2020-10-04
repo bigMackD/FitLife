@@ -10,6 +10,7 @@ import { MatCardModule, MatSnackBarModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HomeComponent } from './home/home.component';
     RegisterComponent,
     LoginComponent,
     HomeComponent,
+    UsersComponent,
     
   ],
   imports: [

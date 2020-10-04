@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { RegisterResponse } from '../model/register/register.response';
 import { LoginRequest } from '../model/login/login.request';
 import { LoginResponse } from '../model/login/login.response';
+import { UserProfileResponse } from '../model/userProfile/userProfileResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,21 @@ export class AuthenticationService {
     return this.httpClient.post<LoginResponse>(config.baseUrl + '/Users/Login', request);
   }
 
- 
+  public getUserProfile():Observable<UserProfileResponse>{
+    return this.httpClient.get<UserProfileResponse>(config.baseUrl + '/UserProfile');
+  }
+
+  isInRole(allowedRoles: Array<string>): boolean {
+    var isMatch = false;
+    var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]))
+    var userRole = payload.role;
+    allowedRoles.forEach(element => {
+      if(userRole == element){
+        isMatch = true;
+        return false;
+      }
+    });
+    return isMatch;
+  }
+
 }
