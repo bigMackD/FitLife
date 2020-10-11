@@ -34,8 +34,7 @@ namespace FitLife.Infrastructure.QueryHandlers.Users
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    FullName = user.FullName,
-                    UserName = user.UserName
+                    FullName = user.FullName
                 });
 
                 return new GetUsersResponse

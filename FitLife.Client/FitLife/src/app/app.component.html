@@ -23,6 +23,7 @@
         <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./register']"><h1>Register</h1></button>
         <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./login']"> <h1>Login</h1></button>
         <button mat-button *ngIf="isLoggedIn()" (click)="onLogout()"> <h1>Logout</h1></button>
+       <span class="welcome-text" *ngIf="authService?.userName">Welcome back, {{authService?.userName}}</span> 
       </mat-toolbar-row>
     </mat-toolbar>
  

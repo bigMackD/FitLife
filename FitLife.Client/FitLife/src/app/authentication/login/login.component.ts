@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
@@ -50,15 +50,15 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token',response.token);
       this.notificationService.success("Successfully logged in!");
       this.router.navigate(['/home']);
-      this.authenticationService.getUserProfile().subscribe(response =>
-        console.log(response))
+      this.authenticationService.handleGetUserProfile();
     }
   }
 
   onSubmit() {
     const request = this.createRequest();
     this.authenticationService.login(request).subscribe(response =>
-      this.handleResponse(response)
-    );
+   {
+    this.handleResponse(response);
+   });
   }
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { config } from '../../config';
 import { RegisterRequest } from '../model/register/register.request';
 import { Observable } from 'rxjs';
@@ -13,8 +12,12 @@ import { UserProfileResponse } from '../model/userProfile/userProfileResponse';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
+  userName: string;
   constructor(private httpClient: HttpClient) { }
+
+  public getToken(): string {
+    return localStorage.getItem('token');
+  }
 
   public register(request:RegisterRequest):Observable<RegisterResponse>{
     return this.httpClient.post<RegisterResponse>(config.baseUrl + '/Users/Register', request);
@@ -26,6 +29,19 @@ export class AuthenticationService {
 
   public getUserProfile():Observable<UserProfileResponse>{
     return this.httpClient.get<UserProfileResponse>(config.baseUrl + '/UserProfile');
+  }
+
+  public logout():void{
+    this.userName = null;
+    localStorage.removeItem('token');
+  }
+
+  public handleGetUserProfile(): void {
+    this.getUserProfile().subscribe(response => {
+      if (response.success) {
+        this.userName = response.fullName;
+      }
+    });
   }
 
   isInRole(allowedRoles: Array<string>): boolean {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from './authentication/services/authentication.service';
 import { NotificationService } from './shared/services/notification.service';
 
 
@@ -11,12 +12,14 @@ import { NotificationService } from './shared/services/notification.service';
 export class AppComponent {
   title = 'FitLife';
 
+
   constructor(private notificationService: NotificationService,
+    private authService: AuthenticationService,
     private router: Router) {
   }
 
   onLogout():void{
-    localStorage.removeItem('token');
+   this.authService.logout();
     this.notificationService.success('Successfully logged out!');
     this.router.navigate(['login'])
   }
@@ -25,7 +28,6 @@ export class AppComponent {
     if(localStorage.getItem('token') != null)
       return true;
     else
-    return false;
-    
+    return false;  
   }
 }
