@@ -1,1 +1,33 @@
-<p>users works!</p>
+<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+</div>
+
+<mat-table class="users-table mat-elevation-z8" [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Full Name</mat-header-cell>
+        <mat-cell class="name-cell" *matCellDef="let user">{{user.fullName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell class="email-cell" *matCellDef="let user">{{user.email}}</mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="options">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="options-column" *matCellDef="let user">
+            <button mat-icon-button>
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
+<mat-paginator [length]="dataSource?.count" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>

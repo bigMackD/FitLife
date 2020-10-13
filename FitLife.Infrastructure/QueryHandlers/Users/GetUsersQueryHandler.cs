@@ -30,17 +30,23 @@ namespace FitLife.Infrastructure.QueryHandlers.Users
             try
             {
                 var users = await _userManager.Users.ToListAsync();
-                var response = users.Select(user => new User
+                var response = users
+                    .OrderBy(user => user.FullName)
+                    .Skip((query.PageIndex) * query.PageSize)
+                    .Take(query.PageSize)
+                    .Select(user => new User
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    FullName = user.FullName
+                    FullName = user.FullName,
+                    
                 });
 
                 return new GetUsersResponse
                 {
                     Success = true,
-                    Users = response
+                    Users = response,
+                    Count = users.Count()
                 };
             }
             catch (Exception e)

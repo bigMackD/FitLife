@@ -4,9 +4,10 @@ using FitLife.Shared.Infrastructure.Response;
 
 namespace FitLife.Contracts.Response.Users
 {
-    public class GetUsersResponse : IBaseResponse
+    public class GetUsersResponse : IBaseResponse, IPagingResponse
     {
         public IEnumerable<User> Users { get; set; }
+        public int Count { get; set; }
         public bool Success { get; set; }
         public string[] Errors { get; set; }
     }

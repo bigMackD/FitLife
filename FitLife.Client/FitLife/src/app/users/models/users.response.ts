@@ -1,7 +1,8 @@
 export interface UsersResponse{
     success: boolean,
-    errors: string[]
-    users: User[]
+    errors: string[],
+    users: User[],
+    count: number
 }
 
 export interface User{

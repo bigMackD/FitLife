@@ -46,9 +46,8 @@ namespace FitLife.API.Controllers.Authentication
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("")]
-        public Task<GetUsersResponse> Get()
+        public Task<GetUsersResponse> Get([FromQuery]GetUsersQuery query)
         {
-            var query = new GetUsersQuery();
             return _getUsersQueryHandler.Handle(query);
         }
     }
