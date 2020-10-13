@@ -12,6 +12,8 @@ import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { TokenInterceptor } from './authentication/interceptors/token.interceptor';
+import { LoaderComponent } from './shared/loader/loader/loader.component';
+import { LoaderInterceptor } from './shared/loader/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { TokenInterceptor } from './authentication/interceptors/token.intercepto
     LoginComponent,
     HomeComponent,
     UsersComponent,
+    LoaderComponent,
     
   ],
   imports: [
@@ -38,6 +41,11 @@ import { TokenInterceptor } from './authentication/interceptors/token.intercepto
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
       multi: true
     }
   ],
