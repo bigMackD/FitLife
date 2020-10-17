@@ -19,14 +19,16 @@ namespace FitLife.API.Controllers.Authentication
         private readonly IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> _registerUserCommandHandler;
         private readonly IAsyncCommandHandler<LoginUserCommand, LoginUserResponse> _loginUserCommandHandler;
         private readonly IAsyncQueryHandler<GetUsersQuery, GetUsersResponse> _getUsersQueryHandler;
+        private readonly IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse> _userDetailsQueryHandler;
 
         public UsersController(IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> registerUserCommandHandler,
             IAsyncCommandHandler<LoginUserCommand, LoginUserResponse> loginUserCommandHandler,
-            IAsyncQueryHandler<GetUsersQuery, GetUsersResponse> getUsersQueryHandler)
+            IAsyncQueryHandler<GetUsersQuery, GetUsersResponse> getUsersQueryHandler, IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse> userDetailsQueryHandler)
         {
             _registerUserCommandHandler = registerUserCommandHandler;
             _loginUserCommandHandler = loginUserCommandHandler;
             _getUsersQueryHandler = getUsersQueryHandler;
+            _userDetailsQueryHandler = userDetailsQueryHandler;
         }
 
         [HttpPost]
@@ -49,6 +51,15 @@ namespace FitLife.API.Controllers.Authentication
         public Task<GetUsersResponse> Get([FromQuery]GetUsersQuery query)
         {
             return _getUsersQueryHandler.Handle(query);
+        }
+
+
+        [HttpGet]
+        [AllowAuthorized(Role.Admin)]
+        [Route("{id}")]
+        public Task<UserDetailsResponse> Get([FromRoute] GetUserDetailsQuery query)
+        {
+            return _userDetailsQueryHandler.Handle(query);
         }
     }
 }

@@ -1,4 +1,6 @@
-export interface RegisterResponse{
-    success: boolean,
-    errors: string[]
+import { IBaseResponse } from 'src/app/shared/interfaces/base.response'
+
+export class RegisterResponse implements IBaseResponse{
+    success: boolean;
+    errors: string[];
 }

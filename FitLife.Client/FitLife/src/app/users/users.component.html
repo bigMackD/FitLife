@@ -15,9 +15,23 @@
     <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell class="options-column" *matCellDef="let user">
-            <button mat-icon-button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                 <mat-icon>more_vert</mat-icon>
-            </button>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button (click)="details(user.id)" mat-menu-item>
+                  <mat-icon>details</mat-icon>
+                  <span>Details</span>
+                </button>
+                <button mat-menu-item disabled>
+                  <mat-icon>check</mat-icon>
+                  <span>Activate</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>close</mat-icon>
+                  <span>Disactivate</span>
+                </button>
+              </mat-menu>
         </mat-cell>
     </ng-container>
 
@@ -27,4 +41,4 @@
 
 </mat-table>
 
-<mat-paginator [length]="dataSource?.count" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+<mat-paginator [length]="dataSource?.count" [pageSize]="10" [pageSizeOptions]="[10, 15, 25]"></mat-paginator>

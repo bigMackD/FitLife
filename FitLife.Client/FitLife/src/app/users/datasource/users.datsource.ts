@@ -25,7 +25,7 @@ export class UsersDataSource implements DataSource<User> {
     }
   
     loadUsers(filter: string = '',
-                sortDirection: string = 'asc', pageIndex: number = 0, pageSize: number = 3) {
+                sortDirection: string = 'asc', pageIndex: number = 0, pageSize: number = 10) {
                   const request: UsersRequest = {
                     pageIndex: pageIndex,
                     pageSize: pageSize,

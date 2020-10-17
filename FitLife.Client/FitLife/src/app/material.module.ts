@@ -19,7 +19,6 @@ import {
    MatTooltipModule,
    MatTableModule,
    MatPaginatorModule,
-   MatCardModule
 } from '@angular/material';
 
 @NgModule({

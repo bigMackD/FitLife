@@ -6,7 +6,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatMenuModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +14,7 @@ import { UsersComponent } from './users/users.component';
 import { TokenInterceptor } from './authentication/interceptors/token.interceptor';
 import { LoaderComponent } from './shared/loader/loader/loader.component';
 import { LoaderInterceptor } from './shared/loader/loader.interceptor';
+import { UserDialogComponent } from './users/user-dialog/user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { LoaderInterceptor } from './shared/loader/loader.interceptor';
     HomeComponent,
     UsersComponent,
     LoaderComponent,
+    UserDialogComponent,
     
   ],
   imports: [
@@ -35,7 +37,8 @@ import { LoaderInterceptor } from './shared/loader/loader.interceptor';
     MatCardModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   providers: [
     {
@@ -49,6 +52,7 @@ import { LoaderInterceptor } from './shared/loader/loader.interceptor';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ UserDialogComponent, ]
 })
 export class AppModule { }

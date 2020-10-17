@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { tap } from 'rxjs/operators';
 import { UsersDataSource } from './datasource/users.datsource';
 import { UsersService } from './services/users.service';
+import { UserDialogComponent } from './user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -16,7 +17,7 @@ export class UsersComponent implements OnInit {
 
   @ViewChild(MatPaginator,{static: false}) paginator: MatPaginator;
 
-  constructor(private usersService:UsersService) { }
+  constructor(private usersService:UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.dataSource = new UsersDataSource(this.usersService);
@@ -38,6 +39,14 @@ loadUsersPage() {
       'asc',
       this.paginator.pageIndex,
       this.paginator.pageSize);
+}
+
+details(userId: string){
+  console.log(userId)
+  let dialogRef = this.dialog.open(UserDialogComponent, {
+    height: '400px',
+    width: '600px',
+  });
 }
 
 }

@@ -4,6 +4,8 @@ import { UsersResponse } from '../models/users.response';
 import { config } from '../../config';
 import { Observable } from 'rxjs';
 import { UsersRequest } from '../models/users.request';
+import { UserDetailsRequest } from '../models/details/userDetails.request';
+import { UserDetailsResponse } from '../models/details/userDetails.response';
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +20,14 @@ import { UsersRequest } from '../models/users.request';
           .set('sortDirection', request.sortDirection)
           .set('pageIndex', request.pageIndex.toString())
           .set('pageSize', request.pageSize.toString())
+        });
+      }
+
+      public getDetails(request:UserDetailsRequest):Observable<UserDetailsResponse>{
+        return this.httpClient.get<UserDetailsResponse>(config.baseUrl + '/Users/', {
+        
+      
+        
         });
       }
   }

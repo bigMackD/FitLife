@@ -43,7 +43,9 @@ namespace FitLife.API
                 .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
                     GetUsersQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
-                    GetUserProfileQueryHandler>();
+                    GetUserProfileQueryHandler>()
+                .AddScoped<IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse>,
+                    UserDetailsQueryHandler>();
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>
