@@ -50,6 +50,8 @@ namespace FitLife.API
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            services.AddDbContext<FoodContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();

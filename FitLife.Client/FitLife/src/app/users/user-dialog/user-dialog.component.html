@@ -1,1 +1,39 @@
-<p>user-dialog works!</p>
+
+    <form [formGroup]="detailsForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+        <p>
+            <mat-form-field>
+                <input type="text" matInput placeholder="FullName" formControlName="fullName" name="fullName">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="text" matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+        </p>
+
+
+        <p>
+            <mat-form-field>
+                <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber" name="PhoneNumber">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="text" matInput placeholder="Username" formControlName="username">
+            </mat-form-field>
+        </p>
+    </div>
+
+        <p>
+
+            <mat-slide-toggle name="phoneNumberConfirmed" disabled="true" formControlName="phoneNumberConfirmed" color="accent">Phone number confimed</mat-slide-toggle>
+       
+        </p>
+        <p>
+            <mat-slide-toggle name="twoFactorEnabled" disabled="true" formControlName="twoFactorEnabled" color="accent">Two factor enabled</mat-slide-toggle>
+        </p>
+
+
+
+
+        <div class="button">
+            <button mat-raised-button color="primary" type="submit" mat-button>Save</button>
+        </div>
+    </form>

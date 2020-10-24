@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using FitLife.DB.Models.Food;
 using Microsoft.AspNetCore.Identity;
 
 namespace FitLife.DB.Models.Authentication
@@ -7,5 +9,7 @@ namespace FitLife.DB.Models.Authentication
     {
         [Column(TypeName = "nvarchar(150)")]
         public string FullName { get; set; }
+
+        public ICollection<UserMeal> UserMeals { get; set; }
     }
 }

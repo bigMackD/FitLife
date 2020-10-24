@@ -24,10 +24,6 @@ import { UserDetailsResponse } from '../models/details/userDetails.response';
       }
 
       public getDetails(request:UserDetailsRequest):Observable<UserDetailsResponse>{
-        return this.httpClient.get<UserDetailsResponse>(config.baseUrl + '/Users/', {
-        
-      
-        
-        });
+        return this.httpClient.get<UserDetailsResponse>(config.baseUrl + '/Users/' + request.id);
       }
   }

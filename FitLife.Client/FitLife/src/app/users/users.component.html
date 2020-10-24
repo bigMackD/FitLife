@@ -23,11 +23,11 @@
                   <mat-icon>details</mat-icon>
                   <span>Details</span>
                 </button>
-                <button mat-menu-item disabled>
+                <button mat-menu-item [disabled]="!user.locked">
                   <mat-icon>check</mat-icon>
                   <span>Activate</span>
                 </button>
-                <button mat-menu-item>
+                <button [disabled]="user.locked" mat-menu-item>
                   <mat-icon>close</mat-icon>
                   <span>Disactivate</span>
                 </button>

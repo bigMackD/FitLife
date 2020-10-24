@@ -39,7 +39,7 @@ namespace FitLife.Infrastructure.QueryHandlers.Users
                     Id = user.Id,
                     Email = user.Email,
                     FullName = user.FullName,
-                    
+                    Locked = user.LockoutEnd > DateTime.Now
                 });
 
                 return new GetUsersResponse

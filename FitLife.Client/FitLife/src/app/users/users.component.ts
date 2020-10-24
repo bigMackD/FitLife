@@ -42,10 +42,12 @@ loadUsersPage() {
 }
 
 details(userId: string){
-  console.log(userId)
   let dialogRef = this.dialog.open(UserDialogComponent, {
     height: '400px',
     width: '600px',
+    data: {
+      id: userId
+    }
   });
 }
 
