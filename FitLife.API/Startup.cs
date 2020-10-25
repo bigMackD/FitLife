@@ -1,13 +1,16 @@
 using System;
 using System.Text;
 using FitLife.Contracts.Request.Command.Authentication;
+using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
+using FitLife.Contracts.Response.Product;
 using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
+using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
@@ -45,7 +48,11 @@ namespace FitLife.API
                 .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
                     GetUserProfileQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse>,
-                    UserDetailsQueryHandler>();
+                    UserDetailsQueryHandler>()
+                .AddScoped<IQueryHandler<GetProductsQuery, GetProductsResponse>,
+                    GetProductsQueryHandler>()
+                .AddScoped<IAsyncQueryHandler<GetProductDetailsQuery, GetProductDetailsResponse>,
+                GetProductDetailsQueryHandler>();
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>

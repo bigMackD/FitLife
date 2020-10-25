@@ -10,16 +10,16 @@ namespace FitLife.DB.Models.Food
 
         public string Name { get; set; }
 
-        [Column(TypeName = "decimal(3,1)")]
+        [Column(TypeName = "decimal(4,1)")]
         public decimal Calories { get; set; }
 
-        [Column(TypeName = "decimal(3,1)")]
+        [Column(TypeName = "decimal(4,1)")]
         public decimal ProteinsGrams { get; set; }
 
-        [Column(TypeName = "decimal(3,1)")]
+        [Column(TypeName = "decimal(4,1)")]
         public decimal CarbsGrams { get; set; }
 
-        [Column(TypeName = "decimal(3,1)")]
+        [Column(TypeName = "decimal(4,1)")]
         public decimal FatsGrams { get; set; }
 
         public bool Deleted { get; set; }

@@ -9,7 +9,7 @@ namespace FitLife.DB.Models.Food
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column(TypeName = "decimal(3,1)")]
+        [Column(TypeName = "decimal(4,1)")]
         public decimal Calories { get; set; }
 
         public int CategoryId { get; set; }
