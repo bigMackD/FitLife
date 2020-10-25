@@ -5,7 +5,7 @@ namespace FitLife.DB.Models.Food
 {
     public class Category
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
     }

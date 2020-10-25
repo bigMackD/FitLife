@@ -77,7 +77,9 @@ namespace FitLife.DB.Migrations.Food
             modelBuilder.Entity("FitLife.DB.Models.Food.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -90,10 +92,12 @@ namespace FitLife.DB.Migrations.Food
             modelBuilder.Entity("FitLife.DB.Models.Food.Meal", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Calories")
+                        .HasColumnType("decimal(3,1)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -129,25 +133,27 @@ namespace FitLife.DB.Migrations.Food
             modelBuilder.Entity("FitLife.DB.Models.Food.Product", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Calories")
+                        .HasColumnType("decimal(3,1)");
 
-                    b.Property<int>("CarbsGrams")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CarbsGrams")
+                        .HasColumnType("decimal(3,1)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("FatsGrams")
-                        .HasColumnType("int");
+                    b.Property<decimal>("FatsGrams")
+                        .HasColumnType("decimal(3,1)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProteinsGrams")
-                        .HasColumnType("int");
+                    b.Property<decimal>("ProteinsGrams")
+                        .HasColumnType("decimal(3,1)");
 
                     b.HasKey("Id");
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FitLife.DB.Migrations.Food
 {
-    public partial class FoodEntitiesCreatedTimestamp : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,7 +37,8 @@ namespace FitLife.DB.Migrations.Food
                 name: "Category",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -49,12 +50,13 @@ namespace FitLife.DB.Migrations.Food
                 name: "Product",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Calories = table.Column<int>(nullable: false),
-                    ProteinsGrams = table.Column<int>(nullable: false),
-                    CarbsGrams = table.Column<int>(nullable: false),
-                    FatsGrams = table.Column<int>(nullable: false),
+                    Calories = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
+                    ProteinsGrams = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
+                    CarbsGrams = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
+                    FatsGrams = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
                     Deleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -66,8 +68,9 @@ namespace FitLife.DB.Migrations.Food
                 name: "Meal",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    Calories = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Calories = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     Deleted = table.Column<bool>(nullable: false)
                 },

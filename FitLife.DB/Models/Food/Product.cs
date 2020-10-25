@@ -5,18 +5,22 @@ namespace FitLife.DB.Models.Food
 {
     public class Product
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int Calories { get; set; }
+        [Column(TypeName = "decimal(3,1)")]
+        public decimal Calories { get; set; }
 
-        public int ProteinsGrams { get; set; }
+        [Column(TypeName = "decimal(3,1)")]
+        public decimal ProteinsGrams { get; set; }
 
-        public int CarbsGrams { get; set; }
+        [Column(TypeName = "decimal(3,1)")]
+        public decimal CarbsGrams { get; set; }
 
-        public int FatsGrams { get; set; }
+        [Column(TypeName = "decimal(3,1)")]
+        public decimal FatsGrams { get; set; }
 
         public bool Deleted { get; set; }
     }

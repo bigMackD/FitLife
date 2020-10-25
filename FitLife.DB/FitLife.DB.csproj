@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200728151409_Initial.cs" />
     <Compile Remove="Migrations\20200728151409_Initial.Designer.cs" />
+    <Compile Remove="Migrations\Food\20201024092206_FoodEntitiesCreatedTimestamp.cs" />
+    <Compile Remove="Migrations\Food\20201024092206_FoodEntitiesCreatedTimestamp.Designer.cs" />
+    <Compile Remove="Migrations\Food\20201025095257_IdentityTimestamp.cs" />
+    <Compile Remove="Migrations\Food\20201025095257_IdentityTimestamp.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

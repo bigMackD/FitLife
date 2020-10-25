@@ -6,10 +6,11 @@ namespace FitLife.DB.Models.Food
 {
     public class Meal
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int Calories { get; set; }
+        [Column(TypeName = "decimal(3,1)")]
+        public decimal Calories { get; set; }
 
         public int CategoryId { get; set; }
 
