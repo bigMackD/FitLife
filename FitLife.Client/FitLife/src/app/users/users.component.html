@@ -1,4 +1,4 @@
-
+<h2>Users</h2>
 <mat-table class="users-table mat-elevation-z8" [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">
@@ -15,7 +15,7 @@
     <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell class="options-column" *matCellDef="let user">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">

@@ -21,7 +21,7 @@ namespace FitLife.API.Controllers.Food
 
         [HttpGet]
         [Route("")]
-        public GetProductsResponse Get([FromRoute] GetProductsQuery command)
+        public GetProductsResponse Get([FromQuery] GetProductsQuery command)
         {
             return _getProductsQueryHandler.Handle(command);
         }

@@ -26,7 +26,12 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
         {
             try
             {
-                var products = _context.Products.Select(product =>
+                var products = _context.Products;
+                var response =  products
+                    .OrderBy(product => product.Name)
+                    .Skip((query.PageIndex) * query.PageSize)
+                    .Take(query.PageSize)
+                    .Select(product =>
                     new Product
                     {
                         Id = product.Id,
@@ -39,7 +44,8 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
                     });
                 return new GetProductsResponse
                 {
-                    Products = products,
+                    Products = response,
+                    Count = products.Count(),
                     Success = true
                 };
             }

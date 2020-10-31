@@ -15,6 +15,9 @@ import { TokenInterceptor } from './authentication/interceptors/token.intercepto
 import { LoaderComponent } from './shared/loader/loader/loader.component';
 import { LoaderInterceptor } from './shared/loader/loader.interceptor';
 import { UserDialogComponent } from './users/user-dialog/user-dialog.component';
+import { NutritionComponent } from './nutrition/nutrition.component';
+import { ProductsComponent } from './nutrition/products/products.component';
+import { MealsComponent } from './nutrition/meals/meals.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { UserDialogComponent } from './users/user-dialog/user-dialog.component';
     UsersComponent,
     LoaderComponent,
     UserDialogComponent,
+    NutritionComponent,
+    ProductsComponent,
+    MealsComponent,
     
   ],
   imports: [

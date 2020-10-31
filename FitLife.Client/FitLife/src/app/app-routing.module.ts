@@ -5,6 +5,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
+import { NutritionComponent } from './nutrition/nutrition.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path:'login',component: LoginComponent },
   { path:'home',component: HomeComponent, canActivate:[AuthGuard] },
   { path:'users',component: UsersComponent, canActivate:[AuthGuard],
-   data:{permittedRoles:['Admin']} }
+   data:{permittedRoles:['Admin']} },
+  { path:'nutrition',component: NutritionComponent, canActivate:[AuthGuard] },
+
 
 ];
 

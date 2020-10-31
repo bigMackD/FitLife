@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Query.Products;
@@ -8,7 +9,6 @@ using FitLife.Contracts.Response.Product;
 using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
-using FitLife.Infrastructure.CommandHandlers;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
@@ -23,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace FitLife.API
 {
@@ -53,6 +54,20 @@ namespace FitLife.API
                     GetProductsQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetProductDetailsQuery, GetProductDetailsResponse>,
                 GetProductDetailsQueryHandler>();
+
+            //TODO: Register all handlers
+            //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()
+            //    .Where(t => t.GetInterfaces()
+            //        .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>))
+            //    ).ToList();
+
+            //foreach (var handler in commandHandlers)
+            //{
+            //    var genericArgs = handler.GetInterfaces().First(i =>
+            //        i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>)).GetGenericArguments();
+
+            //    services.AddScoped(handler<,>, handler);
+            //}
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>
@@ -90,6 +105,53 @@ namespace FitLife.API
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "FitLife",
+                    Description = "FitLife app API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Maciej Drozdowicz",
+                        Email = "maciek.d@me.com",
+                    }
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. <BR/>
+                      Enter 'Bearer' [space] and then your token in the text input below.  <BR/>
+                      Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +178,17 @@ namespace FitLife.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitLife API v.1");
+                c.RoutePrefix = string.Empty;
             });
         }
     }

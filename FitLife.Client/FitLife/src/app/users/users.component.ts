@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
 }
 
 loadUsersPage() {
-  console.log(this.paginator)
   this.dataSource.loadUsers(
       '',
       'asc',

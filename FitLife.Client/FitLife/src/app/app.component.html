@@ -20,15 +20,15 @@
           >menu
           </mat-icon>
         </span>
-        <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./register']"><h1>Register</h1></button>
-        <button mat-button *ngIf="!isLoggedIn()" [routerLink]="['./login']"> <h1>Login</h1></button>
+        <button mat-button *ngIf="!isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./register']"><h1>Register</h1></button>
+        <button mat-button *ngIf="!isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./login']"> <h1>Login</h1></button>
       
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./home']"> <h1>Home</h1></button>
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./dashboard']"> <h1>Dashboard</h1></button>
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./nutrition']"> <h1>Nutrition</h1></button>
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./workouts']"> <h1>Workouts</h1></button>
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./profile']"> <h1>Profile</h1></button>
-        <button mat-button *ngIf="isLoggedIn()" [routerLink]="['./profile']"> <h1>Users</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./home']"> <h1>Home</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./dashboard']"> <h1>Dashboard</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./nutrition']"> <h1>Nutrition</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./workouts']"> <h1>Workouts</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./profile']"> <h1>Profile</h1></button>
+        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./users']"> <h1>Users</h1></button>
 
 
        <span class="welcome-text" *ngIf="authService?.userName">Welcome back, {{authService?.userName}}</span> 

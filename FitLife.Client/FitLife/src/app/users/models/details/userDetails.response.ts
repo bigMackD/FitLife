@@ -9,4 +9,5 @@ export class UserDetailsResponse implements IBaseResponse{
     userName: string;
     twoFactorEnabled: boolean;
     phoneNumberConfirmed: boolean;
+    locked: boolean;
 }
