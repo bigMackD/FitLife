@@ -1,0 +1,29 @@
+<h2>Add new product</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+    <p>
+        <mat-form-field>
+            <input type="text" matInput placeholder="Name" formControlName="name" name="name">
+        </mat-form-field>
+      
+    </p>
+
+
+    <p class="nutritional-values-form">
+        <mat-form-field>
+            <input type="text" matInput placeholder="Proteins" formControlName="proteins">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="text" matInput placeholder="Carbohydrates" formControlName="carbohydrates" name="carbohydrates">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="text" matInput placeholder="Fats" formControlName="fats">
+        </mat-form-field>
+    </p>
+</div>
+
+    <div class="button">
+        <button mat-raised-button color="primary" type="submit" mat-button>Save</button>
+    </div>
+</form>

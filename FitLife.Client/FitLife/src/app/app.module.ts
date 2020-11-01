@@ -18,6 +18,7 @@ import { UserDialogComponent } from './users/user-dialog/user-dialog.component';
 import { NutritionComponent } from './nutrition/nutrition.component';
 import { ProductsComponent } from './nutrition/products/products.component';
 import { MealsComponent } from './nutrition/meals/meals.component';
+import { ProductDetailsComponent } from './nutrition/products/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MealsComponent } from './nutrition/meals/meals.component';
     NutritionComponent,
     ProductsComponent,
     MealsComponent,
+    ProductDetailsComponent,
     
   ],
   imports: [

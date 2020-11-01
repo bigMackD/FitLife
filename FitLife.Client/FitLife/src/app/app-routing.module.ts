@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
 import { NutritionComponent } from './nutrition/nutrition.component';
+import { ProductDetailsComponent } from './nutrition/products/product-details/product-details.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path:'users',component: UsersComponent, canActivate:[AuthGuard],
    data:{permittedRoles:['Admin']} },
   { path:'nutrition',component: NutritionComponent, canActivate:[AuthGuard] },
-
+  { path:'nutrition/product',component: ProductDetailsComponent, canActivate:[AuthGuard] }
 
 ];
 

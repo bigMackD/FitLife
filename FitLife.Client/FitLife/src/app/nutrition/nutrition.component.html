@@ -1,8 +1,13 @@
 <h2>Nutrition</h2>
 <div class="button-row">
-  <button mat-raised-button class="add-button" color="primary">Add</button>
+  <span *ngIf="currentTabIndex == nutritionTabEnum.Meals">
+  <button mat-raised-button class="add-button" color="primary">Add meal</button>
+  </span>
+  <span *ngIf="currentTabIndex == nutritionTabEnum.Products">
+    <button mat-raised-button class="add-button" [routerLink]="['/nutrition/product']" color="primary">Add product</button>
+    </span>
 </div>
-<mat-tab-group>
+<mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Meals"> <app-meals></app-meals> </mat-tab>
     <mat-tab label="Products"> <app-products></app-products> </mat-tab>
   </mat-tab-group>
