@@ -1,10 +1,11 @@
-<h2>Add new product</h2>
-
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-    <div class="container">
+<h2 class="mat-h2">Add new product</h2>
+<div class="container">
+    
+<form [formGroup]="productForm">
+    <div class="form-container">
     <p>
         <mat-form-field>
-            <input type="text" matInput placeholder="Name" formControlName="name" name="name">
+            <input type="text"  matInput placeholder="Name" formControlName="name" name="name">
         </mat-form-field>
       
     </p>
@@ -12,18 +13,37 @@
 
     <p class="nutritional-values-form">
         <mat-form-field>
-            <input type="text" matInput placeholder="Proteins" formControlName="proteins">
+            <input type="number" name="proteins" matInput placeholder="Proteins" formControlName="proteins">
         </mat-form-field>
         <mat-form-field>
-            <input type="text" matInput placeholder="Carbohydrates" formControlName="carbohydrates" name="carbohydrates">
+            <input type="number" matInput placeholder="Carbohydrates" formControlName="carbohydrates" name="carbohydrates">
         </mat-form-field>
         <mat-form-field>
-            <input type="text" matInput placeholder="Fats" formControlName="fats">
+            <input type="number" matInput placeholder="Fats" formControlName="fats">
         </mat-form-field>
     </p>
+    <p *ngIf="productForm.controls.name?.errors?.pattern"  class="text-danger">Name should contains only letters</p>
+<p *ngIf="productForm.controls.proteins?.errors?.range ||
+productForm.controls.carbohydrates?.errors?.range ||
+productForm.controls.fats?.errors?.range" 
+class="text-danger">Each macronutrient should be between 0 and 100</p>
+<p class="text-danger" *ngIf="productForm.hasError('sumRangeNotValid')">Sum of macronutrients can't be greater than 100</p>
 </div>
 
-    <div class="button">
-        <button mat-raised-button color="primary" type="submit" mat-button>Save</button>
+<div class="chart-container">
+    <ngx-charts-advanced-pie-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="chartData"
+    [gradient]="gradient">
+  </ngx-charts-advanced-pie-chart>
+</div>
+
+
+    <div class="buttons">
+        <button mat-raised-button id="back-button" color="primary" type="submit" mat-button>Back</button>
+
+        <button mat-raised-button id="save-button" color="primary" type="submit" mat-button>Save</button>
     </div>
 </form>
+</div>

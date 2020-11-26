@@ -19,6 +19,7 @@ import { NutritionComponent } from './nutrition/nutrition.component';
 import { ProductsComponent } from './nutrition/products/products.component';
 import { MealsComponent } from './nutrition/meals/meals.component';
 import { ProductDetailsComponent } from './nutrition/products/product-details/product-details.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { ProductDetailsComponent } from './nutrition/products/product-details/pr
     HttpClientModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxChartsModule
+
   ],
   providers: [
     {
