@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers.Authentication
 {
+    /// <summary>
+    /// Controller for managing users
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -21,6 +24,10 @@ namespace FitLife.API.Controllers.Authentication
         private readonly IAsyncQueryHandler<GetUsersQuery, GetUsersResponse> _getUsersQueryHandler;
         private readonly IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse> _userDetailsQueryHandler;
 
+        /// <param name="registerUserCommandHandler"></param>
+        /// <param name="loginUserCommandHandler"></param>
+        /// <param name="getUsersQueryHandler"></param>
+        /// <param name="userDetailsQueryHandler"></param>
         public UsersController(IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse> registerUserCommandHandler,
             IAsyncCommandHandler<LoginUserCommand, LoginUserResponse> loginUserCommandHandler,
             IAsyncQueryHandler<GetUsersQuery, GetUsersResponse> getUsersQueryHandler, IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse> userDetailsQueryHandler)
@@ -31,6 +38,11 @@ namespace FitLife.API.Controllers.Authentication
             _userDetailsQueryHandler = userDetailsQueryHandler;
         }
 
+        /// <summary>
+        /// Registers new user
+        /// </summary>
+        /// <param name="command"></param>
+        /// <response code="200">User sucessfully created</response>
         [HttpPost]
         [Route("Register")]
         public Task<RegisterUserResponse> Register(RegisterUserCommand command)
@@ -38,6 +50,12 @@ namespace FitLife.API.Controllers.Authentication
             return _registerUserCommandHandler.Handle(command);
         }
 
+        /// <summary>
+        /// Logins the user
+        /// </summary>
+        /// <param name="command"></param>
+        /// <response code="200">User sucessfully logged in</response>
+        /// <returns>Bearer token</returns>
         [HttpPost]
         [Route("Login")]
         public Task<LoginUserResponse> Login(LoginUserCommand command)
@@ -45,6 +63,11 @@ namespace FitLife.API.Controllers.Authentication
             return _loginUserCommandHandler.Handle(command);
         }
 
+        /// <summary>
+        /// Returns all registered users
+        /// </summary>
+        /// <param name="query"></param>
+        /// <response code="200">List of registered users</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("")]
@@ -53,7 +76,11 @@ namespace FitLife.API.Controllers.Authentication
             return _getUsersQueryHandler.Handle(query);
         }
 
-
+        /// <summary>
+        /// Returns user by specified ID
+        /// </summary>
+        /// <param name="query"></param>
+        /// <response code="200">User details</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("{id}")]

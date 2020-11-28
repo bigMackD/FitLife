@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using FitLife.Contracts.Request.Command.Authentication;
+using FitLife.Contracts.Request.Command.Products;
 using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
@@ -10,10 +13,13 @@ using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
+using FitLife.Infrastructure.CommandHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
+using FitLife.Infrastructure.Validators;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +49,7 @@ namespace FitLife.API
                 .AddScoped<IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>,
                     RegisterUserCommandHandler>()
                 .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
-                    LoginUserCommandHandler>() 
+                    LoginUserCommandHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
                     GetUsersQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
@@ -53,7 +59,11 @@ namespace FitLife.API
                 .AddScoped<IQueryHandler<GetProductsQuery, GetProductsResponse>,
                     GetProductsQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetProductDetailsQuery, GetProductDetailsResponse>,
-                GetProductDetailsQueryHandler>();
+                    GetProductDetailsQueryHandler>()
+                .AddScoped<IAsyncCommandHandler<AddProductCommand, AddProductResponse>,
+                    AddProductCommandHandler> ()
+
+                .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>();
 
             //TODO: Register all handlers
             //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()
@@ -131,6 +141,11 @@ namespace FitLife.API
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {

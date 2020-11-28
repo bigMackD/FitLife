@@ -8,16 +8,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers.Authentication
 {
+    /// <summary>
+    /// Controller for user profiles
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
     {
         private readonly IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse> _getUserProfileHandler;
+
+        /// <param name="getUserProfileHandler"></param>
         public UserProfileController(IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse> getUserProfileHandler)
         {
             _getUserProfileHandler = getUserProfileHandler;
         }
 
+        /// <summary>
+        /// Returns current user full name
+        /// </summary>
+        /// <response code="200">Returns current user Full Name</response>
+        /// <returns>User full name</returns>
         [HttpGet]
         [Authorize]
         [Route("")]
