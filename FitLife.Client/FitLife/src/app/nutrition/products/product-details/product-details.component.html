@@ -41,9 +41,9 @@ class="text-danger">Each macronutrient should be between 0 and 100</p>
 
 
     <div class="buttons">
-        <button mat-raised-button id="back-button" color="primary" type="submit" mat-button>Back</button>
+        <button mat-raised-button id="back-button" color="primary"  [routerLink]="['/nutrition']" [queryParams]="{ tab: 'Products'}" mat-button>Back</button>
 
-        <button mat-raised-button id="save-button" color="primary" type="submit" mat-button>Save</button>
+        <button mat-raised-button id="save-button" color="primary" (click)="onSubmit()" type="submit" mat-button>Save</button>
     </div>
 </form>
 </div>

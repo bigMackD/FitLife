@@ -17,6 +17,7 @@ const routes: Routes = [
   { path:'users',component: UsersComponent, canActivate:[AuthGuard],
    data:{permittedRoles:['Admin']} },
   { path:'nutrition',component: NutritionComponent, canActivate:[AuthGuard] },
+  { path:'nutrition:tab',component: NutritionComponent, canActivate:[AuthGuard] },
   { path:'nutrition/product',component: ProductDetailsComponent, canActivate:[AuthGuard] }
 
 ];

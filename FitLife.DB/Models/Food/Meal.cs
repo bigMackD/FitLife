@@ -8,6 +8,7 @@ namespace FitLife.DB.Models.Food
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Name { get; set; }
 
         [Column(TypeName = "decimal(4,1)")]
         public decimal Calories { get; set; }

@@ -7,7 +7,7 @@ namespace FitLife.Infrastructure.Validators
     {
         public AddProductCommandValidator()
         {
-            RuleFor(command => command.Name).Matches("[a-zA-Z]+");
+            RuleFor(command => command.Name).Matches(@"^[a-zA-Z\s]*$");
             RuleFor(command => command.CarbsGrams).LessThanOrEqualTo(100);
             RuleFor(command => command.FatsGrams).LessThanOrEqualTo(100);
             RuleFor(command => command.ProteinsGrams).LessThanOrEqualTo(100);

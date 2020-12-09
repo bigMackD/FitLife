@@ -4,6 +4,8 @@ import { config } from '../../../config';
 import { Observable } from 'rxjs';
 import { ProductsRequest } from '../models/list/products.request';
 import { ProductsResponse } from '../models/list/products.response';
+import { AddProductRequest } from '../models/add/addProduct.request';
+import { AddProductResponse } from '../models/add/addProduct.response';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +23,7 @@ import { ProductsResponse } from '../models/list/products.response';
         });
       }
 
-//       public getDetails(request:ProductDetailsRequest):Observable<ProductDetailsResponse>{
-//         return this.httpClient.get<ProductDetailsResponse>(config.baseUrl + '/Products/' + request.id);
-//       }
+public addProduct(request:AddProductRequest):Observable<AddProductResponse>{
+  return this.httpClient.post<AddProductResponse>(config.baseUrl + '/Products/', request);
+}
   }

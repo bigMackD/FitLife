@@ -4,6 +4,7 @@ using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Response.Product;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers.Food
@@ -13,6 +14,7 @@ namespace FitLife.API.Controllers.Food
     /// Controller for managing products
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductsController : ControllerBase
     {

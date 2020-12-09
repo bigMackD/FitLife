@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 import { NumberValidators } from 'src/app/shared/validators/number.validator';
+import { AddProductRequest } from '../models/add/addProduct.request';
+import { AddProductResponse } from '../models/add/addProduct.response';
+import { ProductsService } from '../services/products.service';
 import { MacrosChartCategories, ProductDetailsChartsService } from './product-details-chart.service';
 import { NumberSumValidator } from './validators/numberSum.validator';
 @Component({
@@ -16,10 +21,12 @@ export class ProductDetailsComponent implements OnInit {
     colorScheme = {
       domain: ['#9B26AF', '#691A99', '#68EFAD', '#AAAAAA']
     };
-    onlyLettersRegex = '[a-zA-Z]+'
+    onlyLettersRegex = '^[a-zA-Z\\s]*$'
   
 
-  constructor( private fb:FormBuilder, private chartsService:ProductDetailsChartsService) { 
+  constructor( private fb:FormBuilder, private chartsService:ProductDetailsChartsService,
+    private productsService: ProductsService, private notificationService: NotificationService,
+    private router: Router) { 
   }
 
   ngOnInit() {
@@ -53,6 +60,25 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  onSubmit():void{
+    let request:AddProductRequest = {
+      name: this.productForm.get('name').value,
+      proteinsGrams: this.productForm.get('proteins').value,
+      carbsGrams: this.productForm.get('carbohydrates').value,
+      fatsGrams: this.productForm.get('fats').value,
+    }
+    this.productsService.addProduct(request).subscribe(response => this.handleResponse(response));
+  }
+
+  private handleResponse(response: AddProductResponse){
+    if (!response.success) {
+      this.notificationService.error(response.errors);
+    }
+    else {
+      this.notificationService.success('Product succesfully created!');
+      this.router.navigate(['/nutrition'], { queryParams: { tab: "Products" } });
+    }
+  }
 }
 
 export class ChartItem{

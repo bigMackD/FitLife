@@ -7,7 +7,7 @@
     <button mat-raised-button class="add-button" [routerLink]="['/nutrition/product']" color="primary">Add product</button>
     </span>
 </div>
-<mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
+<mat-tab-group [selectedIndex]="currentTabIndex" #tabGroup (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Meals"> <app-meals></app-meals> </mat-tab>
     <mat-tab label="Products"> <app-products></app-products> </mat-tab>
   </mat-tab-group>
