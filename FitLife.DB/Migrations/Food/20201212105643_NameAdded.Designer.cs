@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitLife.DB.Migrations.Food
 {
     [DbContext(typeof(FoodContext))]
-    [Migration("20201025102233_ChangedDecimalColumnsTimestamp")]
-    partial class ChangedDecimalColumnsTimestamp
+    [Migration("20201212105643_NameAdded")]
+    partial class NameAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,6 +107,9 @@ namespace FitLife.DB.Migrations.Food
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("VARCHAR(64)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -152,7 +155,7 @@ namespace FitLife.DB.Migrations.Food
                         .HasColumnType("decimal(4,1)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(32)");
 
                     b.Property<decimal>("ProteinsGrams")
                         .HasColumnType("decimal(4,1)");
@@ -203,7 +206,7 @@ namespace FitLife.DB.Migrations.Food
                         .IsRequired();
 
                     b.HasOne("FitLife.DB.Models.Food.Product", "Product")
-                        .WithMany()
+                        .WithMany("MealProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

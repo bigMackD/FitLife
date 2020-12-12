@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\Food\20201024092206_FoodEntitiesCreatedTimestamp.Designer.cs" />
     <Compile Remove="Migrations\Food\20201025095257_IdentityTimestamp.cs" />
     <Compile Remove="Migrations\Food\20201025095257_IdentityTimestamp.Designer.cs" />
+    <Compile Remove="Migrations\Food\20201212105304_NameAdded.cs" />
+    <Compile Remove="Migrations\Food\20201212105304_NameAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

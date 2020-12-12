@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.Contracts.Response.Meals;
@@ -27,8 +28,24 @@ namespace FitLife.Infrastructure.CommandHandlers.Meals
         {
             try
             {
-                
-                throw new NotImplementedException();
+                var meal = new Meal
+                {
+                    Name = command.Name,
+                    //TODO UNMOCK CATEGORY
+                    CategoryId = 1
+                };
+
+                foreach(var productId in command.ProductIds)
+                {
+                    meal.MealProducts.Add(new MealProduct {ProductId = productId});
+                }
+                await _context.Meals.AddAsync(meal);
+                await _context.SaveChangesAsync();
+
+                return new AddMealResponse
+                {
+                    Success = true,
+                };
             }
             catch (Exception e)
             {

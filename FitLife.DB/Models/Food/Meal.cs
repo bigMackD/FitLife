@@ -6,12 +6,16 @@ namespace FitLife.DB.Models.Food
 {
     public class Meal
     {
+        public Meal()
+        {
+             MealProducts = new List<MealProduct>();    
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
 
-        [Column(TypeName = "decimal(4,1)")]
-        public decimal Calories { get; set; }
+        [Column(TypeName = "VARCHAR(64)")]
+        public string Name { get; set; }
 
         public int CategoryId { get; set; }
 

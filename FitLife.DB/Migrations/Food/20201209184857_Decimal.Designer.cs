@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitLife.DB.Migrations.Food
 {
     [DbContext(typeof(FoodContext))]
-    [Migration("20201209161244_MealNameAdded")]
-    partial class MealNameAdded
+    [Migration("20201209184857_Decimal")]
+    partial class Decimal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
