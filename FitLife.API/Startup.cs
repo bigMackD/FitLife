@@ -20,6 +20,7 @@ using FitLife.Infrastructure.CommandHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Infrastructure.Validators;
+using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using FluentValidation;
@@ -69,7 +70,8 @@ namespace FitLife.API
                     AddMealCommandHandler>()
 
 
-                .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>();
+                .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
+                .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>();
 
             //TODO: Register all handlers
             //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()

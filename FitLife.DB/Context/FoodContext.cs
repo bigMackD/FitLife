@@ -5,6 +5,10 @@ namespace FitLife.DB.Context
 {
     public class FoodContext : DbContext
     {
+        public FoodContext()
+        {
+            
+        }
         public FoodContext(DbContextOptions<FoodContext> options) : base(options)
         {
         }

@@ -4,6 +4,7 @@ using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Response.Product;
 using FitLife.DB.Context;
 using FitLife.Shared.Infrastructure.QueryHandler;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Product = FitLife.Contracts.Response.Product.Product;
@@ -15,17 +16,28 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
         private readonly FoodContext _context;
         private readonly IConfiguration _configuration;
         private readonly ILogger<GetProductsQueryHandler> _logger;
+        private readonly IValidator<GetProductsQuery> _validator;
 
-        public GetProductsQueryHandler(FoodContext context, IConfiguration configuration, ILogger<GetProductsQueryHandler> logger)
+        public GetProductsQueryHandler(FoodContext context, IConfiguration configuration, ILogger<GetProductsQueryHandler> logger, IValidator<GetProductsQuery> validator)
         {
             _context = context;
             _configuration = configuration;
             _logger = logger;
+            _validator = validator;
         }
         public GetProductsResponse Handle(GetProductsQuery query)
         {
             try
             {
+                var validationResult = _validator.Validate(query);
+                if (!validationResult.IsValid)
+                {
+                    return new GetProductsResponse
+                    {
+                        Errors = validationResult.Errors.Select(error => error.ErrorMessage).ToArray()
+                    };
+                }
+
                 var products = _context.Products;
                 var response =  products
                     .OrderBy(product => product.Name)

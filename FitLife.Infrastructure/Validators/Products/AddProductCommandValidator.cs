@@ -1,7 +1,7 @@
 ﻿using FitLife.Contracts.Request.Command.Products;
 using FluentValidation;
 
-namespace FitLife.Infrastructure.Validators
+namespace FitLife.Infrastructure.Validators.Products
 {
     public class AddProductCommandValidator : AbstractValidator<AddProductCommand>
     {
