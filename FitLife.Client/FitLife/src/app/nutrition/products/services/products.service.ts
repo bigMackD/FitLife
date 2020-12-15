@@ -13,6 +13,7 @@ import { AddProductResponse } from '../models/add/addProduct.response';
   export class ProductsService {
   
     constructor(private httpClient: HttpClient) { }
+
     public getProducts(request:ProductsRequest):Observable<ProductsResponse>{
         return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/', {
           params: new HttpParams()
@@ -21,6 +22,10 @@ import { AddProductResponse } from '../models/add/addProduct.response';
           .set('pageIndex', request.pageIndex.toString())
           .set('pageSize', request.pageSize.toString())
         });
+      }
+
+      public getAllProducts():Observable<ProductsResponse>{
+        return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/');
       }
 
 public addProduct(request:AddProductRequest):Observable<AddProductResponse>{

@@ -38,11 +38,13 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
                     };
                 }
 
-                var products = _context.Products;
+                var products = _context.Products.AsQueryable();
+                var count = products.Count();
+                if (query.PageSize != null)
+                {
+                    products = ApplyPaging(products, query);
+                }
                 var response =  products
-                    .OrderBy(product => product.Name)
-                    .Skip((query.PageIndex) * query.PageSize)
-                    .Take(query.PageSize)
                     .Select(product =>
                     new Product
                     {
@@ -57,7 +59,7 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
                 return new GetProductsResponse
                 {
                     Products = response,
-                    Count = products.Count(),
+                    Count = count,
                     Success = true
                 };
             }
@@ -70,6 +72,14 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
                    Errors = new[] { _configuration.GetValue<string>("Messages:ExceptionMessage") }
                };
             }
+        }
+
+        private IQueryable<DB.Models.Food.Product> ApplyPaging(IQueryable<DB.Models.Food.Product> products, GetProductsQuery query)
+        {
+            return products
+                .OrderBy(product => product.Name)
+                .Skip((query.PageIndex) * query.PageSize.Value)
+                .Take(query.PageSize.Value);
         }
     }
 }

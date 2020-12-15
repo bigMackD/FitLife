@@ -29,11 +29,12 @@ namespace FitLife.Infrastructure.QueryHandlers.Users
         {
             try
             {
+                //TODO
                 var users = await _userManager.Users.ToListAsync();
                 var response = users
                     .OrderBy(user => user.FullName)
-                    .Skip((query.PageIndex) * query.PageSize)
-                    .Take(query.PageSize)
+                    .Skip((query.PageIndex) * query.PageSize.Value)
+                    .Take(query.PageSize.Value)
                     .Select(user => new User
                 {
                     Id = user.Id,

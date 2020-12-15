@@ -28,15 +28,31 @@ namespace FitLife.Infrastructure.CommandHandlers.Meals
         {
             try
             {
+                if (!_context.Categories.Any(c => c.Id == command.CategoryId))
+                {
+                    return new AddMealResponse
+                    {
+                        Success = false,
+                        Errors = new[] { _configuration.GetValue<string>("Messages:Products:CategoryNotFound") }
+                    };
+                }
+
                 var meal = new Meal
                 {
                     Name = command.Name,
-                    //TODO UNMOCK CATEGORY
-                    CategoryId = 1
+                    CategoryId = command.CategoryId
                 };
 
-                foreach(var productId in command.ProductIds)
+                foreach (var productId in command.ProductIds)
                 {
+                    if (!_context.Products.Any(p => p.Id == productId))
+                    {
+                        return new AddMealResponse
+                        {
+                            Success = false,
+                            Errors = new[] { _configuration.GetValue<string>("Messages:Products:ProductNotFound") }
+                        };
+                    }
                     meal.MealProducts.Add(new MealProduct {ProductId = productId});
                 }
                 await _context.Meals.AddAsync(meal);

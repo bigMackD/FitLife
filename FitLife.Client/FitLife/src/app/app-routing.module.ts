@@ -7,6 +7,9 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
 import { NutritionComponent } from './nutrition/nutrition.component';
 import { ProductDetailsComponent } from './nutrition/products/product-details/product-details.component';
+import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-details.component';
+import { MealCategoriesResolver } from './shared/resolvers/mealCategories.resolver';
+import { ProductsResolver } from './shared/resolvers/products.resolver';
 
 
 const routes: Routes = [
@@ -18,7 +21,9 @@ const routes: Routes = [
    data:{permittedRoles:['Admin']} },
   { path:'nutrition',component: NutritionComponent, canActivate:[AuthGuard] },
   { path:'nutrition:tab',component: NutritionComponent, canActivate:[AuthGuard] },
-  { path:'nutrition/product',component: ProductDetailsComponent, canActivate:[AuthGuard] }
+  { path:'nutrition/product',component: ProductDetailsComponent, canActivate:[AuthGuard] },
+  { path:'nutrition/meal',component: MealDetailsComponent, canActivate:[AuthGuard],
+   resolve:{mealCategories: MealCategoriesResolver, products: ProductsResolver} }
 
 ];
 

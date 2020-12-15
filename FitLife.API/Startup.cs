@@ -6,9 +6,11 @@ using System.Text;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.Contracts.Request.Command.Products;
+using FitLife.Contracts.Request.Query.MealCategories;
 using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
+using FitLife.Contracts.Response.MealCategories;
 using FitLife.Contracts.Response.Meals;
 using FitLife.Contracts.Response.Product;
 using FitLife.Contracts.Response.Users;
@@ -17,6 +19,7 @@ using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Meals;
 using FitLife.Infrastructure.CommandHandlers.Products;
+using FitLife.Infrastructure.QueryHandlers.MealCategories;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Infrastructure.Validators;
@@ -68,6 +71,8 @@ namespace FitLife.API
                     AddProductCommandHandler>()
                 .AddScoped<IAsyncCommandHandler<AddMealCommand, AddMealResponse>,
                     AddMealCommandHandler>()
+                .AddScoped<IQueryHandler<GetMealCategoriesQuery, GetMealCategoriesResponse>,
+                    GetMealCategoriesQueryHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()

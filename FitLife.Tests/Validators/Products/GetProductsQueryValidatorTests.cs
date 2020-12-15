@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FitLife.Contracts.Request.Query.Products;
+﻿using FitLife.Contracts.Request.Query.Products;
 using FitLife.Infrastructure.Validators.Products;
 using NUnit.Framework;
 

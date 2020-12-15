@@ -4,6 +4,6 @@
     {
          string SortDirection { get; set; }
          int PageIndex { get; set; }
-         int PageSize { get; set; }
+         int? PageSize { get; set; }
     }
 }

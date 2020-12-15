@@ -1,0 +1,39 @@
+<h2 class="mat-h2">Add new product</h2>
+<div class="container">
+
+    <p>
+        <mat-form-field>
+            <div class="nameInput-containter">
+                <input type="text"  matInput placeholder="Name"  name="name">
+            </div>
+        </mat-form-field>
+      
+    </p>
+
+    <div class="multiselect-container">
+        <ng-select
+        #select
+        [items]="mealCategories"
+        [multiple]="true"
+        bindLabel="name"
+        placeholder="Category"
+        class="custom"
+        maxSelectedItems = 1
+        >
+    </ng-select>
+    </div>
+    <div class="multiselect-container">
+        <ng-select
+        #productsSelect
+        [items]="products"
+        [multiple]="true"
+        bindLabel="name"
+        placeholder="Products"
+        class="custom"
+        >
+    </ng-select>
+    </div>
+
+
+
+</div>

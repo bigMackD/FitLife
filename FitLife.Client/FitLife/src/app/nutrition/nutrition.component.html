@@ -1,7 +1,7 @@
 <h2 class="mat-h2">Nutrition</h2>
 <div class="button-row">
   <span *ngIf="currentTabIndex == nutritionTabEnum.Meals">
-  <button mat-raised-button class="add-button" color="primary">Add meal</button>
+  <button mat-raised-button class="add-button" [routerLink]="['/nutrition/meal']" color="primary">Add meal</button>
   </span>
   <span *ngIf="currentTabIndex == nutritionTabEnum.Products">
     <button mat-raised-button class="add-button" [routerLink]="['/nutrition/product']" color="primary">Add product</button>

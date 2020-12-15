@@ -9,5 +9,6 @@ namespace FitLife.Contracts.Request.Command.Meals
     {
         public string Name { get; set; }
         public IEnumerable<int> ProductIds { get; set; }
+        public int CategoryId { get; set; }
     }
 }

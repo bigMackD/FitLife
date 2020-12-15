@@ -20,6 +20,8 @@ import { ProductsComponent } from './nutrition/products/products.component';
 import { MealsComponent } from './nutrition/meals/meals.component';
 import { ProductDetailsComponent } from './nutrition/products/product-details/product-details.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-details.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ProductsComponent,
     MealsComponent,
     ProductDetailsComponent,
-    
+    MealDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NgSelectModule
 
   ],
   providers: [
