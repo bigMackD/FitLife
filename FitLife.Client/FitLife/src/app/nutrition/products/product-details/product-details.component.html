@@ -30,9 +30,9 @@ class="text-danger">Each macronutrient should be between 0 and 100</p>
 <p class="text-danger" *ngIf="productForm.hasError('sumRangeNotValid')">Sum of macronutrients can't be greater than 100</p>
 </div>
 
-<div class="chart-container">
+<div class="chart-container"  #containerRef >
     <ngx-charts-advanced-pie-chart
-    [view]="view"
+    [view]="[containerRef.offsetWidth, 400]"
     [scheme]="colorScheme"
     [results]="chartData"
     [gradient]="gradient">

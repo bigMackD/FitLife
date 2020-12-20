@@ -10,6 +10,7 @@ namespace FitLife.DB.Models.Food
         public int MealId { get; set; }
         public Meal Meal { get; set; }
         public int ProductId { get; set; }
+        public int Grams { get; set; }
         public Product Product { get; set; }
     }
 }

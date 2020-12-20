@@ -1,16 +1,16 @@
-<h2 class="mat-h2">Add new product</h2>
+<h2 class="mat-h2">Add new meal</h2>
 <div class="container">
 
-    <p>
+   <div class="form-row">
+    <div class="nameInput-containter">
         <mat-form-field>
-            <div class="nameInput-containter">
+            <div>
                 <input type="text"  matInput placeholder="Name"  name="name">
             </div>
         </mat-form-field>
       
-    </p>
-
-    <div class="multiselect-container">
+    </div>
+    <div class="multiselect-category-container">
         <ng-select
         #select
         [items]="mealCategories"
@@ -22,7 +22,7 @@
         >
     </ng-select>
     </div>
-    <div class="multiselect-container">
+    <div class="multiselect-products-container">
         <ng-select
         #productsSelect
         [items]="products"
@@ -30,10 +30,33 @@
         bindLabel="name"
         placeholder="Products"
         class="custom"
+        [(ngModel)]="selectedProducts"
         >
     </ng-select>
     </div>
+   </div>
 
+   <br style="clear: both;">
+<div class="products-chart-container">
+    <div class="form-row">
+        <div class="product-row" *ngFor="let product of selectedProducts">
+            <span class="product-name">{{product.name}}</span>
+            <span class="product-slider">
+                <mat-slider  [(ngModel)]="product.grams" thumbLabel tickInterval="1000" min="1" max="100">
+               </mat-slider>
+              <span class="slider-label">{{product.grams}}g</span>
+            </span>
+            <span class="macros">C: {{product.carbsGrams}}g <span class="colour">|</span>  F:{{product.fatsGrams}}g <span class="colour">|</span> P: {{product.proteinsGrams}}g</span>
+    
+        </div>
+    </div>
 
+</div>
+
+    <div class="buttons">
+        <button mat-raised-button id="back-button" color="primary"  [routerLink]="['/nutrition']" [queryParams]="{ tab: 'Meals'}" mat-button>Back</button>
+
+        <button mat-raised-button id="save-button" color="primary" (click)="onSubmit()" type="submit" mat-button>Save</button>
+    </div>
 
 </div>

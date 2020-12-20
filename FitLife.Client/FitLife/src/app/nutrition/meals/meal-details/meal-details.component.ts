@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MealCategoriesResponse, MealCategory } from '../../mealCategories/models/list/getMealCategories.response';
-import { Product, ProductsResponse } from '../../products/models/list/products.response';
+import { MealProduct, Product, ProductsResponse } from '../../products/models/list/products.response';
 
 @Component({
   selector: 'app-meal-details',
@@ -11,6 +11,7 @@ import { Product, ProductsResponse } from '../../products/models/list/products.r
 export class MealDetailsComponent implements OnInit {
   mealCategories: MealCategory[];
   products: Product[];
+  selectedProducts: MealProduct[];
 
   constructor(private activatedRoute: ActivatedRoute) { }
   
@@ -24,4 +25,5 @@ export class MealDetailsComponent implements OnInit {
     this.mealCategories = mealCategoriesdata.mealCategories;
     this.products = productsData.products;
   }
+
 }

@@ -12,11 +12,20 @@
   flex: 1 
   height: 100%
   margin: 2% 5% 5% 5%
+  z-index: -1
+  @media only screen and (max-width: 450px)
+    padding:0 0 45px
+
+
+html
+  position: relative
+  min-height: 100%
+  
 
 main 
   display: flex
   flex-direction: column
- 
+
 > *:not(router-outlet) 
     flex: 1 
     display: block
@@ -26,9 +35,15 @@ mat-toolbar-row > span > h1
 
 footer
     background-color: mat-color($app-primary)
+    position: fixed
+    bottom: 0
+    width: 100%
+    flex-shrink: 0
+
 
 .title
   text-align: center
+  font: 300 12px/32px Roboto,"Helvetica Neue",sans-serif
 
 .welcome-text
   margin-left: 10%
@@ -50,3 +65,15 @@ body
   margin: 0
   padding: 0
 
+.sidenav-button
+  @media only screen and (min-width: 450px)
+    display: none
+
+.navbar-buttons
+  @media only screen and (max-width: 450px)
+    display: none
+
+.mobile-title
+  margin: 20px
+  @media only screen and (min-width: 450px)
+    display: none

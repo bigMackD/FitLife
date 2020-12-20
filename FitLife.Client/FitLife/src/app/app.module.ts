@@ -22,7 +22,7 @@ import { ProductDetailsComponent } from './nutrition/products/product-details/pr
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import {MatSliderModule} from '@angular/material/slider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,8 +51,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatProgressSpinnerModule,
     MatMenuModule,
     NgxChartsModule,
-    NgSelectModule
-
+    NgSelectModule,
+    MatSliderModule
   ],
   providers: [
     {

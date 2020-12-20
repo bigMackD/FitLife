@@ -16,3 +16,15 @@ export interface Product {
      carbsGrams:number 
      fatsGrams:number 
 }
+
+export class MealProduct {
+    constructor(
+        id: number,
+        name: string,
+        calories: number,
+        proteinsGrams: number,
+        carbsGrams: number,
+        fatsGrams: number,
+        grams: number = 0
+    ) { }
+}

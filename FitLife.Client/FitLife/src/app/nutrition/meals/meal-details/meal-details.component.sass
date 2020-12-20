@@ -1,12 +1,29 @@
 @import '~@angular/material/theming'
+@import 'src/variables.sass'
 
-.multiselect-container
+.multiselect-category-container
+    width: 20%
+    margin: 1%
+    float: left
+    @media only screen and (max-width: 450px)
+         width: 100%
+
+.multiselect-products-container
     width: 40%
     margin: 1%
     float: left
+    @media only screen and (max-width: 450px)
+         width: 100%
 
 .nameInput-containter
+    width: 10%
     margin: 1%
+    float: left
+    @media only screen and (max-width: 450px)
+         width: 100%
+        
+.form-row
+    width: 100%
 
 .ng-select.custom ::ng-deep
    font: 500 18px/32px Roboto,"Helvetica Neue",sans-serif
@@ -53,3 +70,37 @@
 .multiselect-container
     -webkit-scrollbar: 16px   
 
+.product-row
+    display: flex
+    width: 30%
+    font: 500 18px/32px Roboto,"Helvetica Neue",sans-serif
+    @media only screen and (max-width: 450px)
+        width: 100%
+
+.product-name
+    flex: 1
+
+.product-slider
+    flex: 1
+
+.macros
+    font: 300 16px/18px Roboto,"Helvetica Neue",sans-serif
+    flex: 1
+
+.colour
+    color: #9c1fa2 !important
+
+.slider-label
+    color:  #68EFAD
+
+#save-button
+    float: right
+
+.buttons
+    position: absolute
+    bottom: 0
+    width: 90%
+    padding-bottom: 70px
+    z-index: -1 
+
+    

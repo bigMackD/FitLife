@@ -3,38 +3,59 @@
 
   <mat-sidenav #sidenav >
     <mat-list>
-      <mat-list-item>Dashboard</mat-list-item>
-      <mat-list-item>Nutrition</mat-list-item>
-      <mat-list-item>Workouts</mat-list-item>
+      <mat-list-item [routerLink]="['./home']">Home</mat-list-item>
+      <mat-list-item [routerLink]="['./dashboard']">Dashboard</mat-list-item>
+      <mat-list-item [routerLink]="['./nutrition']">Nutrition</mat-list-item>
+      <mat-list-item [routerLink]="['./workouts']">Workouts</mat-list-item>
+      <mat-list-item [routerLink]="['./profile']"> Profile</mat-list-item>
+      <mat-list-item [routerLink]="['./users']">Users</mat-list-item>
 
     </mat-list>
   </mat-sidenav>
  
   <mat-sidenav-content class="page-wrap ...">
- 
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <span>
-          <mat-icon  *ngIf="isLoggedIn()"
-            (click)="sidenav.open()"
-          >menu
+        <span class="sidenav-button">
+          <mat-icon *ngIf="isLoggedIn()" (click)="sidenav.open()">menu
           </mat-icon>
         </span>
-        <button mat-button *ngIf="!isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./register']"><h1>Register</h1></button>
-        <button mat-button *ngIf="!isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./login']"> <h1>Login</h1></button>
-      
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./home']"> <h1>Home</h1></button>
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./dashboard']"> <h1>Dashboard</h1></button>
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./nutrition']"> <h1>Nutrition</h1></button>
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./workouts']"> <h1>Workouts</h1></button>
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./profile']"> <h1>Profile</h1></button>
-        <button mat-button *ngIf="isLoggedIn()"  routerLinkActive="active-link" [routerLink]="['./users']"> <h1>Users</h1></button>
-
-
-       <span class="welcome-text" *ngIf="authService?.userName">Welcome back, {{authService?.userName}}</span> 
+        <span class="navbar-buttons">
+          <span *ngIf="!isLoggedIn()">
+            <button mat-button routerLinkActive="active-link" [routerLink]="['./register']">
+              <h1>Register</h1>
+            </button>
+            <button mat-button routerLinkActive="active-link" [routerLink]="['./login']">
+              <h1>Login</h1>
+            </button>
+          </span>
+          <span *ngIf="isLoggedIn()">
+            <button mat-button routerLinkActive="active-link" [routerLink]="['./home']">
+              <h1>Home</h1>
+            </button>
+            <button [disabled]="true" mat-button routerLinkActive="active-link" [routerLink]="['./dashboard']">
+              <h1>Dashboard</h1>
+            </button>
+            <button mat-button routerLinkActive="active-link" [routerLink]="['./nutrition']">
+              <h1>Nutrition</h1>
+            </button>
+            <button [disabled]="true" mat-button routerLinkActive="active-link" [routerLink]="['./workouts']">
+              <h1>Workouts</h1>
+            </button>
+            <button [disabled]="true" mat-button routerLinkActive="active-link" [routerLink]="['./profile']">
+              <h1>Profile</h1>
+            </button>
+            <button mat-button routerLinkActive="active-link" [routerLink]="['./users']">
+              <h1>Users</h1>
+            </button>
+          </span>
+          <span class="welcome-text" *ngIf="authService?.userName">Welcome back, {{authService?.userName}}</span>
+        </span>
+        <h1 class="mobile-title">
+          FitLife
+        </h1>
       </mat-toolbar-row>
     </mat-toolbar>
- 
 
  
     <main class="content">
@@ -42,13 +63,13 @@
       <app-loader></app-loader>
     </main>
  
+    
     <footer>
       <div>
-      
         <p class="title"> <button mat-button *ngIf="isLoggedIn()" (click)="onLogout()"> Logout</button>FitLife</p>
       </div>
-    
     </footer>
+    
   </mat-sidenav-content>
  
 </mat-sidenav-container>
