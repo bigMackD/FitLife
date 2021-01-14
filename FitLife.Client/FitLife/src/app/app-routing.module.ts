@@ -13,18 +13,26 @@ import { ProductsResolver } from './shared/resolvers/products.resolver';
 
 
 const routes: Routes = [
-  { path:'', redirectTo:'register', pathMatch:'full' },
-  { path:'register',component: RegisterComponent },
-  { path:'login',component: LoginComponent },
-  { path:'home',component: HomeComponent, canActivate:[AuthGuard] },
-  { path:'users',component: UsersComponent, canActivate:[AuthGuard],
-   data:{permittedRoles:['Admin']} },
-  { path:'nutrition',component: NutritionComponent, canActivate:[AuthGuard] },
-  { path:'nutrition:tab',component: NutritionComponent, canActivate:[AuthGuard] },
-  { path:'nutrition/product',component: ProductDetailsComponent, canActivate:[AuthGuard] },
-  { path:'nutrition/meal',component: MealDetailsComponent, canActivate:[AuthGuard],
-   resolve:{mealCategories: MealCategoriesResolver, products: ProductsResolver} }
-
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'users', component: UsersComponent, canActivate: [AuthGuard],
+    data: { permittedRoles: ['Admin'] }
+  },
+  { path: 'nutrition', component: NutritionComponent, canActivate: [AuthGuard] },
+  { path: 'nutrition:tab', component: NutritionComponent, canActivate: [AuthGuard] },
+  { path: 'nutrition/product', component: ProductDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'nutrition/product/:id', component: ProductDetailsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'nutrition/meal', component: MealDetailsComponent, canActivate: [AuthGuard],
+    resolve: { mealCategories: MealCategoriesResolver, products: ProductsResolver }
+  },
+  {
+    path: 'nutrition/meal/:id', component: MealDetailsComponent, canActivate: [AuthGuard],
+    resolve: { mealCategories: MealCategoriesResolver, products: ProductsResolver }
+  }
 ];
 
 @NgModule({

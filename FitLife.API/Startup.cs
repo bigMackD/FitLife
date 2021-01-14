@@ -7,6 +7,7 @@ using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.Contracts.Request.Command.Products;
 using FitLife.Contracts.Request.Query.MealCategories;
+using FitLife.Contracts.Request.Query.Meals;
 using FitLife.Contracts.Request.Query.Products;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
@@ -20,9 +21,10 @@ using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Meals;
 using FitLife.Infrastructure.CommandHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.MealCategories;
+using FitLife.Infrastructure.QueryHandlers.Meals;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.Users;
-using FitLife.Infrastructure.Validators;
+using FitLife.Infrastructure.Validators.Meals;
 using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
@@ -73,10 +75,21 @@ namespace FitLife.API
                     AddMealCommandHandler>()
                 .AddScoped<IQueryHandler<GetMealCategoriesQuery, GetMealCategoriesResponse>,
                     GetMealCategoriesQueryHandler>()
+                .AddScoped<IAsyncQueryHandler<GetMealsQuery, GetMealsResponse>,
+                    GetMealsQueryHandler>()
+                .AddScoped<IAsyncCommandHandler<EditProductCommand, EditProductResponse>,
+                    EditProductCommandHandler>()
+                .AddScoped<IAsyncQueryHandler<GetMealDetailsQuery, GetMealDetailsResponse>,
+                    GetMealDetailsQueryHandler>()
+                .AddScoped<IAsyncCommandHandler<EditMealCommand, EditMealResponse>,
+                    EditMealCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
-                .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>();
+                .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>()
+                .AddScoped<IValidator<AddMealCommand>, AddMealCommandValidator>()
+                .AddScoped<IValidator<EditProductCommand>, EditProductCommandValidator>()
+                .AddScoped<IValidator<EditMealCommand>, EditMealCommandValidator>();
 
             //TODO: Register all handlers
             //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()

@@ -8,7 +8,6 @@ namespace FitLife.Contracts.Response.Product
      
         public IEnumerable<Product> Products { get; set; }
         public int Count { get; set; }
-
         public bool Success { get; set; }
         public string[] Errors { get; set; }
     }

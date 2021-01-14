@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
-namespace FitLife.Tests.QueryHandlers.Products
+namespace FitLife.Tests.CommandHandler.Products
 {
     public class AddProductCommandHandlerTests
     {

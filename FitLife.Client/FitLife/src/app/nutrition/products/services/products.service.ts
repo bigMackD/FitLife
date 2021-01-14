@@ -6,29 +6,41 @@ import { ProductsRequest } from '../models/list/products.request';
 import { ProductsResponse } from '../models/list/products.response';
 import { AddProductRequest } from '../models/add/addProduct.request';
 import { AddProductResponse } from '../models/add/addProduct.response';
+import { ProductDetailsRequest } from '../models/details/productDetails.request';
+import { ProductDetailsResponse } from '../models/details/productDetails.response';
+import { EditProductRequest } from '../models/edit/edit-product.request';
+import { EditProductResponse } from '../models/edit/edit-product.response';
 
 @Injectable({
-    providedIn: 'root'
-  })
-  export class ProductsService {
-  
-    constructor(private httpClient: HttpClient) { }
+  providedIn: 'root'
+})
+export class ProductsService {
 
-    public getProducts(request:ProductsRequest):Observable<ProductsResponse>{
-        return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/', {
-          params: new HttpParams()
-          // .set('filter', filter)
-          .set('sortDirection', request.sortDirection)
-          .set('pageIndex', request.pageIndex.toString())
-          .set('pageSize', request.pageSize.toString())
-        });
-      }
+  constructor(private httpClient: HttpClient) { }
 
-      public getAllProducts():Observable<ProductsResponse>{
-        return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/');
-      }
-
-public addProduct(request:AddProductRequest):Observable<AddProductResponse>{
-  return this.httpClient.post<AddProductResponse>(config.baseUrl + '/Products/', request);
-}
+  public getProducts(request: ProductsRequest): Observable<ProductsResponse> {
+    return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/', {
+      params: new HttpParams()
+        // .set('filter', filter)
+        .set('sortDirection', request.sortDirection)
+        .set('pageIndex', request.pageIndex.toString())
+        .set('pageSize', request.pageSize.toString())
+    });
   }
+
+  public getAllProducts(): Observable<ProductsResponse> {
+    return this.httpClient.get<ProductsResponse>(config.baseUrl + '/Products/');
+  }
+
+  public add(request: AddProductRequest): Observable<AddProductResponse> {
+    return this.httpClient.post<AddProductResponse>(config.baseUrl + '/Products/', request);
+  }
+
+  public getProductDetails(request: ProductDetailsRequest):Observable<ProductDetailsResponse>{
+    return this.httpClient.get<ProductDetailsResponse>(config.baseUrl + '/Products/'+request.id);
+  }
+
+  public edit(request: EditProductRequest):Observable<EditProductResponse>{
+    return this.httpClient.put<EditProductResponse>(config.baseUrl + '/Products/'+request.id, request);
+  }
+}

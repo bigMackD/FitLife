@@ -1,62 +1,70 @@
-<h2 class="mat-h2">Add new meal</h2>
+<h2 class="mat-h2">{{pageTitle}}</h2>
 <div class="container">
-
-   <div class="form-row">
-    <div class="nameInput-containter">
-        <mat-form-field>
-            <div>
-                <input type="text"  matInput placeholder="Name"  name="name">
-            </div>
-        </mat-form-field>
-      
-    </div>
-    <div class="multiselect-category-container">
-        <ng-select
-        #select
-        [items]="mealCategories"
-        [multiple]="true"
-        bindLabel="name"
-        placeholder="Category"
-        class="custom"
-        maxSelectedItems = 1
-        >
-    </ng-select>
-    </div>
-    <div class="multiselect-products-container">
-        <ng-select
-        #productsSelect
-        [items]="products"
-        [multiple]="true"
-        bindLabel="name"
-        placeholder="Products"
-        class="custom"
-        [(ngModel)]="selectedProducts"
-        >
-    </ng-select>
-    </div>
-   </div>
-
-   <br style="clear: both;">
-<div class="products-chart-container">
     <div class="form-row">
-        <div class="product-row" *ngFor="let product of selectedProducts">
-            <span class="product-name">{{product.name}}</span>
-            <span class="product-slider">
-                <mat-slider  [(ngModel)]="product.grams" thumbLabel tickInterval="1000" min="1" max="100">
-               </mat-slider>
-              <span class="slider-label">{{product.grams}}g</span>
-            </span>
-            <span class="macros">C: {{product.carbsGrams}}g <span class="colour">|</span>  F:{{product.fatsGrams}}g <span class="colour">|</span> P: {{product.proteinsGrams}}g</span>
+<form [formGroup]="mealForm">
+
+        <div class="nameInput-containter">
+            <mat-form-field>
+                <div>
+                    <input type="text"  matInput placeholder="Name" formControlName="name" name="name">
+                </div>
+            </mat-form-field>
+        </div>
+<!-- </form> -->
+        
+        <div class="multiselect-category-container">
+            <ng-select
+            #select
+            [items]="mealCategories"
+            [multiple]="true"
+            bindLabel="name"
+            placeholder="Category"
+            class="custom"
+            maxSelectedItems = 1
+            [(ngModel)]="selectedCategories"
+            formControlName="category"
+            >
+        </ng-select>
+        </div>
+        <div class="multiselect-products-container">
+            <ng-select
+            #productsSelect
+            [items]="products"
+            [multiple]="true"
+            (add)="selectProduct($event)"
+            (remove)="unselectProduct($event)"
+            bindLabel="name"
+            placeholder="Products"
+            class="custom"
+            formControlName="products"
+            >
+        </ng-select>
+        </div>
+</form>
+
+       </div>
     
+       <br style="clear: both;">
+    <div class="products-chart-container">
+        <div class="form-row">
+            <div class="product-row" *ngFor="let product of selectedProducts">
+                <span class="product-name">{{product.name}}</span>
+                <span class="product-slider">
+                    <mat-slider  [(ngModel)]="product.grams" thumbLabel tickInterval="1000" min="1" max="100">
+                   </mat-slider>
+                  <span class="slider-label">{{product.grams}}g</span>
+                </span>
+                <span class="macros">C: {{product.carbsGrams}}g <span class="colour">|</span>  F:{{product.fatsGrams}}g <span class="colour">|</span> P: {{product.proteinsGrams}}g</span>
+        
+            </div>
         </div>
     </div>
-
-</div>
+   
 
     <div class="buttons">
         <button mat-raised-button id="back-button" color="primary"  [routerLink]="['/nutrition']" [queryParams]="{ tab: 'Meals'}" mat-button>Back</button>
 
-        <button mat-raised-button id="save-button" color="primary" (click)="onSubmit()" type="submit" mat-button>Save</button>
+        <button mat-raised-button id="save-button" color="primary" [disabled]="!validateDropdowns()" matTooltip="You must select category and products" (click)="onSubmit()" type="submit" mat-button>Save</button>
     </div>
 
 </div>

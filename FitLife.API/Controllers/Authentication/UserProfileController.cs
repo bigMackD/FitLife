@@ -26,8 +26,7 @@ namespace FitLife.API.Controllers.Authentication
         /// <summary>
         /// Returns current user full name
         /// </summary>
-        /// <response code="200">Returns current user Full Name</response>
-        /// <returns>User full name</returns>
+        /// <response code="200">Current user full name</response>
         [HttpGet]
         [Authorize]
         [Route("")]

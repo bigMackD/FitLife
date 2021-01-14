@@ -19,12 +19,12 @@ export interface Product {
 
 export class MealProduct {
     constructor(
-        id: number,
-        name: string,
-        calories: number,
-        proteinsGrams: number,
-        carbsGrams: number,
-        fatsGrams: number,
-        grams: number = 0
+        public id: number,
+        public name: string,
+        public calories: number,
+        public proteinsGrams: number,
+        public carbsGrams: number,
+        public fatsGrams: number,
+        public grams: number = 0
     ) { }
 }

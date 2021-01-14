@@ -1,1 +1,53 @@
-<p>meals works!</p>
+
+<mat-table class="product-table mat-elevation-z8" [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell class="name-cell" *matCellDef="let meal">{{meal.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="calories">
+        <mat-header-cell *matHeaderCellDef>Calories</mat-header-cell>
+        <mat-cell class="calories-cell" *matCellDef="let meal">{{meal.calories | number:'1.1-1'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="proteins">
+        <mat-header-cell *matHeaderCellDef>Proteins</mat-header-cell>
+        <mat-cell class="proteins-cell" *matCellDef="let meal">{{meal.proteinsGrams | number:'1.1-1'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="carbs">
+        <mat-header-cell *matHeaderCellDef>Carbs</mat-header-cell>
+        <mat-cell class="carbs-cell" *matCellDef="let meal">{{meal.carbsGrams | number:'1.1-1'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fats">
+        <mat-header-cell *matHeaderCellDef>Fats</mat-header-cell>
+        <mat-cell class="fats-cell" *matCellDef="let meal">{{meal.fatsGrams | number:'1.1-1'}}</mat-cell>
+    </ng-container>
+
+
+
+
+    <ng-container matColumnDef="options">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="options-column" *matCellDef="let meal">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button (click)="details(meal.id)"   mat-menu-item>
+                  <mat-icon>details</mat-icon>
+                  <span>Details</span>
+                </button>
+              </mat-menu>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
+<mat-paginator [length]="dataSource?.count" [pageSize]="10" [pageSizeOptions]="[10, 15, 25]"></mat-paginator>

@@ -27,7 +27,15 @@ namespace FitLife.Infrastructure.QueryHandlers.Products
             try
             {
                 var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == query.Id);
-                
+
+                if (product == null)
+                {
+                    return new GetProductDetailsResponse
+                    {
+                        Errors = new[] { _configuration.GetValue<string>("Messages:Products:ProductNotFound") }
+                    };
+                }
+
                 return new GetProductDetailsResponse
                 {
                     Product = new Product

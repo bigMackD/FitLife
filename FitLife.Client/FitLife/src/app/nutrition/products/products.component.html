@@ -36,7 +36,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button  mat-menu-item>
+                <button (click)="details(product.id)"  mat-menu-item>
                   <mat-icon>details</mat-icon>
                   <span>Details</span>
                 </button>

@@ -1,6 +1,7 @@
 ﻿using FitLife.Contracts.Request.Query.MealCategories;
 using FitLife.Contracts.Response.MealCategories;
 using FitLife.Shared.Infrastructure.QueryHandler;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -10,6 +11,7 @@ namespace FitLife.API.Controllers.Food
     /// Controller for managing meal categories
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class MealCategoriesController : ControllerBase
     {
