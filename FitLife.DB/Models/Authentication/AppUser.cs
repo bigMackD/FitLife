@@ -10,6 +10,8 @@ namespace FitLife.DB.Models.Authentication
         [Column(TypeName = "nvarchar(150)")]
         public string FullName { get; set; }
 
+        public bool? IsDisabled { get; set; }
+
         public ICollection<UserMeal> UserMeals { get; set; }
     }
 }

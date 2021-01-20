@@ -59,6 +59,10 @@ namespace FitLife.API
                     RegisterUserCommandHandler>()
                 .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
                     LoginUserCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<DisableUserCommand, DisableUserResponse>,
+                    DisableUserCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<EnableUserCommand, EnableUserResponse>,
+                    EnableUserCommandHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
                     GetUsersQueryHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,

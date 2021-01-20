@@ -40,14 +40,14 @@ namespace FitLife.Infrastructure.QueryHandlers.Users
                     Id = user.Id,
                     Email = user.Email,
                     FullName = user.FullName,
-                    Locked = user.LockoutEnd > DateTime.Now
+                    Locked = user.IsDisabled != null && user.IsDisabled.Value
                 });
 
                 return new GetUsersResponse
                 {
                     Success = true,
                     Users = response,
-                    Count = users.Count()
+                    Count = users.Count
                 };
             }
             catch (Exception e)

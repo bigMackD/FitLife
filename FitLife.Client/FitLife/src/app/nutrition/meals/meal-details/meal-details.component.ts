@@ -59,9 +59,11 @@ export class MealDetailsComponent implements OnInit {
     
   }
 
-  validateDropdowns(): boolean {
-    return this.mealForm.get('category').valid && this.mealForm.get('products').valid;
+  validateInputs(): boolean {
+    return this.mealForm.get('category').valid && this.mealForm.get('products').valid
+    && this.mealForm.get('name').valid;
   }
+
 
   public onSubmit(): void {
     let mealProducts: AddMealProductRequestModel[] = this.selectedProducts.map(val => ({id:val.id,grams: val.grams}));

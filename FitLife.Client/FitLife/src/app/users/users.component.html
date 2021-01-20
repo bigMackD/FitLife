@@ -1,4 +1,4 @@
-<h2>Users</h2>
+<h2 class="mat-h2">Users</h2>
 <mat-table class="users-table mat-elevation-z8" [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">
@@ -8,7 +8,12 @@
 
     <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-        <mat-cell class="email-cell" *matCellDef="let user">{{user.email}}</mat-cell>
+        <mat-cell class="email-cell" *matCellDef="let user">
+          <span *ngIf="user.locked" class="icon-wrapper" 
+          matTooltip="User account is locked">
+            <mat-icon class="icon">pan_tool</mat-icon>
+          </span>
+          {{user.email}}</mat-cell>
     </ng-container>
 
 
@@ -23,11 +28,11 @@
                   <mat-icon>details</mat-icon>
                   <span>Details</span>
                 </button>
-                <button mat-menu-item [disabled]="!user.locked">
+                <button (click)="enable(user.id)" mat-menu-item [disabled]="!user.locked">
                   <mat-icon>check</mat-icon>
                   <span>Activate</span>
                 </button>
-                <button [disabled]="user.locked" mat-menu-item>
+                <button (click)="disable(user.id)" [disabled]="user.locked" mat-menu-item>
                   <mat-icon>close</mat-icon>
                   <span>Disactivate</span>
                 </button>

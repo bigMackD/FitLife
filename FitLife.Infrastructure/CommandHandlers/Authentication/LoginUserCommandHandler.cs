@@ -37,6 +37,16 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
                 var user = await _userManager.FindByNameAsync(command.UserName);
                 if (user != null && await _userManager.CheckPasswordAsync(user, command.Password))
                 {
+                    if (user.IsDisabled != null && user.IsDisabled.Value)
+                    {
+                        return new LoginUserResponse
+                        {
+                            Success = false,
+                            Errors = new[] { _configuration.GetValue<string>("Messages:Users:UserLocked") }
+                        };
+                    }
+
+
                     var roles = await _userManager.GetRolesAsync(user);
                     IdentityOptions options = new IdentityOptions();
                     var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:JWTSecret"));

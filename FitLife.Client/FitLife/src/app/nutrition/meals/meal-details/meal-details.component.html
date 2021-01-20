@@ -64,7 +64,7 @@
     <div class="buttons">
         <button mat-raised-button id="back-button" color="primary"  [routerLink]="['/nutrition']" [queryParams]="{ tab: 'Meals'}" mat-button>Back</button>
 
-        <button mat-raised-button id="save-button" color="primary" [disabled]="!validateDropdowns()" matTooltip="You must select category and products" (click)="onSubmit()" type="submit" mat-button>Save</button>
+        <button mat-raised-button id="save-button" color="primary" [disabled]="!validateInputs()" matTooltip="You must select category and products" (click)="onSubmit()" type="submit" mat-button>Save</button>
     </div>
 
 </div>
