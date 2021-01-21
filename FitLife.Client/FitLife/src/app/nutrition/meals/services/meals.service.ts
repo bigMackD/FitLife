@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { config } from '../../../config';
 import { AddMealRequest } from "../models/add/add-meal.request";
 import { AddMealResponse } from "../models/add/add-meal.response";
+import { DeleteMealRequest } from "../models/delete/delete-meal.request";
+import { DeleteMealResponse } from "../models/delete/delete-meal.response";
 import { MealDetailsRequest } from "../models/details/meal-details-request";
 import { MealDetailsResponse } from "../models/details/meal-details.response";
 import { EditMealRequest } from "../models/edit/edit-meal.request";
@@ -39,5 +41,9 @@ export class MealsService {
 
   public edit(request: EditMealRequest):Observable<EditMealResponse>{
     return this.httpClient.put<EditMealResponse>(config.baseUrl + '/Meals/'+request.id, request);
+  }
+
+  public delete(request: DeleteMealRequest):Observable<DeleteMealResponse>{
+    return this.httpClient.delete<DeleteMealResponse>(config.baseUrl + '/Meals/'+request.id);
   }
 }

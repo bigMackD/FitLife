@@ -87,6 +87,8 @@ namespace FitLife.API
                     GetMealDetailsQueryHandler>()
                 .AddScoped<IAsyncCommandHandler<EditMealCommand, EditMealResponse>,
                     EditMealCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<DeleteMealCommand, DeleteMealResponse>,
+                    DeleteMealCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
