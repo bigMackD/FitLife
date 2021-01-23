@@ -1,0 +1,25 @@
+<h2 class="mat-h2">Dashboard</h2>
+<div class="container">
+   <h1 class="mat-h1"> {{viewDate | date: 'fullDate' }}</h1>
+   <div class="buttons-row">
+    <button (click)="previousDay()" class="arrow-left mat-button"><mat-icon >keyboard_arrow_left</mat-icon></button>
+   <button (click)="nextDay()" class="arrow-right mat-button"><mat-icon >keyboard_arrow_right</mat-icon></button>
+   </div>
+   <div class="content" >
+
+
+    <h4 class="mat-h4">Breakfast</h4>
+    <mat-divider></mat-divider>
+
+    <h4 class="mat-h4">Lunch</h4>
+    <mat-divider></mat-divider>
+
+    <h4 class="mat-h4">Dinner</h4>
+    <mat-divider></mat-divider>
+
+    <h4 class="mat-h4">Supper</h4>
+    <mat-divider></mat-divider>
+
+
+   </div>
+</div>

@@ -10,6 +10,7 @@ import { ProductDetailsComponent } from './nutrition/products/product-details/pr
 import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-details.component';
 import { MealCategoriesResolver } from './shared/resolvers/mealCategories.resolver';
 import { ProductsResolver } from './shared/resolvers/products.resolver';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -32,7 +33,10 @@ const routes: Routes = [
   {
     path: 'nutrition/meal/:id', component: MealDetailsComponent, canActivate: [AuthGuard],
     resolve: { mealCategories: MealCategoriesResolver, products: ProductsResolver }
-  }
+  },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+
+
 ];
 
 @NgModule({

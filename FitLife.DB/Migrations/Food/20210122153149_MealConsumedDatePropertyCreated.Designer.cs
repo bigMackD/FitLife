@@ -4,14 +4,16 @@ using FitLife.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitLife.DB.Migrations.Food
 {
     [DbContext(typeof(FoodContext))]
-    partial class FoodContextModelSnapshot : ModelSnapshot
+    [Migration("20210122153149_MealConsumedDatePropertyCreated")]
+    partial class MealConsumedDatePropertyCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,13 +170,10 @@ namespace FitLife.DB.Migrations.Food
 
             modelBuilder.Entity("FitLife.DB.Models.Food.UserMeal", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("MealId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ConsumedDate")
@@ -183,11 +182,14 @@ namespace FitLife.DB.Migrations.Food
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "MealId");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("MealId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserMeal");
                 });
@@ -218,12 +220,6 @@ namespace FitLife.DB.Migrations.Food
 
             modelBuilder.Entity("FitLife.DB.Models.Food.UserMeal", b =>
                 {
-                    b.HasOne("FitLife.DB.Models.Food.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FitLife.DB.Models.Food.Meal", "Meal")
                         .WithMany("UserMeals")
                         .HasForeignKey("MealId")
@@ -232,9 +228,7 @@ namespace FitLife.DB.Migrations.Food
 
                     b.HasOne("FitLife.DB.Models.Authentication.AppUser", "User")
                         .WithMany("UserMeals")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }

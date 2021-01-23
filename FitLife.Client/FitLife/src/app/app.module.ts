@@ -23,6 +23,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatSliderModule} from '@angular/material/slider';
+import { DashboardComponent } from './dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MealsComponent,
     ProductDetailsComponent,
     MealDetailsComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

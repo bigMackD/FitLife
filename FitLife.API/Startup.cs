@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using FitLife.API.Helpers;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.Contracts.Request.Command.Products;
+using FitLife.Contracts.Request.Command.UserMeal;
 using FitLife.Contracts.Request.Query.MealCategories;
 using FitLife.Contracts.Request.Query.Meals;
 using FitLife.Contracts.Request.Query.Products;
@@ -14,12 +16,14 @@ using FitLife.Contracts.Response.Authentication;
 using FitLife.Contracts.Response.MealCategories;
 using FitLife.Contracts.Response.Meals;
 using FitLife.Contracts.Response.Product;
+using FitLife.Contracts.Response.UserMeal;
 using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Meals;
 using FitLife.Infrastructure.CommandHandlers.Products;
+using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using FitLife.Infrastructure.QueryHandlers.MealCategories;
 using FitLife.Infrastructure.QueryHandlers.Meals;
 using FitLife.Infrastructure.QueryHandlers.Products;
@@ -47,6 +51,7 @@ namespace FitLife.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConnectionService.Set(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -89,6 +94,8 @@ namespace FitLife.API
                     EditMealCommandHandler>()
                 .AddScoped<IAsyncCommandHandler<DeleteMealCommand, DeleteMealResponse>,
                     DeleteMealCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse>,
+                    AddUserMealCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
@@ -113,9 +120,9 @@ namespace FitLife.API
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+                options.UseSqlServer(ConnectionService.connectionString));
             services.AddDbContext<FoodContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+                options.UseSqlServer(ConnectionService.connectionString));
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
@@ -238,5 +245,7 @@ namespace FitLife.API
                 c.RoutePrefix = string.Empty;
             });
         }
+
+        
     }
 }

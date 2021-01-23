@@ -4,14 +4,16 @@ using FitLife.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitLife.DB.Migrations.Food
 {
     [DbContext(typeof(FoodContext))]
-    partial class FoodContextModelSnapshot : ModelSnapshot
+    [Migration("20210122154246_ChangedTypeOfFkToUserTable")]
+    partial class ChangedTypeOfFkToUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,9 +176,6 @@ namespace FitLife.DB.Migrations.Food
                     b.Property<int>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ConsumedDate")
                         .HasColumnType("datetime2");
 
@@ -184,8 +183,6 @@ namespace FitLife.DB.Migrations.Food
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "MealId");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("MealId");
 
@@ -218,12 +215,6 @@ namespace FitLife.DB.Migrations.Food
 
             modelBuilder.Entity("FitLife.DB.Models.Food.UserMeal", b =>
                 {
-                    b.HasOne("FitLife.DB.Models.Food.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FitLife.DB.Models.Food.Meal", "Meal")
                         .WithMany("UserMeals")
                         .HasForeignKey("MealId")
