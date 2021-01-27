@@ -1,6 +1,6 @@
 ﻿using FitLife.Shared.Infrastructure.Response;
 
-namespace FitLife.Contracts.Response.UserMeal
+namespace FitLife.Contracts.Response.UserMeals
 {
     public class AddUserMealResponse : IBaseResponse
     {

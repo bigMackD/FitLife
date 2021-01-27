@@ -11,12 +11,13 @@ using FitLife.Contracts.Request.Command.UserMeal;
 using FitLife.Contracts.Request.Query.MealCategories;
 using FitLife.Contracts.Request.Query.Meals;
 using FitLife.Contracts.Request.Query.Products;
+using FitLife.Contracts.Request.Query.UserMeals;
 using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
 using FitLife.Contracts.Response.MealCategories;
 using FitLife.Contracts.Response.Meals;
 using FitLife.Contracts.Response.Product;
-using FitLife.Contracts.Response.UserMeal;
+using FitLife.Contracts.Response.UserMeals;
 using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
@@ -27,6 +28,7 @@ using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using FitLife.Infrastructure.QueryHandlers.MealCategories;
 using FitLife.Infrastructure.QueryHandlers.Meals;
 using FitLife.Infrastructure.QueryHandlers.Products;
+using FitLife.Infrastructure.QueryHandlers.UserMeals;
 using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Infrastructure.Validators.Meals;
 using FitLife.Infrastructure.Validators.Products;
@@ -96,6 +98,8 @@ namespace FitLife.API
                     DeleteMealCommandHandler>()
                 .AddScoped<IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse>,
                     AddUserMealCommandHandler>()
+                .AddScoped<IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>,
+                    GetUserMealsByDateQueryHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()

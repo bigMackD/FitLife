@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FitLife.DB.Models.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace FitLife.DB.Models.Food
 {

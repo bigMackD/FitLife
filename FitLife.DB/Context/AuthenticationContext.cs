@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitLife.DB.Context
 {
-    public class AuthenticationContext : IdentityDbContext
+    public class AuthenticationContext : IdentityDbContext<AppUser>
     {
         public AuthenticationContext(DbContextOptions<AuthenticationContext> options):base(options)
         {
                 
         }
 
-        public DbSet<AppUser> AppUsers { get; set; }
     }
 
 }
