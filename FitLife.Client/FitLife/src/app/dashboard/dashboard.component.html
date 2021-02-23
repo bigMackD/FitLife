@@ -1,25 +1,62 @@
 <h2 class="mat-h2">Dashboard</h2>
 <div class="container">
-   <h1 class="mat-h1"> {{viewDate | date: 'fullDate' }}</h1>
-   <div class="buttons-row">
-    <button (click)="previousDay()" class="arrow-left mat-button"><mat-icon >keyboard_arrow_left</mat-icon></button>
-   <button (click)="nextDay()" class="arrow-right mat-button"><mat-icon >keyboard_arrow_right</mat-icon></button>
-   </div>
-   <div class="content" >
+  <h1 class="mat-h1"> {{viewDate | date: 'fullDate' }}</h1>
+  <button mat-raised-button class="add-button" (click)="registerMeal()" color="primary">Register meal</button>
+  <div class="buttons-row">
+    <button (click)="previousDay()" class="arrow-left mat-button">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button (click)="nextDay()" class="arrow-right mat-button">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+  <div class="content">
 
+    <!-- <span *ngFor="let userMeal of userMeals">
 
-    <h4 class="mat-h4">Breakfast</h4>
-    <mat-divider></mat-divider>
+<span>{{userMeal.name}}</span>
 
-    <h4 class="mat-h4">Lunch</h4>
-    <mat-divider></mat-divider>
+</span> -->
 
-    <h4 class="mat-h4">Dinner</h4>
-    <mat-divider></mat-divider>
+    <div class="list-container">
+      <mat-selection-list>
+        <div mat-subheader class="list-header">Breakfast</div>
+        <mat-list-item *ngIf="breakfastMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
+        <mat-list-option *ngFor="let breakfast of breakfastMeals">
+          <div mat-line>{{breakfast.name}}</div>
+          <div mat-line> Proteins: {{breakfast.proteinsGrams}} | Fats: {{breakfast.fatsGrams}} | Carbs:
+            {{breakfast.carbsGrams}} </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
 
-    <h4 class="mat-h4">Supper</h4>
-    <mat-divider></mat-divider>
+        <div mat-subheader class="list-header">Lunch</div>
+        <mat-list-item *ngIf="lunchMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
+        <mat-list-option *ngFor="let lunch of lunchMeals">
+          <div mat-line>{{lunch.name}}</div>
+          <div mat-line> Proteins: {{lunch.proteinsGrams}} | Fats: {{lunch.fatsGrams}} | Carbs: {{lunch.carbsGrams}}
+          </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
 
+        <div mat-subheader class="list-header">Dinner</div>
+        <mat-list-item *ngIf="dinnerMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
+        <mat-list-option *ngFor="let dinner of dinnerMeals">
+          <div mat-line>{{dinner.name}}</div>
+          <div mat-line> Proteins: {{dinner.proteinsGrams}} | Fats: {{dinner.fatsGrams}} | Carbs: {{dinner.carbsGrams}}
+          </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
 
-   </div>
+        <div mat-subheader class="list-header">Snacks</div>
+        <mat-list-item *ngIf="snackMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
+        <mat-list-option *ngFor="let snack of snackMeals">
+          <div mat-line>{{snack.name}}</div>
+          <div mat-line> Proteins: {{snack.proteinsGrams}} | Fats: {{snack.fatsGrams}} | Carbs: {{snack.carbsGrams}}
+          </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
+
+      </mat-selection-list>
+    </div>
+  </div>
 </div>

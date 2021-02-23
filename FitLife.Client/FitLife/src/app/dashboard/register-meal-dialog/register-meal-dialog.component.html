@@ -1,0 +1,24 @@
+<div class="container">
+    
+  <mat-form-field >
+    <mat-label>Meal</mat-label>
+    <mat-select  [(value)]="selectedMeal" name="meal">
+      <mat-option *ngFor="let meal of meals" [value]="meal.id">
+        {{meal.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  
+  <mat-form-field >
+    <mat-label>Category</mat-label>
+    <mat-select  [(value)]="selectedCategory" name="category">
+      <mat-option *ngFor="let category of mealCategories" [value]="category.id">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button class="add-btn" mat-raised-button class="add-button" (click)="submit()" color="primary">Add</button>
+
+</div>

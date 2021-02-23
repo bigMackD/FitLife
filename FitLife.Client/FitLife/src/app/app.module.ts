@@ -24,6 +24,7 @@ import { MealDetailsComponent } from './nutrition/meals/meal-details/meal-detail
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatSliderModule} from '@angular/material/slider';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterMealDialogComponent } from './dashboard/register-meal-dialog/register-meal-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ProductDetailsComponent,
     MealDetailsComponent,
     DashboardComponent,
+    RegisterMealDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +71,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ UserDialogComponent, ]
+  entryComponents: [UserDialogComponent,RegisterMealDialogComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.UserMeal;
 using FitLife.Contracts.Response.UserMeals;
@@ -29,12 +30,28 @@ namespace FitLife.Infrastructure.CommandHandlers.UserMeals
         {
             try
             {
+                if (!_context.Categories.Any(c => c.Id == command.CategoryId))
+                {
+                    return new AddUserMealResponse
+                    {
+                        Errors = new[] { _configuration.GetValue<string>("Messages:Products:CategoryNotFound") }
+                    };
+                }
+
+                if (!_context.Meals.Any(c => c.Id == command.MealId))
+                {
+                    return new AddUserMealResponse
+                    {
+                        Errors = new[] { _configuration.GetValue<string>("Messages:Products:MealNotFound") }
+                    };
+                }
+
                 var userMeal = new UserMeal
                 {
                     UserId = command.UserId,
                     MealId = command.MealId,
                     CategoryId = command.CategoryId,
-                    ConsumedDate = command.ConsumedDate,
+                    ConsumedDate = command.ConsumedDate.ToUniversalTime(),
                 };
 
                 await _context.UserMeals.AddAsync(userMeal);

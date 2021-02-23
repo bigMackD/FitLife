@@ -28,7 +28,7 @@ namespace FitLife.Infrastructure.QueryHandlers.UserMeals
         {
             try
             {
-                var userMealsResponse = _context.UserMeals.Include(um => um.Meal).Select(um => new UserMealResponse
+                var userMealsResponse = _context.UserMeals.Include(um => um.Meal).Where(um => um.ConsumedDate.Date == query.Date.Date).Select(um => new UserMealResponse
                 {
                     Id = um.Id,
                     Name = um.Meal.Name,

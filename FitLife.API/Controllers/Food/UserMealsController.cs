@@ -16,14 +16,14 @@ namespace FitLife.API.Controllers.Food
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class UserMealController : ControllerBase
+    public class UserMealsController : ControllerBase
     {
         private readonly IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse> _addUserMealCommandHandler;
         private readonly IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse> _getUserMealsByDate;
 
         /// <param name="addUserMealCommandHandler"></param>
         /// <param name="getUserMealsByDate"></param>
-        public UserMealController(IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse> addUserMealCommandHandler,
+        public UserMealsController(IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse> addUserMealCommandHandler,
             IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse> getUserMealsByDate)
         {
             _addUserMealCommandHandler = addUserMealCommandHandler;
