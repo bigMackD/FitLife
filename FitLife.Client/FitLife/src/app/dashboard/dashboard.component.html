@@ -1,4 +1,5 @@
 <h2 class="mat-h2">Dashboard</h2>
+
 <div class="container">
   <h1 class="mat-h1"> {{viewDate | date: 'fullDate' }}</h1>
   <button mat-raised-button class="add-button" (click)="registerMeal()" color="primary">Register meal</button>
@@ -11,18 +12,11 @@
     </button>
   </div>
   <div class="content">
-
-    <!-- <span *ngFor="let userMeal of userMeals">
-
-<span>{{userMeal.name}}</span>
-
-</span> -->
-
     <div class="list-container">
-      <mat-selection-list>
+      <mat-selection-list #mealsList (selectionChange)="onGroupsChange(mealsList.selectedOptions.selected)">
         <div mat-subheader class="list-header">Breakfast</div>
         <mat-list-item *ngIf="breakfastMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
-        <mat-list-option *ngFor="let breakfast of breakfastMeals">
+        <mat-list-option *ngFor="let breakfast of breakfastMeals" [value] = "breakfast" >
           <div mat-line>{{breakfast.name}}</div>
           <div mat-line> Proteins: {{breakfast.proteinsGrams}} | Fats: {{breakfast.fatsGrams}} | Carbs:
             {{breakfast.carbsGrams}} </div>
@@ -31,7 +25,7 @@
 
         <div mat-subheader class="list-header">Lunch</div>
         <mat-list-item *ngIf="lunchMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
-        <mat-list-option *ngFor="let lunch of lunchMeals">
+        <mat-list-option *ngFor="let lunch of lunchMeals" [value] = "lunch">
           <div mat-line>{{lunch.name}}</div>
           <div mat-line> Proteins: {{lunch.proteinsGrams}} | Fats: {{lunch.fatsGrams}} | Carbs: {{lunch.carbsGrams}}
           </div>
@@ -40,7 +34,7 @@
 
         <div mat-subheader class="list-header">Dinner</div>
         <mat-list-item *ngIf="dinnerMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
-        <mat-list-option *ngFor="let dinner of dinnerMeals">
+        <mat-list-option *ngFor="let dinner of dinnerMeals" [value] = "dinner">
           <div mat-line>{{dinner.name}}</div>
           <div mat-line> Proteins: {{dinner.proteinsGrams}} | Fats: {{dinner.fatsGrams}} | Carbs: {{dinner.carbsGrams}}
           </div>
@@ -49,14 +43,36 @@
 
         <div mat-subheader class="list-header">Snacks</div>
         <mat-list-item *ngIf="snackMeals.length == 0" disableRipple="true">No meals registered yet!</mat-list-item>
-        <mat-list-option *ngFor="let snack of snackMeals">
+        <mat-list-option *ngFor="let snack of snackMeals" [value]="snack">
           <div mat-line>{{snack.name}}</div>
           <div mat-line> Proteins: {{snack.proteinsGrams}} | Fats: {{snack.fatsGrams}} | Carbs: {{snack.carbsGrams}}
           </div>
         </mat-list-option>
         <mat-divider></mat-divider>
-
       </mat-selection-list>
+    </div>
+
+    <div class="chart-container">
+      <ngx-charts-bar-horizontal-stacked [view]="view" [scheme]="colorScheme" [results]="chartData"
+        [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel" (select)="onSelect($event)" style="fill:  #f2f2f2;">
+      </ngx-charts-bar-horizontal-stacked>
+
+      <mat-expansion-panel #matExpansionPanel (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+      <mat-panel-title>
+      Selected meals
+      </mat-panel-title>
+      <mat-panel-description>
+     {{selectedMeals.length}}
+      </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>Choose action on selected meals:</p>
+      </mat-expansion-panel>
+      
+
     </div>
   </div>
 </div>

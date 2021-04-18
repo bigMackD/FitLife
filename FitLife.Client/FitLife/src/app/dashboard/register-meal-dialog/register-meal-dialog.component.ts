@@ -61,8 +61,9 @@ export class RegisterMealDialogComponent implements OnInit {
  let request: AddUserMealRequest = {
    categoryId: this.selectedCategory,
    mealId: this.selectedMeal,
-   consumedDate: this.dateConsumed
+   consumedDate: new Date(this.dateConsumed.toUTCString())
  }
+
  this.userMealsService.add(request).subscribe(response =>
    {
     if (!response.success) {

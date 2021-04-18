@@ -6,7 +6,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatMenuModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatExpansionModule, MatMenuModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './authentication/login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -56,7 +56,8 @@ import { RegisterMealDialogComponent } from './dashboard/register-meal-dialog/re
     MatMenuModule,
     NgxChartsModule,
     NgSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MatExpansionModule
   ],
   providers: [
     {

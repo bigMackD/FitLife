@@ -30,7 +30,7 @@ namespace FitLife.Infrastructure.QueryHandlers.UserMeals
             {
                 var userMealsResponse = _context.UserMeals.Include(um => um.Meal).Where(um => um.ConsumedDate.Date == query.Date.Date).Select(um => new UserMealResponse
                 {
-                    Id = um.Id,
+                    Id = um.UserMealId,
                     Name = um.Meal.Name,
                     //Calories = um.Meal.c TODO
                     ProteinsGrams = um.Meal.MealProducts.Select(mp => mp.Product).Sum(p => p.ProteinsGrams),
@@ -38,7 +38,7 @@ namespace FitLife.Infrastructure.QueryHandlers.UserMeals
                     FatsGrams = um.Meal.MealProducts.Select(mp => mp.Product).Sum(p => p.FatsGrams),
                     CategoryId = um.CategoryId
                 });
-
+                var test = userMealsResponse.ToList();
                 return new GetUserMealsByDateResponse
                 {
                     UserMeals = userMealsResponse,

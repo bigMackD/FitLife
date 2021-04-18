@@ -2,14 +2,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FitLife.DB.Models.Authentication;
-using Microsoft.AspNetCore.Identity;
 
 namespace FitLife.DB.Models.Food
 {
     public class UserMeal
     {
-        [Key]
-        public int Id { get; set; }
+        //[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public int Id { get; set; }
+
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserMealId { get; set; }
+
         public string UserId { get; set; }
         public AppUser User { get; set; }
         public int MealId { get; set; }

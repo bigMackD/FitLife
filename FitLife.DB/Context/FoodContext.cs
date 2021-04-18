@@ -5,10 +5,6 @@ namespace FitLife.DB.Context
 {
     public class FoodContext : DbContext
     {
-        public FoodContext()
-        {
-            
-        }
         public FoodContext(DbContextOptions<FoodContext> options) : base(options)
         {
         }
@@ -17,7 +13,7 @@ namespace FitLife.DB.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-     
+
         public DbSet<MealProduct> MealProducts { get; set; }
         public DbSet<UserMeal> UserMeals { get; set; }
 
@@ -28,11 +24,14 @@ namespace FitLife.DB.Context
             modelBuilder.Entity<Meal>().ToTable("Meal");
             modelBuilder.Entity<Category>().ToTable("Category");
 
-           
+
             modelBuilder.Entity<MealProduct>().ToTable("MealProduct")
-                .HasKey(mp => new { mp.MealId, mp.ProductId });
+                .HasKey(mp => mp.MealProductId);
+            //.HasKey(mp => new { mp.MealId, mp.ProductId });
             modelBuilder.Entity<UserMeal>().ToTable("UserMeal")
-                .HasKey(um => new { um.UserId, um.MealId });
+                .HasKey(um => um.UserMealId);
+
+            //.HasKey(um => new { um.UserId, um.MealId });
 
         }
 
