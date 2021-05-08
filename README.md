@@ -31,7 +31,7 @@ Main purpose while creating this app was just to have fun and mess with some new
 - [ngx-charts](https://www.npmjs.com/package/@swimlane/ngx-charts) for Angular charts
 
 
-### Screenshots
+# Screenshots
 Right now FitLife isn't deployed anywhere buy enjoy some screenshots :)
 
 #### Login Page
