@@ -62,6 +62,7 @@ Right now FitLife isn't deployed anywhere buy enjoy some screenshots :)
  - Add docker support
  - Add workouts tracking feature
  - Monthly summaries of meals/workouts
+ - Dynamically register all interfaces
 
 If you like this project, consider giving it a :star: 
 
