@@ -1,5 +1,7 @@
 # FitLife
 
+![Mockup](screenshots/mockup.png?raw=true "Mockup")
+
 FitLife is an Angular Web Application with a backend created in .NET CORE 3.
 Main purpose while creating this app was just to have fun and mess with some new technologies/design patterns.
 
@@ -33,25 +35,25 @@ Main purpose while creating this app was just to have fun and mess with some new
 Right now FitLife isn't deployed anywhere buy enjoy some screenshots :)
 
 #### Login Page
-![Alt text](screenshots/1.png?raw=true "Login Page")
+![Login](screenshots/1.png?raw=true "Login Page")
 
 #### Home Screen
-![Alt text](screenshots/2.png?raw=true "Home Screen")
+![HomeScreen](screenshots/2.png?raw=true "Home Screen")
 
 #### Meals list
-![Alt text](screenshots/3.png?raw=true "Meals list")
+![MealsList](screenshots/3.png?raw=true "Meals list")
 
 #### Product Details
-![Alt text](screenshots/4.png?raw=true "Product Details")
+![ProductDetails](screenshots/4.png?raw=true "Product Details")
 
 #### Meal Details
-![Alt text](screenshots/5.png?raw=true "Meal Details")
+![MealDetails](screenshots/5.png?raw=true "Meal Details")
 
 #### Dashboard
-![Alt text](screenshots/6.png?raw=true "Dashboard")
+![Dashboard](screenshots/6.png?raw=true "Dashboard")
 
 #### Users list
-![Alt text](screenshots/7.png?raw=true "Users list")
+![UsersList](screenshots/7.png?raw=true "Users list")
 
 
 
