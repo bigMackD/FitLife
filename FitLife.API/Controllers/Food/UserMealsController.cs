@@ -20,14 +20,18 @@ namespace FitLife.API.Controllers.Food
     {
         private readonly IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse> _addUserMealCommandHandler;
         private readonly IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse> _getUserMealsByDate;
+        private readonly IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse> _deleteUserMeals;
 
         /// <param name="addUserMealCommandHandler"></param>
         /// <param name="getUserMealsByDate"></param>
+        /// <param name="deleteUserMeals"></param>
         public UserMealsController(IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse> addUserMealCommandHandler,
-            IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse> getUserMealsByDate)
+            IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse> getUserMealsByDate,
+            IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse> deleteUserMeals)
         {
             _addUserMealCommandHandler = addUserMealCommandHandler;
             _getUserMealsByDate = getUserMealsByDate;
+            _deleteUserMeals = deleteUserMeals;
         }
 
         /// <summary>
@@ -58,6 +62,18 @@ namespace FitLife.API.Controllers.Food
                 Id = User.Claims.First(c => c.Type == "UserID").Value
             };
             return _getUserMealsByDate.Handle(internalQuery);
+        }
+
+        /// <summary>
+        /// Deletes user meals specified by ids
+        /// </summary>
+        /// <param name="command"></param>
+        /// <response code="200">User meals deleted</response>
+        [HttpDelete]
+        [Route("delete")]
+        public Task<DeleteUserMealsReponse> Get([FromBody] DeleteUserMealsCommand command)
+        {
+            return _deleteUserMeals.Handle(command);
         }
     }
 }

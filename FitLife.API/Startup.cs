@@ -100,6 +100,8 @@ namespace FitLife.API
                     AddUserMealCommandHandler>()
                 .AddScoped<IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>,
                     GetUserMealsByDateQueryHandler>()
+                .AddScoped<IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse>,
+                    DeleteUserMealsCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()

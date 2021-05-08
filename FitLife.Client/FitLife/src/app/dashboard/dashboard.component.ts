@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatExpansionPanel, MatListOption } from '@angular/material';
-import { GridPanelComponent } from '@swimlane/ngx-charts';
 import { NotificationService } from '../shared/services/notification.service';
 import { CategoryEnum } from './enums/category.enum';
+import { DeleteUserMealsRequest } from './models/delete-user-meals/delete-user-meals.request';
 import { GetUserMealsRequest } from './models/get-user-meals/get-user-meals.request';
 import { UserMeal } from './models/get-user-meals/get-user-meals.response';
 import { RegisterMealDialogComponent } from './register-meal-dialog/register-meal-dialog.component';
@@ -54,6 +54,7 @@ export class DashboardComponent implements OnInit {
     this.getUserMealsByDate();
     this.dashboardChartService.createChartData();
     this.chartData = this.dashboardChartService.chartData;
+    this.handleExpansionPanel();
   }
 
   nextDay(){
@@ -82,9 +83,11 @@ export class DashboardComponent implements OnInit {
 
   private handleExpansionPanel(): void{
     if(this.selectedMeals.length > 0){
+      this.matExpansionPanelElement.disabled = false;
       this.matExpansionPanelElement.open();
     }else{
       this.matExpansionPanelElement.close();
+      this.matExpansionPanelElement.disabled = true;
     }
   }
 
@@ -125,6 +128,16 @@ export class DashboardComponent implements OnInit {
         this.chartData = [...this.dashboardChartService.chartData];
         }
       })
+  }
+
+  deleteUserMeals(){
+    const request = new DeleteUserMealsRequest(this.selectedMeals);
+    this.userMealsService.delete(request).subscribe(response => {
+      if(response.success){
+        this.notificationService.success("Meal was successfully deleted!");
+        this.getUserMealsByDate();
+      }
+    })
   }
 
   sortMealsByCategory():void {
