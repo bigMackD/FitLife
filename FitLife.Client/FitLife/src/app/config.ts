@@ -1,4 +1,4 @@
 export const config = {
     production: false,
-    baseUrl: 'https://localhost:44377/api'
+    baseUrl: 'https://localhost:44326/api'
 };
