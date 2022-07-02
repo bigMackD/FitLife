@@ -6,6 +6,7 @@ using System.Text;
 using FitLife.API.Helpers;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Command.Meals;
+using FitLife.Contracts.Request.Command.Processor;
 using FitLife.Contracts.Request.Command.Products;
 using FitLife.Contracts.Request.Command.UserMeal;
 using FitLife.Contracts.Request.Query.MealCategories;
@@ -16,6 +17,7 @@ using FitLife.Contracts.Request.Query.Users;
 using FitLife.Contracts.Response.Authentication;
 using FitLife.Contracts.Response.MealCategories;
 using FitLife.Contracts.Response.Meals;
+using FitLife.Contracts.Response.Processor;
 using FitLife.Contracts.Response.Product;
 using FitLife.Contracts.Response.UserMeals;
 using FitLife.Contracts.Response.Users;
@@ -23,6 +25,7 @@ using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Meals;
+using FitLife.Infrastructure.CommandHandlers.Processor;
 using FitLife.Infrastructure.CommandHandlers.Products;
 using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using FitLife.Infrastructure.QueryHandlers.MealCategories;
@@ -35,6 +38,7 @@ using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using FluentValidation;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -102,6 +106,8 @@ namespace FitLife.API
                     GetUserMealsByDateQueryHandler>()
                 .AddScoped<IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse>,
                     DeleteUserMealsCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<ProcessWeeklyDietCommand, ProcessWeeklyDietResponse>,
+                    ProcessWeeklyDietCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
@@ -123,6 +129,18 @@ namespace FitLife.API
 
             //    services.AddScoped(handler<,>, handler);
             //}
+
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+                {
+                    config.Host(new Uri(Configuration.GetValue<string>("AppSettings:RabbitMQ:Url")), h =>
+                    {
+                        h.Username(Configuration.GetValue<string>("AppSettings:RabbitMQ:Username"));
+                        h.Password(Configuration.GetValue<string>("AppSettings:RabbitMQ:Password"));
+                    });
+                }));
+            });
 
             services.AddControllers();
             services.AddDbContext<AuthenticationContext>(options =>

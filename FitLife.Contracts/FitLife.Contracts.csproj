@@ -8,4 +8,8 @@
     <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Event\" />
+  </ItemGroup>
+
 </Project>

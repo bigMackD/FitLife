@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.API", "FitLife.API\FitLife.API.csproj", "{D5E687C3-E122-488C-BC07-5D5866541306}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Shared.Infrastructure", "FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj", "{6676792D-74C0-4AE0-BD29-307D9EAF8357}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Tests", "FitLife.Tests\FitLife.Tests.csproj", "{E77E492D-E06C-4688-8BD7-49AE17BD891E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitLife.Consumer", "FitLife.Consumer\FitLife.Consumer.csproj", "{B56B0763-5A8A-41A0-8976-8CDE934A0977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{E77E492D-E06C-4688-8BD7-49AE17BD891E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E77E492D-E06C-4688-8BD7-49AE17BD891E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E77E492D-E06C-4688-8BD7-49AE17BD891E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

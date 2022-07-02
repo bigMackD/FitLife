@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FitLife.Consumer": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
