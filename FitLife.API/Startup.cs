@@ -106,8 +106,8 @@ namespace FitLife.API
                     GetUserMealsByDateQueryHandler>()
                 .AddScoped<IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse>,
                     DeleteUserMealsCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<ProcessWeeklyDietCommand, ProcessWeeklyDietResponse>,
-                    ProcessWeeklyDietCommandHandler>()
+                .AddScoped<IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse>,
+                    ProcessPeriodicDietCommandHandler>()
 
 
                 .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
@@ -146,6 +146,8 @@ namespace FitLife.API
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseSqlServer(ConnectionService.connectionString));
             services.AddDbContext<FoodContext>(options =>
+                options.UseSqlServer(ConnectionService.connectionString));
+            services.AddDbContext<DietContext>(options =>
                 options.UseSqlServer(ConnectionService.connectionString));
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()

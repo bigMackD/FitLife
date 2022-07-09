@@ -15,9 +15,9 @@ namespace FitLife.API.Controllers
     [ApiController]
     public class ProcessorController : ControllerBase
     {
-        private readonly IAsyncCommandHandler<ProcessWeeklyDietCommand, ProcessWeeklyDietResponse> _proccessWeeklyDietHandler;
+        private readonly IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> _proccessWeeklyDietHandler;
 
-        public ProcessorController(IAsyncCommandHandler<ProcessWeeklyDietCommand, ProcessWeeklyDietResponse> proccessWeeklyDietHandler)
+        public ProcessorController(IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> proccessWeeklyDietHandler)
         {
             _proccessWeeklyDietHandler = proccessWeeklyDietHandler;
         }
@@ -26,12 +26,12 @@ namespace FitLife.API.Controllers
         /// Publishes event for weekly diet calculation
         /// </summary>
         /// <response code="200">Published successfully</response>
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        [Route("")]
-        public Task<ProcessWeeklyDietResponse> ProcessWeeklyDiet()
+        [Route("periodicDiet")]
+        public Task<ProcessPeriodicDietResponse> ProcessPeriodicDiet()
         {
-            var command = new ProcessWeeklyDietCommand
+            var command = new ProcessPeriodicDietCommand
             {
                 UserId = User.Claims.First(c => c.Type == "UserID").Value
         };

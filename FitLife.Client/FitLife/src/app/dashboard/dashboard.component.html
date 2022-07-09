@@ -3,6 +3,7 @@
 <div class="container">
   <h1 class="mat-h1"> {{viewDate | date: 'fullDate' }}</h1>
   <button mat-raised-button class="add-button" (click)="registerMeal()" color="primary">Register meal</button>
+  <button mat-raised-button class="calculate-periodic-diet-button" (click)="calculatePeriodicDiet()" color="accent">Calculate periodic diet</button>
   <div class="buttons-row">
     <button (click)="previousDay()" class="arrow-left mat-button">
       <mat-icon>keyboard_arrow_left</mat-icon>

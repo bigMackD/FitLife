@@ -38,7 +38,7 @@ namespace FitLife.Infrastructure.QueryHandlers.UserMeals
                     FatsGrams = um.Meal.MealProducts.Select(mp => mp.Product).Sum(p => p.FatsGrams),
                     CategoryId = um.CategoryId
                 });
-                var test = userMealsResponse.ToList();
+
                 return new GetUserMealsByDateResponse
                 {
                     UserMeals = userMealsResponse,

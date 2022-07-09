@@ -15,17 +15,16 @@ public class Program
                 h.Username("guest");
                 h.Password("guest");
             });
-            cfg.ReceiveEndpoint("loginQueue", ep =>
+            cfg.ReceiveEndpoint("PeriodicDietQueue", ep =>
             {
                 ep.PrefetchCount = 16;
                 ep.UseMessageRetry(r => r.Interval(2, 100));
-                ep.Consumer<ProcessWeeklyDietEventHandler>();
+                ep.Consumer<ProcessPeriodicDietEventHandler>();
             });
-
         });
 
         bus.StartAsync();
-        Console.WriteLine("Listening for Login registered events.. Press enter to exit");
+        Console.WriteLine("Listening for diet registered events.. Press enter to exit");
         Console.ReadLine();
         bus.StopAsync();
     }

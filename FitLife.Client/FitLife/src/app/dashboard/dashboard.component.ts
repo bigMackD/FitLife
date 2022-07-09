@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatExpansionPanel, MatListOption } from '@angular/material';
 import { NotificationService } from '../shared/services/notification.service';
+import { ProcessorService } from '../shared/services/processor.service';
 import { CategoryEnum } from './enums/category.enum';
 import { DeleteUserMealsRequest } from './models/delete-user-meals/delete-user-meals.request';
 import { GetUserMealsRequest } from './models/get-user-meals/get-user-meals.request';
@@ -47,7 +48,8 @@ export class DashboardComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private notificationService: NotificationService,
     private userMealsService: UserMealsService,
-    private dashboardChartService: DashboardChartService) {
+    private dashboardChartService: DashboardChartService,
+    private processorService: ProcessorService) {
      }
 
   ngOnInit() {
@@ -163,6 +165,10 @@ export class DashboardComponent implements OnInit {
           break;
       }
     })
+  }
+
+  calculatePeriodicDiet():void{
+    this.processorService.calculatePeriodicDiet().subscribe();
   }
 
 }

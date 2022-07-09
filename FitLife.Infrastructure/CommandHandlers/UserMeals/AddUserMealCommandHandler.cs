@@ -51,7 +51,7 @@ namespace FitLife.Infrastructure.CommandHandlers.UserMeals
                     UserId = command.UserId,
                     MealId = command.MealId,
                     CategoryId = command.CategoryId,
-                    ConsumedDate = command.ConsumedDate.ToLocalTime()
+                    ConsumedDate = command.ConsumedDate.ToUniversalTime()
             };
 
                 await _context.UserMeals.AddAsync(userMeal);

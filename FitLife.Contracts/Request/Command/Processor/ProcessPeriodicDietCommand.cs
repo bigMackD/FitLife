@@ -2,7 +2,7 @@
 
 namespace FitLife.Contracts.Request.Command.Processor
 {
-    public class ProcessWeeklyDietCommand : ICommand
+    public class ProcessPeriodicDietCommand : ICommand
     {
         public string UserId { get; set; }
     }
