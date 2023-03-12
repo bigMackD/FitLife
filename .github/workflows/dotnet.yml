@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build FitLife.API --no-restore
     - name: Test
-      run: dotnet test FitLife.Tests --no-build --verbosity normal
+      run: dotnet test FitLife.Tests --verbosity normal
