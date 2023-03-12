@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Products;
 using FitLife.DB.Context;
+using FitLife.DB.Models.Food;
 using FitLife.Infrastructure.CommandHandlers.Products;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -17,7 +15,6 @@ namespace FitLife.Tests.CommandHandler.Products
     {
         private DbContextOptions<FoodContext> _options;
         private FoodContext _context;
-        private Mock<ILogger<AddProductCommandHandler>> _logger;
         private Mock<IConfiguration> _config;
 
         [SetUp]
@@ -25,8 +22,8 @@ namespace FitLife.Tests.CommandHandler.Products
         {
             _options = new DbContextOptionsBuilder<FoodContext>().UseInMemoryDatabase(databaseName: "FitLifeInMemory").Options;
             _context = new FoodContext(_options);
-            _logger = new Mock<ILogger<AddProductCommandHandler>>();
             _config = new Mock<IConfiguration>();
+            _config.Setup(c => c.GetSection(It.IsAny<string>())).Returns(new Mock<IConfigurationSection>().Object);
             _context.Database.EnsureDeleted();
         }
 
@@ -35,9 +32,7 @@ namespace FitLife.Tests.CommandHandler.Products
         {
             //Arrange
             var command = new AddProductCommand { Name = "TestProduct", CarbsGrams = 12, FatsGrams = 22, ProteinsGrams = 31 };
-            var validator = new Mock<AbstractValidator<AddProductCommand>>();
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<AddProductCommand>>())).Returns(new ValidationResult());
-            var handler = new AddProductCommandHandler(_config.Object, _logger.Object, validator.Object, _context);
+            var handler = new AddProductCommandHandler(_config.Object, _context);
 
             //Act
             await handler.Handle(command);
@@ -51,9 +46,7 @@ namespace FitLife.Tests.CommandHandler.Products
         {
             //Arrange
             var command = new AddProductCommand { Name = "TestProduct", CarbsGrams = 12, FatsGrams = 22, ProteinsGrams = 31 };
-            var validator = new Mock<AbstractValidator<AddProductCommand>>();
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<AddProductCommand>>())).Returns(new ValidationResult());
-            var handler = new AddProductCommandHandler(_config.Object, _logger.Object, validator.Object, _context);
+            var handler = new AddProductCommandHandler(_config.Object, _context);
 
             //Act
             var result = await handler.Handle(command);
@@ -63,22 +56,30 @@ namespace FitLife.Tests.CommandHandler.Products
         }
 
         [Test]
-        public async Task Execute_IncorrectCommand_ReturnsFailure()
+        public async Task Execute_DuplicatedProductName_ReturnsError()
         {
             //Arrange
-            var command = new AddProductCommand { Name = "TestProduct3", CarbsGrams = 12, FatsGrams = 22, ProteinsGrams = 31 };
-            var validator = new Mock<AbstractValidator<AddProductCommand>>();
-            var incorrectValidationResultStub = new ValidationResult()
-                {Errors = {new ValidationFailure("Name", "IncorrectName")}};
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<AddProductCommand>>()))
-                .Returns(incorrectValidationResultStub);
-            var handler = new AddProductCommandHandler(_config.Object, _logger.Object, validator.Object, _context);
+            Seed(_context);
+            var command = new AddProductCommand { Name = "TestProduct2", CarbsGrams = 12, FatsGrams = 22, ProteinsGrams = 31 };
+            var handler = new AddProductCommandHandler(_config.Object, _context);
 
             //Act
             var result = await handler.Handle(command);
 
             //Assert
             Assert.AreEqual(result.Success, false);
+        }
+
+        private void Seed(FoodContext context)
+        {
+            var products = new[]
+            {
+                new Product {Calories = 122, CarbsGrams = 11, FatsGrams = 22, ProteinsGrams = 33, Name = "TestProduct2"},
+            };
+
+            context.Products.AddRange(products);
+           
+            context.SaveChanges();
         }
     }
 }

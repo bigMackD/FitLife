@@ -6,8 +6,6 @@ using FitLife.Infrastructure.QueryHandlers.Products;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -31,11 +29,9 @@ namespace FitLife.Tests.QueryHandlers.Products
             //Arrange
             Seed(_context);
             var query = new GetProductsQuery { PageIndex = 0, PageSize = 25 };
-            var logger = new Mock<ILogger<GetProductsQueryHandler>>();
-            var config = new Mock<IConfiguration>();
             var validator = new Mock<AbstractValidator<GetProductsQuery>>();
             validator.Setup(x => x.Validate(It.IsAny<ValidationContext<GetProductsQuery>>())).Returns(new ValidationResult());
-            var handler = new GetProductsQueryHandler(_context, config.Object, logger.Object, validator.Object);
+            var handler = new GetProductsQueryHandler(_context, validator.Object);
 
             //Act
             var result = handler.Handle(query);

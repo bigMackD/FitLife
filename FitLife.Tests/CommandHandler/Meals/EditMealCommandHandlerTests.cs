@@ -4,12 +4,7 @@ using FitLife.Contracts.Request.Command.Meals;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Food;
 using FitLife.Infrastructure.CommandHandlers.Meals;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Moq;
 using NUnit.Framework;
 
 namespace FitLife.Tests.CommandHandler.Meals
@@ -18,16 +13,12 @@ namespace FitLife.Tests.CommandHandler.Meals
     {
         private DbContextOptions<FoodContext> _options;
         private FoodContext _context;
-        private Mock<ILogger<EditMealCommandHandler>> _logger;
-        private Mock<IConfiguration> _config;
 
         [SetUp]
         public void Setup()
         {
             _options = new DbContextOptionsBuilder<FoodContext>().UseInMemoryDatabase(databaseName: "FitLifeInMemory").Options;
             _context = new FoodContext(_options);
-            _logger = new Mock<ILogger<EditMealCommandHandler>>();
-            _config = new Mock<IConfiguration>();
             _context.Database.EnsureDeleted();
         }
 
@@ -40,9 +31,7 @@ namespace FitLife.Tests.CommandHandler.Meals
             var mealProducts = new[]
                 {new EditMealProduct {Grams = 12, Id = 1}, new EditMealProduct {Grams = 22, Id = 2} , new EditMealProduct {Grams = 22, Id = 3}};
             command.MealProducts = mealProducts;
-            var validator = new Mock<AbstractValidator<EditMealCommand>>();
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<EditMealCommand>>())).Returns(new ValidationResult());
-            var handler = new EditMealCommandHandler(_context,_config.Object, _logger.Object, validator.Object);
+            var handler = new EditMealCommandHandler(_context);
 
             //Act
             await handler.Handle(command);

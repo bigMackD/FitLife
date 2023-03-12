@@ -7,7 +7,6 @@ using FitLife.DB.Models.Food;
 using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -17,7 +16,6 @@ namespace FitLife.Tests.CommandHandler.UserMeals
     {
         private DbContextOptions<FoodContext> _options;
         private FoodContext _context;
-        private Mock<ILogger<DeleteUserMealsCommandHandler>> _logger;
         private Mock<IConfiguration> _config;
 
 
@@ -26,7 +24,6 @@ namespace FitLife.Tests.CommandHandler.UserMeals
         {
             _options = new DbContextOptionsBuilder<FoodContext>().UseInMemoryDatabase(databaseName: "FitLifeInMemory").Options;
             _context = new FoodContext(_options);
-            _logger = new Mock<ILogger<DeleteUserMealsCommandHandler>>();
             _config = new Mock<IConfiguration>();
             _context.Database.EnsureDeleted();
         }
@@ -36,7 +33,7 @@ namespace FitLife.Tests.CommandHandler.UserMeals
         {
             //Arrange
             Seed(_context);
-            var handler = new DeleteUserMealsCommandHandler(_config.Object, _logger.Object, _context);
+            var handler = new DeleteUserMealsCommandHandler(_config.Object, _context);
             var command = new DeleteUserMealsCommand {Ids = new List<int> {1}};
 
             //Act
