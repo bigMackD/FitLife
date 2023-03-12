@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Food;
 using FitLife.Infrastructure.CommandHandlers.Meals;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -41,9 +38,7 @@ namespace FitLife.Tests.CommandHandler.Meals
             var command = new AddMealCommand { Name = "TestMeal", CategoryId = 1};
             var mealProduct = new AddMealProduct { Grams = 12, Id = 1};
             command.MealProducts = new List<AddMealProduct>(){mealProduct};
-            var validator = new Mock<AbstractValidator<AddMealCommand>>();
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<AddMealCommand>>())).Returns(new ValidationResult());
-            var handler = new AddMealCommandHandler(_context, _logger.Object, _config.Object, validator.Object);
+            var handler = new AddMealCommandHandler(_context, _config.Object);
 
             //Act
             await handler.Handle(command);
@@ -60,10 +55,8 @@ namespace FitLife.Tests.CommandHandler.Meals
             var command = new AddMealCommand { Name = "TestMeal", CategoryId = 20 };
             var mealProduct = new AddMealProduct { Grams = 12, Id = 1 };
             command.MealProducts = new List<AddMealProduct> { mealProduct };
-            var validator = new Mock<AbstractValidator<AddMealCommand>>();
-            validator.Setup(x => x.Validate(It.IsAny<ValidationContext<AddMealCommand>>())).Returns(new ValidationResult());
             _config.Setup(c => c.GetSection(It.IsAny<string>())).Returns(new Mock<IConfigurationSection>().Object);
-            var handler = new AddMealCommandHandler(_context, _logger.Object, _config.Object, validator.Object);
+            var handler = new AddMealCommandHandler(_context, _config.Object);
 
             //Act
             var response = await handler.Handle(command);

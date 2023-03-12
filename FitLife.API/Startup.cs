@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using FitLife.API.Filters;
 using FitLife.API.Helpers;
+using FitLife.API.Middleware;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Command.Meals;
 using FitLife.Contracts.Request.Command.Processor;
@@ -28,27 +30,33 @@ using FitLife.Infrastructure.CommandHandlers.Meals;
 using FitLife.Infrastructure.CommandHandlers.Processor;
 using FitLife.Infrastructure.CommandHandlers.Products;
 using FitLife.Infrastructure.CommandHandlers.UserMeals;
+using FitLife.Infrastructure.Factories.Validator;
 using FitLife.Infrastructure.QueryHandlers.MealCategories;
 using FitLife.Infrastructure.QueryHandlers.Meals;
 using FitLife.Infrastructure.QueryHandlers.Products;
 using FitLife.Infrastructure.QueryHandlers.UserMeals;
 using FitLife.Infrastructure.QueryHandlers.Users;
 using FitLife.Infrastructure.Validators.Meals;
+using FitLife.Infrastructure.Validators.PagingQuery;
 using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
+using FitLife.Shared.Infrastructure.Query;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using FluentValidation;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using IValidatorFactory = FitLife.Shared.Infrastructure.Factories.Validator.IValidatorFactory;
 
 namespace FitLife.API
 {
@@ -114,7 +122,9 @@ namespace FitLife.API
                 .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>()
                 .AddScoped<IValidator<AddMealCommand>, AddMealCommandValidator>()
                 .AddScoped<IValidator<EditProductCommand>, EditProductCommandValidator>()
-                .AddScoped<IValidator<EditMealCommand>, EditMealCommandValidator>();
+                .AddScoped<IValidator<EditMealCommand>, EditMealCommandValidator>()
+                .AddScoped<IValidator<IPagingQuery>, PagingQueryValidator>()
+                .AddScoped<IValidatorFactory, ValidatorFactory>();
 
             //TODO: Register all handlers
             //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()
@@ -140,6 +150,13 @@ namespace FitLife.API
                         h.Password(Configuration.GetValue<string>("AppSettings:RabbitMQ:Password"));
                     });
                 }));
+            });
+
+            services.AddScoped<ErrorResultFilter>();
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new ErrorResultFilter());
+                options.Filters.Add<ModelValidationActionFilter>();
             });
 
             services.AddControllers();
@@ -237,9 +254,16 @@ namespace FitLife.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<CustomExceptionHandlingMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitLife API v.1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseCors(builder =>
@@ -257,21 +281,11 @@ namespace FitLife.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-            });
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitLife API v.1");
-                c.RoutePrefix = string.Empty;
+                if (env.IsDevelopment())
+                    endpoints.MapControllers().WithMetadata(new AllowAnonymousAttribute());
+                else
+                    endpoints.MapControllers();
             });
         }
-
-        
     }
 }

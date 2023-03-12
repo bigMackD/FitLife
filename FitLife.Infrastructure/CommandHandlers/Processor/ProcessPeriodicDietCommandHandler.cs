@@ -9,38 +9,27 @@ using FitLife.Infrastructure.Models;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace FitLife.Infrastructure.CommandHandlers.Processor
 {
     public class ProcessPeriodicDietCommandHandler : IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse>
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<ProcessPeriodicDietCommandHandler> _logger;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly FoodContext _context;
 
 
-        public ProcessPeriodicDietCommandHandler(IConfiguration configuration, 
-            ILogger<ProcessPeriodicDietCommandHandler> logger,
-            IPublishEndpoint publishEndpoint, FoodContext context)
+        public ProcessPeriodicDietCommandHandler(IPublishEndpoint publishEndpoint, FoodContext context)
         {
-            _configuration = configuration;
-            _logger = logger;
             _publishEndpoint = publishEndpoint;
             _context = context;
         }
 
         public async Task<ProcessPeriodicDietResponse> Handle(ProcessPeriodicDietCommand command)
         {
-            try
-            {
-                //TODO
                 const int sevenDays = 7;
                 var today = DateTime.UtcNow;
                 var periodStart = today.AddDays(-sevenDays);
-                var dailyintake = _context.UserMeals.Include(um => um.Meal)
+                var dailyIntake = _context.UserMeals.Include(um => um.Meal)
                     .Where(um => um.ConsumedDate.Date < today && um.ConsumedDate.Date > periodStart)
                     .Select(um => new DailyIntake
                     {
@@ -69,7 +58,7 @@ namespace FitLife.Infrastructure.CommandHandlers.Processor
                 var message = new ProcessPeriodicDietEvent()
                 {
                     UserId = command.UserId,
-                    DailyIntake = dailyintake
+                    DailyIntake = dailyIntake
                 };
                 await _publishEndpoint.Publish<ProcessPeriodicDietEvent>(message);
 
@@ -78,15 +67,5 @@ namespace FitLife.Infrastructure.CommandHandlers.Processor
                     Success = true
                 };
             }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return new ProcessPeriodicDietResponse
-                {
-                    Success = false,
-                    Errors = new[] { _configuration.GetValue<string>("Messages:ExceptionMessage") }
-                };
-            }
-        }
     }
 }

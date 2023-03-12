@@ -10,7 +10,6 @@ using FitLife.DB.Models.Authentication;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FitLife.Infrastructure.CommandHandlers.Authentication
@@ -19,74 +18,57 @@ namespace FitLife.Infrastructure.CommandHandlers.Authentication
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly ILogger _logger;
 
 
         public LoginUserCommandHandler(UserManager<AppUser> userManager,
-            IConfiguration configuration, ILogger<LoginUserCommandHandler> logger)
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _logger = logger;
         }
 
         public async Task<LoginUserResponse> Handle(LoginUserCommand command)
         {
-            try
+            var user = await _userManager.FindByNameAsync(command.UserName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, command.Password))
             {
-                var user = await _userManager.FindByNameAsync(command.UserName);
-                if (user != null && await _userManager.CheckPasswordAsync(user, command.Password))
+                if (user.IsDisabled != null && user.IsDisabled.Value)
                 {
-                    if (user.IsDisabled != null && user.IsDisabled.Value)
-                    {
-                        return new LoginUserResponse
-                        {
-                            Success = false,
-                            Errors = new[] { _configuration.GetValue<string>("Messages:Users:UserLocked") }
-                        };
-                    }
-
-
-                    var roles = await _userManager.GetRolesAsync(user);
-                    IdentityOptions options = new IdentityOptions();
-                    var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:JWTSecret"));
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new[]
-                        {
-                            new Claim("UserID", user.Id),
-                            new Claim(options.ClaimsIdentity.RoleClaimType, roles.FirstOrDefault())
-                        }),
-                        Expires = DateTime.UtcNow.AddMinutes(30),
-                        SigningCredentials = new SigningCredentials(
-                            new SymmetricSecurityKey(key),
-                            SecurityAlgorithms.HmacSha256Signature)
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                    var token = tokenHandler.WriteToken(securityToken);
                     return new LoginUserResponse
                     {
-                        Success = true,
-                        Token = token
+                        Errors = new[] { _configuration.GetValue<string>("Messages:Users:UserLocked") }
                     };
                 }
 
+                var roles = await _userManager.GetRolesAsync(user);
+                IdentityOptions options = new IdentityOptions();
+                var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:JWTSecret"));
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new[]
+                    {
+                            new Claim("UserID", user.Id),
+                            new Claim(options.ClaimsIdentity.RoleClaimType, roles.FirstOrDefault())
+                        }),
+                    Expires = DateTime.UtcNow.AddMinutes(30),
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
                 return new LoginUserResponse
                 {
-                    Success = false,
-                    Errors = new[] {"Username and/or password incorrect"}
+                    Success = true,
+                    Token = token
                 };
             }
-            catch (Exception e)
+
+            return new LoginUserResponse
             {
-                _logger.LogError(e, e.Message);
-                return new LoginUserResponse
-                {
-                    Success = false,
-                    Errors = new[] {_configuration.GetValue<string>("Messages:ExceptionMessage")}
-                };
-            }
+                Errors = new[] { _configuration.GetValue<string>("Messages:Users:PasswordIncorrect") }
+            };
         }
     }
 }

@@ -7,7 +7,6 @@ using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -17,7 +16,6 @@ namespace FitLife.Tests.CommandHandler.Users
     {
         private DbContextOptions<AuthenticationContext> _options;
         private AuthenticationContext _context;
-        private Mock<ILogger<EnableUserCommandHandler>> _logger;
         private Mock<IConfiguration> _config;
 
         [SetUp]
@@ -25,7 +23,6 @@ namespace FitLife.Tests.CommandHandler.Users
         {
             _options = new DbContextOptionsBuilder<AuthenticationContext>().UseInMemoryDatabase(databaseName: "FitLifeInMemory").Options;
             _context = new AuthenticationContext(_options);
-            _logger = new Mock<ILogger<EnableUserCommandHandler>>();
             _config = new Mock<IConfiguration>();
             _context.Database.EnsureDeleted();
         }
@@ -42,7 +39,7 @@ namespace FitLife.Tests.CommandHandler.Users
 
             var userManager = MockUserManager.Build(usersStub, idStub).Object;
             var command = new EnableUserCommand { Id = idStub };
-            var handler = new EnableUserCommandHandler(_config.Object, _logger.Object, _context, userManager);
+            var handler = new EnableUserCommandHandler(_config.Object, _context, userManager);
 
             //Act
             await handler.Handle(command);
