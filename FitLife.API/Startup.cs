@@ -6,43 +6,14 @@ using System.Text;
 using FitLife.API.Filters;
 using FitLife.API.Helpers;
 using FitLife.API.Middleware;
-using FitLife.Contracts.Request.Command.Authentication;
-using FitLife.Contracts.Request.Command.Meals;
-using FitLife.Contracts.Request.Command.Processor;
-using FitLife.Contracts.Request.Command.Products;
-using FitLife.Contracts.Request.Command.UserMeal;
-using FitLife.Contracts.Request.Query.MealCategories;
-using FitLife.Contracts.Request.Query.Meals;
-using FitLife.Contracts.Request.Query.Products;
-using FitLife.Contracts.Request.Query.UserMeals;
-using FitLife.Contracts.Request.Query.Users;
-using FitLife.Contracts.Response.Authentication;
-using FitLife.Contracts.Response.MealCategories;
-using FitLife.Contracts.Response.Meals;
-using FitLife.Contracts.Response.Processor;
-using FitLife.Contracts.Response.Product;
-using FitLife.Contracts.Response.UserMeals;
-using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
 using FitLife.Infrastructure.CommandHandlers.Authentication;
-using FitLife.Infrastructure.CommandHandlers.Meals;
-using FitLife.Infrastructure.CommandHandlers.Processor;
-using FitLife.Infrastructure.CommandHandlers.Products;
-using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using FitLife.Infrastructure.Factories.Validator;
-using FitLife.Infrastructure.QueryHandlers.MealCategories;
-using FitLife.Infrastructure.QueryHandlers.Meals;
-using FitLife.Infrastructure.QueryHandlers.Products;
-using FitLife.Infrastructure.QueryHandlers.UserMeals;
-using FitLife.Infrastructure.QueryHandlers.Users;
-using FitLife.Infrastructure.Validators.Meals;
-using FitLife.Infrastructure.Validators.PagingQuery;
 using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
-using FitLife.Shared.Infrastructure.Query;
 using FitLife.Shared.Infrastructure.QueryHandler;
-using FluentValidation;
+using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -74,71 +45,26 @@ namespace FitLife.API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddScoped<IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>,
-                    RegisterUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
-                    LoginUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<DisableUserCommand, DisableUserResponse>,
-                    DisableUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<EnableUserCommand, EnableUserResponse>,
-                    EnableUserCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
-                    GetUsersQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
-                    GetUserProfileQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse>,
-                    UserDetailsQueryHandler>()
-                .AddScoped<IQueryHandler<GetProductsQuery, GetProductsResponse>,
-                    GetProductsQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetProductDetailsQuery, GetProductDetailsResponse>,
-                    GetProductDetailsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<AddProductCommand, AddProductResponse>,
-                    AddProductCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<AddMealCommand, AddMealResponse>,
-                    AddMealCommandHandler>()
-                .AddScoped<IQueryHandler<GetMealCategoriesQuery, GetMealCategoriesResponse>,
-                    GetMealCategoriesQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetMealsQuery, GetMealsResponse>,
-                    GetMealsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<EditProductCommand, EditProductResponse>,
-                    EditProductCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetMealDetailsQuery, GetMealDetailsResponse>,
-                    GetMealDetailsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<EditMealCommand, EditMealResponse>,
-                    EditMealCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<DeleteMealCommand, DeleteMealResponse>,
-                    DeleteMealCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse>,
-                    AddUserMealCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>,
-                    GetUserMealsByDateQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse>,
-                    DeleteUserMealsCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse>,
-                    ProcessPeriodicDietCommandHandler>()
-
-
-                .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
-                .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>()
-                .AddScoped<IValidator<AddMealCommand>, AddMealCommandValidator>()
-                .AddScoped<IValidator<EditProductCommand>, EditProductCommandValidator>()
-                .AddScoped<IValidator<EditMealCommand>, EditMealCommandValidator>()
-                .AddScoped<IValidator<IPagingQuery>, PagingQueryValidator>()
                 .AddScoped<IValidatorFactory, ValidatorFactory>();
 
-            //TODO: Register all handlers
-            //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()
-            //    .Where(t => t.GetInterfaces()
-            //        .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>))
-            //    ).ToList();
+            services.Scan(scan => scan
+                .FromAssemblyOf<LoginUserCommandHandler>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IAsyncCommandHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
 
-            //foreach (var handler in commandHandlers)
-            //{
-            //    var genericArgs = handler.GetInterfaces().First(i =>
-            //        i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>)).GetGenericArguments();
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
 
-            //    services.AddScoped(handler<,>, handler);
-            //}
+                .AddClasses(classes => classes.AssignableTo(typeof(IAsyncQueryHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+
+                .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+            );
 
             services.AddMassTransit(x =>
             {
@@ -159,7 +85,8 @@ namespace FitLife.API
                 options.Filters.Add<ModelValidationActionFilter>();
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddProductCommandValidator>());
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseSqlServer(ConnectionService.connectionString));
             services.AddDbContext<FoodContext>(options =>
@@ -176,7 +103,6 @@ namespace FitLife.API
 
 
             //JWT Authentication
-
             var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JWTSecret"));
 
             services.AddAuthentication(x =>
