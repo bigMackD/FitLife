@@ -17,8 +17,17 @@ namespace FitLife.API.Filters
     {
         private readonly IValidatorFactory _validationFactory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModelValidationActionFilter"/> class.
+        /// </summary>
+        /// <param name="validationFactory">Instance of FluentValidation factory</param>
         public ModelValidationActionFilter(IValidatorFactory validationFactory) => _validationFactory = validationFactory;
 
+        /// <summary>
+        /// Method invoked on execution that obtains validator fo specified request and performs validation
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="next"></param>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var validationErrors = new List<ValidationFailure>();

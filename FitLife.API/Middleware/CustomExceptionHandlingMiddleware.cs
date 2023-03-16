@@ -13,11 +13,19 @@ namespace FitLife.API.Middleware
     {
         private readonly RequestDelegate _next;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomExceptionHandlingMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">Request delegate</param>
         public CustomExceptionHandlingMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
+        /// <summary>
+        /// Invokes error handling on <see cref="HttpContext"/>
+        /// </summary>
+        /// <param name="context"></param>
         public async Task InvokeAsync(HttpContext context)
         {
             try

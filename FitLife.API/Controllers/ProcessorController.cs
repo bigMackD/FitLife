@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Processor;
+using FitLife.Contracts.Response;
 using FitLife.Contracts.Response.Processor;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers
@@ -15,27 +17,34 @@ namespace FitLife.API.Controllers
     [ApiController]
     public class ProcessorController : ControllerBase
     {
-        private readonly IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> _proccessWeeklyDietHandler;
+        private readonly IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> _processWeeklyDietHandler;
 
-        public ProcessorController(IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> proccessWeeklyDietHandler)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessorController"/> class.
+        /// </summary>
+        /// <param name="processWeeklyDietHandler">Instance of handler</param>
+        public ProcessorController(IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse> processWeeklyDietHandler)
         {
-            _proccessWeeklyDietHandler = proccessWeeklyDietHandler;
+            _processWeeklyDietHandler = processWeeklyDietHandler;
         }
 
         /// <summary>
         /// Publishes event for weekly diet calculation
         /// </summary>
         /// <response code="200">Published successfully</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpPost]
         [Authorize]
         [Route("periodicDiet")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ProcessPeriodicDietResponse), StatusCodes.Status200OK)]
         public Task<ProcessPeriodicDietResponse> ProcessPeriodicDiet()
         {
             var command = new ProcessPeriodicDietCommand
             {
                 UserId = User.Claims.First(c => c.Type == "UserID").Value
         };
-            return _proccessWeeklyDietHandler.Handle(command);
+            return _processWeeklyDietHandler.Handle(command);
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
 using FitLife.Contracts.Request.Command.Authentication;
 using FitLife.Contracts.Request.Query.Users;
+using FitLife.Contracts.Response;
 using FitLife.Contracts.Response.Authentication;
 using FitLife.Contracts.Response.Users;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.Extensions;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using FitLife.Shared.Infrastucture.Enum;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitLife.API.Controllers.Authentication
@@ -52,8 +54,11 @@ namespace FitLife.API.Controllers.Authentication
         /// </summary>
         /// <param name="command"></param>
         /// <response code="200">User sucessfully created</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpPost]
         [Route("Register")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(RegisterUserResponse), StatusCodes.Status200OK)]
         public Task<RegisterUserResponse> Register(RegisterUserCommand command)
         {
             return _registerUserCommandHandler.Handle(command);
@@ -64,9 +69,12 @@ namespace FitLife.API.Controllers.Authentication
         /// </summary>
         /// <param name="command"></param>
         /// <response code="200">User sucessfully logged in</response>
+        /// <response code="409">Entity processed with errors</response>
         /// <returns>Bearer token</returns>
         [HttpPost]
         [Route("Login")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(LoginUserResponse), StatusCodes.Status200OK)]
         public Task<LoginUserResponse> Login(LoginUserCommand command)
         {
             return _loginUserCommandHandler.Handle(command);
@@ -77,9 +85,12 @@ namespace FitLife.API.Controllers.Authentication
         /// </summary>
         /// <param name="query"></param>
         /// <response code="200">List of registered users</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(GetUsersResponse), StatusCodes.Status200OK)]
         public Task<GetUsersResponse> Get([FromQuery]GetUsersQuery query)
         {
             return _getUsersQueryHandler.Handle(query);
@@ -90,9 +101,12 @@ namespace FitLife.API.Controllers.Authentication
         /// </summary>
         /// <param name="query"></param>
         /// <response code="200">User details</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("{id}")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(UserDetailsResponse), StatusCodes.Status200OK)]
         public Task<UserDetailsResponse> Get([FromRoute] GetUserDetailsQuery query)
         {
             return _userDetailsQueryHandler.Handle(query);
@@ -103,22 +117,28 @@ namespace FitLife.API.Controllers.Authentication
         /// </summary>
         /// <param name="query"></param>
         /// <response code="200">User disabled</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("disable/{id}")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(DisableUserResponse), StatusCodes.Status200OK)]
         public Task<DisableUserResponse> Disable([FromRoute] DisableUserCommand query)
         {
             return _disableUserCommandHandler.Handle(query);
         }
-        
+
         /// <summary>
         /// Enables users account by specified ID
         /// </summary>
         /// <param name="query"></param>
         /// <response code="200">User disabled</response>
+        /// <response code="409">Entity processed with errors</response>
         [HttpGet]
         [AllowAuthorized(Role.Admin)]
         [Route("enable/{id}")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(EnableUserResponse), StatusCodes.Status200OK)]
         public Task<EnableUserResponse> Enable([FromRoute] EnableUserCommand query)
         {
             return _enableUserCommandHandler.Handle(query);

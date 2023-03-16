@@ -24,6 +24,10 @@ namespace FitLife.API.Filters
             }
         }
 
+        /// <summary>
+        /// Checks result after execution, currently not in use
+        /// </summary>
+        /// <param name="context"></param>
         public void OnResultExecuted(ResultExecutedContext context)
         {
             // Nothing to do here

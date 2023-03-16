@@ -1,10 +1,15 @@
-﻿using System;
-using FitLife.Shared.Infrastructure.Command;
+﻿using FitLife.Shared.Infrastructure.Command;
 
 namespace FitLife.Contracts.Request.Command.Authentication
 {
-    public class DisableUserCommand : ICommand
+    /// <summary>
+    /// Command for disabling user
+    /// </summary>
+    public sealed class DisableUserCommand : ICommand
     {
+        /// <summary>
+        /// Id of the user
+        /// </summary>
         public string Id { get; set; }
     }
 }

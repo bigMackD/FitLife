@@ -1,10 +1,15 @@
-﻿using System.Reflection.Metadata;
-using FitLife.Shared.Infrastructure.Query;
+﻿using FitLife.Shared.Infrastructure.Query;
 
 namespace FitLife.Contracts.Request.Query.Users
 {
-    public class GetUserProfileQuery : IQuery
+    /// <summary>
+    /// Query for retrieving profile details for a user
+    /// </summary>
+    public sealed class GetUserProfileQuery : IQuery
     {
+        /// <summary>
+        /// Id of the user
+        /// </summary>
         public string UserId { get; set; }
 
     }
