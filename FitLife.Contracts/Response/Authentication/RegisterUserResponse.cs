@@ -2,9 +2,19 @@
 
 namespace FitLife.Contracts.Response.Authentication
 {
-    public class RegisterUserResponse : IBaseResponse
+    /// <summary>
+    /// Response for user register
+    /// </summary>
+    public sealed class RegisterUserResponse : IBaseResponse
     {
+        /// <summary>
+        /// Indicates whether operation succeed
+        /// </summary>
         public bool Success { get; set; }
+
+        /// <summary>
+        /// List of errors
+        /// </summary>
         public string[] Errors { get; set; }
     }
 }

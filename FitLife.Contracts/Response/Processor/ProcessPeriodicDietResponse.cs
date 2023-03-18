@@ -2,9 +2,19 @@
 
 namespace FitLife.Contracts.Response.Processor
 {
-    public class ProcessPeriodicDietResponse : IBaseResponse
+    /// <summary>
+    /// Response of processing periodic diet
+    /// </summary>
+    public sealed class ProcessPeriodicDietResponse : IBaseResponse
     {
+        /// <summary>
+        /// Indicates whether operation succeed
+        /// </summary>
         public bool Success { get; set; }
+
+        /// <summary>
+        /// List of errors
+        /// </summary>
         public string[] Errors { get; set; }
     }
 }

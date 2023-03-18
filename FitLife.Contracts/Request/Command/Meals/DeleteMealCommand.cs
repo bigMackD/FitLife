@@ -2,8 +2,14 @@
 
 namespace FitLife.Contracts.Request.Command.Meals
 {
-    public class DeleteMealCommand : ICommand
+    /// <summary>
+    /// Command for deleting a meal
+    /// </summary>
+    public sealed class DeleteMealCommand : ICommand
     {
+        /// <summary>
+        /// Id of a meal to be deleted
+        /// </summary>
         public int Id { get; set; }
     }
 }

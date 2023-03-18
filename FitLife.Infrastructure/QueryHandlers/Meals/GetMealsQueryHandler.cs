@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FitLife.Contracts.Request.Query.Meals;
 using FitLife.Contracts.Response.Meals;
 using FitLife.DB.Context;
@@ -8,7 +6,7 @@ using FitLife.Shared.Infrastructure.QueryHandler;
 
 namespace FitLife.Infrastructure.QueryHandlers.Meals
 {
-    public class GetMealsQueryHandler : IAsyncQueryHandler<GetMealsQuery, GetMealsResponse>
+    public class GetMealsQueryHandler : IQueryHandler<GetMealsQuery, GetMealsResponse>
     {
         private readonly FoodContext _context;
 
@@ -17,7 +15,7 @@ namespace FitLife.Infrastructure.QueryHandlers.Meals
             _context = context;
         }
 
-        public async Task<GetMealsResponse> Handle(GetMealsQuery query)
+        public GetMealsResponse Handle(GetMealsQuery query)
         {
             var meals = _context.Meals;
             var pagedMeals = meals.OrderBy(product => product.Name)

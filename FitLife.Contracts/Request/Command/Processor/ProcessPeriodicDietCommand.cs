@@ -2,8 +2,14 @@
 
 namespace FitLife.Contracts.Request.Command.Processor
 {
-    public class ProcessPeriodicDietCommand : ICommand
+    /// <summary>
+    /// Command for processing periodic diets for a user
+    /// </summary>
+    public sealed class ProcessPeriodicDietCommand : ICommand
     {
+        /// <summary>
+        /// Id of the user
+        /// </summary>
         public string UserId { get; set; }
     }
 }

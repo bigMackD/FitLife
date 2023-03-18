@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using FitLife.API.Filters;
@@ -15,6 +16,7 @@ using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
 using FluentValidation.AspNetCore;
 using MassTransit;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +31,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using IValidatorFactory = FitLife.Shared.Infrastructure.Factories.Validator.IValidatorFactory;
 
+#pragma warning disable 1591
 namespace FitLife.API
 {
     public class Startup
@@ -125,6 +128,8 @@ namespace FitLife.API
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddFluentValidationRulesToSwagger();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -139,6 +144,8 @@ namespace FitLife.API
                     }
                 });
 
+
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. <BR/>
@@ -151,9 +158,15 @@ namespace FitLife.API
                 });
 
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                var currentAssembly = Assembly.GetExecutingAssembly();
+                var xmlDocs = currentAssembly.GetReferencedAssemblies()
+                    .Union(new AssemblyName[] { currentAssembly.GetName() })
+                    .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
+                    .Where(f => File.Exists(f)).ToArray();
+                Array.ForEach(xmlDocs, (xmlDoc) =>
+                {
+                    c.IncludeXmlComments(xmlDoc);
+                });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
@@ -180,6 +193,7 @@ namespace FitLife.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
             app.UseMiddleware<CustomExceptionHandlingMiddleware>();
             if (env.IsDevelopment())
             {
@@ -188,6 +202,7 @@ namespace FitLife.API
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitLife API v.1");
+                    c.InjectStylesheet("/SwaggerDark.css");
                     c.RoutePrefix = string.Empty;
                 });
             }
