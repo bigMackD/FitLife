@@ -1,4 +1,5 @@
-﻿using FitLife.Shared.Infrastructure.Command;
+﻿using System;
+using FitLife.Shared.Infrastructure.Command;
 
 namespace FitLife.Contracts.Request.Command.Processor
 {
@@ -7,6 +8,11 @@ namespace FitLife.Contracts.Request.Command.Processor
     /// </summary>
     public sealed class ProcessPeriodicDietCommand : ICommand
     {
+        /// <summary>
+        /// Id of the event
+        /// </summary>
+        public Guid EventId { get; set; }
+
         /// <summary>
         /// Id of the user
         /// </summary>

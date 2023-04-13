@@ -7,28 +7,30 @@ import { RegisterResponse } from '../model/register/register.response';
 import { LoginRequest } from '../model/login/login.request';
 import { LoginResponse } from '../model/login/login.response';
 import { UserProfileResponse } from '../model/userProfile/userProfileResponse';
+import { ConfigurationService } from 'src/app/shared/services/configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   userName: string;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+    private configurationService: ConfigurationService) { }
 
   public getToken(): string {
     return localStorage.getItem('token');
   }
 
   public register(request:RegisterRequest):Observable<RegisterResponse>{
-    return this.httpClient.post<RegisterResponse>(config.baseUrl + '/Users/Register', request);
+    return this.httpClient.post<RegisterResponse>(this.configurationService.settings.apiUrl + '/Users/Register', request);
   }
 
   public login(request:LoginRequest):Observable<LoginResponse>{
-    return this.httpClient.post<LoginResponse>(config.baseUrl + '/Users/Login', request);
+    return this.httpClient.post<LoginResponse>(this.configurationService.settings.apiUrl + '/Users/Login', request);
   }
 
   public getUserProfile():Observable<UserProfileResponse>{
-    return this.httpClient.get<UserProfileResponse>(config.baseUrl + '/UserProfile');
+    return this.httpClient.get<UserProfileResponse>(this.configurationService.settings.apiUrl + '/UserProfile');
   }
 
   public logout():void{

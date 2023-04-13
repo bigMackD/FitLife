@@ -57,7 +57,7 @@
       </mat-toolbar-row>
     </mat-toolbar>
 
- 
+    <mat-progress-bar mode="indeterminate" color="primary" *ngIf="getProgressBarVisibility()"></mat-progress-bar>
     <main class="content">
       <router-outlet></router-outlet>
       <app-loader></app-loader>

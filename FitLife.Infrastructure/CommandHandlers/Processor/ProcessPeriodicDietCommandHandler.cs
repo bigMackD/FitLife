@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FitLife.Contracts.Events;
+using FitLife.Contracts.Models;
 using FitLife.Contracts.Request.Command.Processor;
 using FitLife.Contracts.Response.Processor;
 using FitLife.DB.Context;
-using FitLife.Infrastructure.Events;
-using FitLife.Infrastructure.Models;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitLife.Infrastructure.CommandHandlers.Processor
 {
+
     public class ProcessPeriodicDietCommandHandler : IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse>
     {
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly FoodContext _context;
+
 
 
         public ProcessPeriodicDietCommandHandler(IPublishEndpoint publishEndpoint, FoodContext context)
@@ -57,12 +59,13 @@ namespace FitLife.Infrastructure.CommandHandlers.Processor
                     .ToList();
                 var message = new ProcessPeriodicDietEvent()
                 {
+                    Id = command.EventId,
                     UserId = command.UserId,
                     DailyIntake = dailyIntake
                 };
                 await _publishEndpoint.Publish<ProcessPeriodicDietEvent>(message);
 
-                return new ProcessPeriodicDietResponse
+            return new ProcessPeriodicDietResponse
                 {
                     Success = true
                 };

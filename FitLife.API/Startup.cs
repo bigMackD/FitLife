@@ -9,8 +9,8 @@ using FitLife.API.Helpers;
 using FitLife.API.Middleware;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
-using FitLife.Infrastructure.CommandHandlers.Authentication;
 using FitLife.Infrastructure.Factories.Validator;
+using FitLife.Infrastructure.Hubs;
 using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
 using FitLife.Shared.Infrastructure.QueryHandler;
@@ -51,7 +51,7 @@ namespace FitLife.API
                 .AddScoped<IValidatorFactory, ValidatorFactory>();
 
             services.Scan(scan => scan
-                .FromAssemblyOf<LoginUserCommandHandler>()
+                .FromAssemblyDependencies(Assembly.GetExecutingAssembly())
                 .AddClasses(classes => classes.AssignableTo(typeof(IAsyncCommandHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
@@ -81,6 +81,8 @@ namespace FitLife.API
                 }));
             });
 
+            services.AddSignalR();
+
             services.AddScoped<ErrorResultFilter>();
             services.Configure<MvcOptions>(options =>
             {
@@ -104,6 +106,16 @@ namespace FitLife.API
                 options.Password.RequiredLength = 8
             );
 
+            //CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy", builder => builder
+                    .WithOrigins(Configuration.GetValue<string>("AppSettings:ClientUrl"))
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
 
             //JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JWTSecret"));
@@ -143,8 +155,6 @@ namespace FitLife.API
                         Email = "maciek.d@me.com",
                     }
                 });
-
-
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -207,14 +217,11 @@ namespace FitLife.API
                 });
             }
 
-            app.UseCors(builder =>
-                builder.WithOrigins(Configuration.GetValue<string>("AppSettings:ClientUrl"))
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CORSPolicy");
 
             app.UseAuthentication();
 
@@ -226,6 +233,8 @@ namespace FitLife.API
                     endpoints.MapControllers().WithMetadata(new AllowAnonymousAttribute());
                 else
                     endpoints.MapControllers();
+
+                endpoints.MapHub<ProcessorHub>("/processor");
             });
         }
     }
