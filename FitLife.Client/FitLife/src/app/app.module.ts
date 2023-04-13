@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './authentication/register/register.component';
@@ -25,6 +25,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {MatSliderModule} from '@angular/material/slider';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterMealDialogComponent } from './dashboard/register-meal-dialog/register-meal-dialog.component';
+import { ConfigurationService } from './shared/services/configuration.service';
+import { AuthenticationService } from './authentication/services/authentication.service';
+import { NotificationService } from './shared/services/notification.service';
+import { Router } from '@angular/router';
+import { LoaderService } from './shared/loader/loader.service';
+
+export function initApp(configurationService: ConfigurationService) {
+  return () => configurationService.load();
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +71,12 @@ import { RegisterMealDialogComponent } from './dashboard/register-meal-dialog/re
   ],
   providers: [
     {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [ConfigurationService]
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
@@ -72,6 +88,6 @@ import { RegisterMealDialogComponent } from './dashboard/register-meal-dialog/re
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UserDialogComponent,RegisterMealDialogComponent]
+  entryComponents: [UserDialogComponent, RegisterMealDialogComponent]
 })
 export class AppModule { }

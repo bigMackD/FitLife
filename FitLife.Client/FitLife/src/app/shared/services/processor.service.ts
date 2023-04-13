@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { config } from "src/app/config";
+import { CalculatePeriodicDietRequest } from "src/app/processor/models/calculatePeriodicDiet.request";
 import { CalculatePeriodicDietResponse } from "src/app/processor/models/calculatePeriodicDiet.response";
+import { ConfigurationService } from "./configuration.service";
 
 @Injectable({
     providedIn: 'root'
@@ -10,9 +11,9 @@ import { CalculatePeriodicDietResponse } from "src/app/processor/models/calculat
   
 export class ProcessorService {
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient, private configurationService: ConfigurationService) { }
   
-    public calculatePeriodicDiet():Observable<CalculatePeriodicDietResponse>{
-      return this.httpClient.post<CalculatePeriodicDietResponse>(config.baseUrl + '/Processor/periodicDiet', null);
+    public calculatePeriodicDiet(request: CalculatePeriodicDietRequest):Observable<CalculatePeriodicDietResponse>{
+      return this.httpClient.post<CalculatePeriodicDietResponse>(this.configurationService.settings.apiUrl + '/Processor/periodicDiet/' + request.eventId, null);
     }
   }

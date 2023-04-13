@@ -19,7 +19,8 @@ export class TokenInterceptor implements HttpInterceptor {
      private router:Router, private notificationService:NotificationService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(this.auth.getToken()){
+    const token = localStorage.getItem('token');
+    if(token){
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.auth.getToken()}`

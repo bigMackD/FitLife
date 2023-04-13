@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FitLife.Infrastructure.Models
+namespace FitLife.Contracts.Models
 {
     public class DailyIntake
     {
