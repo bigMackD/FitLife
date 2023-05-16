@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitLife.Contracts.Events;
 using FitLife.Contracts.Request.Command.Processor;
 using FitLife.Contracts.Response;
 using FitLife.Contracts.Response.Processor;
@@ -58,17 +59,16 @@ namespace FitLife.API.Controllers
         }
 
         /// <summary>
-        /// Publishes event for weekly diet calculation
+        /// Callback endpoint for successfully computed event 
         /// </summary>
         /// <response code="200">Published successfully</response>
         /// <response code="409">Entity processed with errors</response>
-        [HttpGet]
-        [Route("callback/{id:guid}")]
+        [HttpPost]
+        [Route("callback")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Callback([FromRoute]Guid id)
+        public async Task<IActionResult> Callback([FromBody] EventProcessed eventProcessed)
         {
-            List<string> messages = new List<string>();
-            messages.Add($"Message processed on rabbit with id {id}");
+            List<string> messages = new List<string> { eventProcessed.Id.ToString() };
             await _processorHub.Clients.All.Notify(messages);
             return StatusCode(StatusCodes.Status200OK);
         }

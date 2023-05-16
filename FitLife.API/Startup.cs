@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using FitLife.API.Filters;
-using FitLife.API.Helpers;
 using FitLife.API.Middleware;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
@@ -39,7 +38,6 @@ namespace FitLife.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ConnectionService.Set(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -67,6 +65,10 @@ namespace FitLife.API
                 .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
+
+                .AddClasses(classes => classes.InNamespaces("FitLife.Infrastructure"))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
             );
 
             services.AddMassTransit(x =>
@@ -90,14 +92,15 @@ namespace FitLife.API
                 options.Filters.Add<ModelValidationActionFilter>();
             });
 
+            var connectionString = Configuration.GetConnectionString("IdentityConnection");
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddProductCommandValidator>());
             services.AddDbContext<AuthenticationContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDbContext<FoodContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDbContext<DietContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();

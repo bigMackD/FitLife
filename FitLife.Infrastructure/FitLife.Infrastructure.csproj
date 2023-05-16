@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Events\**" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Events\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Events\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
     <PackageReference Include="MassTransit.Abstractions" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
@@ -16,11 +25,6 @@
     <ProjectReference Include="..\FitLife.Contracts\FitLife.Contracts.csproj" />
     <ProjectReference Include="..\FitLife.DB\FitLife.DB.csproj" />
     <ProjectReference Include="..\FitLife.Shared.Infrastucture\FitLife.Shared.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Events\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
