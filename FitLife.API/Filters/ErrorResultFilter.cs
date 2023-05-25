@@ -18,7 +18,7 @@ namespace FitLife.API.Filters
         public void OnResultExecuting(ResultExecutingContext context)
         {
             var responseResult = context.Result as ObjectResult;
-            if (responseResult?.Value is IBaseResponse baseResponse && baseResponse.Errors != null && baseResponse.Errors.Any())
+            if (responseResult?.Value is IBaseResponse baseResponse && baseResponse?.Errors != null && baseResponse?.Errors?.Any() == true)
             {
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
             }
