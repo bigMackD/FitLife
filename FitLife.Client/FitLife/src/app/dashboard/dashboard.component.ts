@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatExpansionPanel, MatListOption } from '@angular/material';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { HubConnection, LogLevel } from '@microsoft/signalr';
 import { Guid } from 'guid-typescript';
 import { CalculatePeriodicDietRequest } from '../processor/models/calculatePeriodicDiet.request';
 import { NotificationService } from '../shared/services/notification.service';
@@ -14,6 +14,7 @@ import { DashboardChartService, StackedHorizontalChartItem } from './services/da
 import { UserMealsService } from './services/user-meals.service';
 import { ProgressBarService } from '../shared/services/progress-bar.service';
 import { DownloadService } from '../shared/services/download.service';
+import { HubService } from '../shared/services/hub.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,7 +65,8 @@ export class DashboardComponent implements OnInit {
     private processorService: ProcessorService,
     private progressBarService: ProgressBarService,
     private ngZone: NgZone,
-    private downloadSerivce: DownloadService) {
+    private downloadSerivce: DownloadService,
+    private hubService: HubService) {
   }
 
   ngOnInit() {
@@ -73,23 +75,9 @@ export class DashboardComponent implements OnInit {
     this.chartData = this.dashboardChartService.chartData;
     this.handleExpansionPanel();
 
-    this.hubConnectionBuilder = new HubConnectionBuilder().withUrl('https://localhost:44326/processor').configureLogging(LogLevel.Information).build();
-    this.hubConnectionBuilder.start().then(() => console.log('Connection started.......!'))
-      .catch(err => {
-        console.log(`Error while connect with server ${err}`);
-        this.notificationService.error(['Error occured while connecting to processor hub!']);
-        this.progressBarService.hide();
-      });
-    this.ngZone.run(() => {
-      this.hubConnectionBuilder.on('Notify', (ids: string[]) => {
-        console.log(ids);
-        this.messages = [...this.messages, ids];
-        this.notificationService.dismiss();
-        this.notificationService.success('Success');
-        this.progressBarService.hide();
-        this.downloadSerivce.download(ids[0]);
-      });
-    });
+    this.hubService.create(LogLevel.Information);
+    this.hubConnectionBuilder = this.hubService.get();
+    this.handleHubConnection();
   }
 
   nextDay() {
@@ -205,5 +193,23 @@ export class DashboardComponent implements OnInit {
     this.progressBarService.show();
     this.processorService.calculatePeriodicDiet(request).subscribe();
     this.notificationService.progress('Calulating diets in progress...');
+  }
+
+  private handleHubConnection(): void{
+    this.hubConnectionBuilder.start().then(() => console.log('Connection started.......!'))
+      .catch(err => {
+        console.log(`Error while connect with server ${err}`);
+        this.notificationService.error(['Error occured while connecting to processor hub!']);
+        this.progressBarService.hide();
+      });
+    this.ngZone.run(() => {
+      this.hubConnectionBuilder.on('Notify', (ids: string[]) => {
+        this.messages = [...this.messages, ids];
+        this.notificationService.dismiss();
+        this.notificationService.success('Success');
+        this.progressBarService.hide();
+        this.downloadSerivce.download(ids[0]);
+      });
+    });
   }
 }

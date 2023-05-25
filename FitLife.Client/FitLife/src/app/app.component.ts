@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from './authentication/services/authentication.service';
 import { NotificationService } from './shared/services/notification.service';
 import { ProgressBarService } from './shared/services/progress-bar.service';
+import { HubService } from './shared/services/hub.service';
+import { LogLevel } from '@microsoft/signalr';
 
 
 @Component({
@@ -18,6 +20,7 @@ export class AppComponent {
     private authService: AuthenticationService,
     private router: Router,
     private progressBarService: ProgressBarService) {
+      
   }
 
   onLogout():void{

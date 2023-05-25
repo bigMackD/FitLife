@@ -1,5 +1,4 @@
 import { HttpClient } from "@angular/common/http";
-import { Guid } from "guid-typescript";
 import { ConfigurationService } from "./configuration.service";
 import { Injectable } from "@angular/core";
 
@@ -20,6 +19,7 @@ export class DownloadService {
       downloadLink.download = 'DietReport.xlsx';
       downloadLink.click();
       URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(downloadLink);
     });
     }
   }
