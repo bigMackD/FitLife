@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FitLife.Contracts.Request.Query.UserMeals;
 using FitLife.Contracts.Response.UserMeals;
 using FitLife.DB.Context;
@@ -9,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitLife.Infrastructure.QueryHandlers.UserMeals
 {
-    public class GetUserMealsByDateQueryHandler : IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>
+    public class GetUserMealsByDateQueryHandler : IQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>
     {
         private readonly FoodContext _context;
 
@@ -18,7 +16,7 @@ namespace FitLife.Infrastructure.QueryHandlers.UserMeals
             _context = context;
         }
 
-        public async Task<GetUserMealsByDateResponse> Handle(GetUserMealsByDateInternalQuery query)
+        public GetUserMealsByDateResponse Handle(GetUserMealsByDateInternalQuery query)
         {
             var userMealsResponse = _context.UserMeals.Include(um => um.Meal).Where(um => um.ConsumedDate.Date == query.Date.Date).Select(um => new UserMealResponse
             {

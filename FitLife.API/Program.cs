@@ -4,6 +4,7 @@ using Serilog;
 using Serilog.Formatting.Compact;
 using System;
 
+#pragma warning disable 1591
 namespace FitLife.API
 {
     public class Program

@@ -2,8 +2,14 @@
 
 namespace FitLife.Contracts.Request.Command.Authentication
 {
-    public class EnableUserCommand : ICommand
+    /// <summary>
+    /// Command for disabling user
+    /// </summary>
+    public sealed class EnableUserCommand : ICommand
     {
+        /// <summary>
+        /// Id of the user
+        /// </summary>
         public string Id { get; set; }
     }
 }

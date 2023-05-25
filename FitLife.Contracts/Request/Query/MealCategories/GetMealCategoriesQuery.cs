@@ -2,7 +2,10 @@
 
 namespace FitLife.Contracts.Request.Query.MealCategories
 {
-    public class GetMealCategoriesQuery : IQuery
+    /// <summary>
+    /// Query for retrieving meal categories
+    /// </summary>
+    public sealed class GetMealCategoriesQuery : IQuery
     {
     }
 }

@@ -2,8 +2,14 @@
 
 namespace FitLife.Contracts.Request.Query.Products
 {
-   public class GetProductDetailsQuery : IQuery
+    /// <summary>
+    /// Query for retrieving details of a product
+    /// </summary>
+    public sealed class GetProductDetailsQuery : IQuery
     {
+        /// <summary>
+        /// Id of a product
+        /// </summary>
         public int Id { get; set; }
     }
 }

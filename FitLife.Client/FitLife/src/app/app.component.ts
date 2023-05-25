@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './authentication/services/authentication.service';
 import { NotificationService } from './shared/services/notification.service';
+import { ProgressBarService } from './shared/services/progress-bar.service';
+import { HubService } from './shared/services/hub.service';
+import { LogLevel } from '@microsoft/signalr';
 
 
 @Component({
@@ -15,7 +18,9 @@ export class AppComponent {
 
   constructor(private notificationService: NotificationService,
     private authService: AuthenticationService,
-    private router: Router) {
+    private router: Router,
+    private progressBarService: ProgressBarService) {
+      
   }
 
   onLogout():void{
@@ -29,5 +34,9 @@ export class AppComponent {
       return true;
     else
     return false;  
+  }
+
+  public getProgressBarVisibility():boolean{
+    return this.progressBarService.isVisible;
   }
 }

@@ -1,49 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using FitLife.API.Filters;
-using FitLife.API.Helpers;
 using FitLife.API.Middleware;
-using FitLife.Contracts.Request.Command.Authentication;
-using FitLife.Contracts.Request.Command.Meals;
-using FitLife.Contracts.Request.Command.Processor;
-using FitLife.Contracts.Request.Command.Products;
-using FitLife.Contracts.Request.Command.UserMeal;
-using FitLife.Contracts.Request.Query.MealCategories;
-using FitLife.Contracts.Request.Query.Meals;
-using FitLife.Contracts.Request.Query.Products;
-using FitLife.Contracts.Request.Query.UserMeals;
-using FitLife.Contracts.Request.Query.Users;
-using FitLife.Contracts.Response.Authentication;
-using FitLife.Contracts.Response.MealCategories;
-using FitLife.Contracts.Response.Meals;
-using FitLife.Contracts.Response.Processor;
-using FitLife.Contracts.Response.Product;
-using FitLife.Contracts.Response.UserMeals;
-using FitLife.Contracts.Response.Users;
 using FitLife.DB.Context;
 using FitLife.DB.Models.Authentication;
-using FitLife.Infrastructure.CommandHandlers.Authentication;
-using FitLife.Infrastructure.CommandHandlers.Meals;
-using FitLife.Infrastructure.CommandHandlers.Processor;
-using FitLife.Infrastructure.CommandHandlers.Products;
-using FitLife.Infrastructure.CommandHandlers.UserMeals;
 using FitLife.Infrastructure.Factories.Validator;
-using FitLife.Infrastructure.QueryHandlers.MealCategories;
-using FitLife.Infrastructure.QueryHandlers.Meals;
-using FitLife.Infrastructure.QueryHandlers.Products;
-using FitLife.Infrastructure.QueryHandlers.UserMeals;
-using FitLife.Infrastructure.QueryHandlers.Users;
-using FitLife.Infrastructure.Validators.Meals;
-using FitLife.Infrastructure.Validators.PagingQuery;
+using FitLife.Infrastructure.Hubs;
 using FitLife.Infrastructure.Validators.Products;
 using FitLife.Shared.Infrastructure.CommandHandler;
-using FitLife.Shared.Infrastructure.Query;
 using FitLife.Shared.Infrastructure.QueryHandler;
-using FluentValidation;
+using FluentValidation.AspNetCore;
 using MassTransit;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +30,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using IValidatorFactory = FitLife.Shared.Infrastructure.Factories.Validator.IValidatorFactory;
 
+#pragma warning disable 1591
 namespace FitLife.API
 {
     public class Startup
@@ -65,7 +38,6 @@ namespace FitLife.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ConnectionService.Set(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -74,71 +46,30 @@ namespace FitLife.API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddScoped<IAsyncCommandHandler<RegisterUserCommand, RegisterUserResponse>,
-                    RegisterUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<LoginUserCommand, LoginUserResponse>,
-                    LoginUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<DisableUserCommand, DisableUserResponse>,
-                    DisableUserCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<EnableUserCommand, EnableUserResponse>,
-                    EnableUserCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUsersQuery, GetUsersResponse>,
-                    GetUsersQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserProfileQuery, GetUserProfileResponse>,
-                    GetUserProfileQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserDetailsQuery, UserDetailsResponse>,
-                    UserDetailsQueryHandler>()
-                .AddScoped<IQueryHandler<GetProductsQuery, GetProductsResponse>,
-                    GetProductsQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetProductDetailsQuery, GetProductDetailsResponse>,
-                    GetProductDetailsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<AddProductCommand, AddProductResponse>,
-                    AddProductCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<AddMealCommand, AddMealResponse>,
-                    AddMealCommandHandler>()
-                .AddScoped<IQueryHandler<GetMealCategoriesQuery, GetMealCategoriesResponse>,
-                    GetMealCategoriesQueryHandler>()
-                .AddScoped<IAsyncQueryHandler<GetMealsQuery, GetMealsResponse>,
-                    GetMealsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<EditProductCommand, EditProductResponse>,
-                    EditProductCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetMealDetailsQuery, GetMealDetailsResponse>,
-                    GetMealDetailsQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<EditMealCommand, EditMealResponse>,
-                    EditMealCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<DeleteMealCommand, DeleteMealResponse>,
-                    DeleteMealCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<AddUserMealCommand, AddUserMealResponse>,
-                    AddUserMealCommandHandler>()
-                .AddScoped<IAsyncQueryHandler<GetUserMealsByDateInternalQuery, GetUserMealsByDateResponse>,
-                    GetUserMealsByDateQueryHandler>()
-                .AddScoped<IAsyncCommandHandler<DeleteUserMealsCommand, DeleteUserMealsReponse>,
-                    DeleteUserMealsCommandHandler>()
-                .AddScoped<IAsyncCommandHandler<ProcessPeriodicDietCommand, ProcessPeriodicDietResponse>,
-                    ProcessPeriodicDietCommandHandler>()
-
-
-                .AddScoped<IValidator<AddProductCommand>, AddProductCommandValidator>()
-                .AddScoped<IValidator<GetProductsQuery>, GetProductsQueryValidator>()
-                .AddScoped<IValidator<AddMealCommand>, AddMealCommandValidator>()
-                .AddScoped<IValidator<EditProductCommand>, EditProductCommandValidator>()
-                .AddScoped<IValidator<EditMealCommand>, EditMealCommandValidator>()
-                .AddScoped<IValidator<IPagingQuery>, PagingQueryValidator>()
                 .AddScoped<IValidatorFactory, ValidatorFactory>();
 
-            //TODO: Register all handlers
-            //var commandHandlers = typeof(LoginUserCommandHandler).Assembly.GetTypes()
-            //    .Where(t => t.GetInterfaces()
-            //        .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>))
-            //    ).ToList();
+            services.Scan(scan => scan
+                .FromAssemblyDependencies(Assembly.GetExecutingAssembly())
+                .AddClasses(classes => classes.AssignableTo(typeof(IAsyncCommandHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
 
-            //foreach (var handler in commandHandlers)
-            //{
-            //    var genericArgs = handler.GetInterfaces().First(i =>
-            //        i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IAsyncCommandHandler<,>)).GetGenericArguments();
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
 
-            //    services.AddScoped(handler<,>, handler);
-            //}
+                .AddClasses(classes => classes.AssignableTo(typeof(IAsyncQueryHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+
+                .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+
+                .AddClasses(classes => classes.InNamespaces("FitLife.Infrastructure"))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+            );
 
             services.AddMassTransit(x =>
             {
@@ -152,6 +83,8 @@ namespace FitLife.API
                 }));
             });
 
+            services.AddSignalR();
+
             services.AddScoped<ErrorResultFilter>();
             services.Configure<MvcOptions>(options =>
             {
@@ -159,13 +92,15 @@ namespace FitLife.API
                 options.Filters.Add<ModelValidationActionFilter>();
             });
 
-            services.AddControllers();
+            var connectionString = Configuration.GetConnectionString("IdentityConnection");
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddProductCommandValidator>());
             services.AddDbContext<AuthenticationContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDbContext<FoodContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDbContext<DietContext>(options =>
-                options.UseSqlServer(ConnectionService.connectionString));
+                options.UseSqlServer(connectionString));
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
@@ -174,9 +109,18 @@ namespace FitLife.API
                 options.Password.RequiredLength = 8
             );
 
+            //CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy", builder => builder
+                    .WithOrigins(Configuration.GetValue<string>("AppSettings:ClientUrl"))
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
 
             //JWT Authentication
-
             var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JWTSecret"));
 
             services.AddAuthentication(x =>
@@ -199,6 +143,8 @@ namespace FitLife.API
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddFluentValidationRulesToSwagger();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -225,9 +171,15 @@ namespace FitLife.API
                 });
 
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                var currentAssembly = Assembly.GetExecutingAssembly();
+                var xmlDocs = currentAssembly.GetReferencedAssemblies()
+                    .Union(new AssemblyName[] { currentAssembly.GetName() })
+                    .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
+                    .Where(f => File.Exists(f)).ToArray();
+                Array.ForEach(xmlDocs, (xmlDoc) =>
+                {
+                    c.IncludeXmlComments(xmlDoc);
+                });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
@@ -254,6 +206,7 @@ namespace FitLife.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
             app.UseMiddleware<CustomExceptionHandlingMiddleware>();
             if (env.IsDevelopment())
             {
@@ -262,18 +215,16 @@ namespace FitLife.API
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitLife API v.1");
+                    c.InjectStylesheet("/SwaggerDark.css");
                     c.RoutePrefix = string.Empty;
                 });
             }
 
-            app.UseCors(builder =>
-                builder.WithOrigins(Configuration.GetValue<string>("AppSettings:ClientUrl"))
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CORSPolicy");
 
             app.UseAuthentication();
 
@@ -285,6 +236,8 @@ namespace FitLife.API
                     endpoints.MapControllers().WithMetadata(new AllowAnonymousAttribute());
                 else
                     endpoints.MapControllers();
+
+                endpoints.MapHub<ProcessorHub>("/processor");
             });
         }
     }

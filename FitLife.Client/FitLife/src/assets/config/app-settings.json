@@ -1,0 +1,4 @@
+{
+    "apiUrl":"https://localhost:44326/api",
+    "hubUrl":"https://localhost:44326/processor"
+}
