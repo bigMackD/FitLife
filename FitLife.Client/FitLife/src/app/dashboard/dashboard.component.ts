@@ -13,6 +13,7 @@ import { RegisterMealDialogComponent } from './register-meal-dialog/register-mea
 import { DashboardChartService, StackedHorizontalChartItem } from './services/dashboard-chart.service';
 import { UserMealsService } from './services/user-meals.service';
 import { ProgressBarService } from '../shared/services/progress-bar.service';
+import { DownloadService } from '../shared/services/download.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -62,7 +63,8 @@ export class DashboardComponent implements OnInit {
     private dashboardChartService: DashboardChartService,
     private processorService: ProcessorService,
     private progressBarService: ProgressBarService,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private downloadSerivce: DownloadService) {
   }
 
   ngOnInit() {
@@ -79,12 +81,13 @@ export class DashboardComponent implements OnInit {
         this.progressBarService.hide();
       });
     this.ngZone.run(() => {
-      this.hubConnectionBuilder.on('Notify', (result: any) => {
-        console.log(result);
-        this.messages = [...this.messages, result];
+      this.hubConnectionBuilder.on('Notify', (ids: string[]) => {
+        console.log(ids);
+        this.messages = [...this.messages, ids];
         this.notificationService.dismiss();
         this.notificationService.success('Success');
         this.progressBarService.hide();
+        this.downloadSerivce.download(ids[0]);
       });
     });
   }

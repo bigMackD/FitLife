@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Shared.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Tests", "FitLife.Tests\FitLife.Tests.csproj", "{E77E492D-E06C-4688-8BD7-49AE17BD891E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitLife.Consumer", "FitLife.Consumer\FitLife.Consumer.csproj", "{B56B0763-5A8A-41A0-8976-8CDE934A0977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitLife.Consumer", "FitLife.Consumer\FitLife.Consumer.csproj", "{B56B0763-5A8A-41A0-8976-8CDE934A0977}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitLife.Consumer.Shared.Infrastructure", "FitLife.Consumer.Shared.Infrastucture\FitLife.Consumer.Shared.Infrastructure.csproj", "{3045FC35-1776-48D6-9FFF-C3D7A1F15701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B56B0763-5A8A-41A0-8976-8CDE934A0977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3045FC35-1776-48D6-9FFF-C3D7A1F15701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3045FC35-1776-48D6-9FFF-C3D7A1F15701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3045FC35-1776-48D6-9FFF-C3D7A1F15701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3045FC35-1776-48D6-9FFF-C3D7A1F15701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
